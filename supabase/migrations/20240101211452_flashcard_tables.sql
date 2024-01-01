@@ -30,7 +30,7 @@ update on public.flashcards for each row execute procedure moddatetime (updated_
 -- Enable RLS on public.flashcards
 alter table public.flashcards enable row level security;
 -- Allow anon users to read public.flashcards
-grant select on public.flashcards to anonymous;
+grant select on public.flashcards to anon;
 -- Create indexes for flashcards and decks
 Create index on public.flashcards (deck_id);
 Create index on public.decks (user_id);
