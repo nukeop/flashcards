@@ -61,7 +61,7 @@ INSERT INTO public.decks (
         user_id,
         name,
         description,
-        public,
+        is_public,
         created_at,
         updated_at
     ) (
@@ -71,7 +71,7 @@ INSERT INTO public.decks (
             'Description for deck ' || (ROW_NUMBER() OVER ())::text,
             true,
             current_timestamp,
-            current_timestamp
+            current_timestamp - INTERVAL '10 minutes'
         from auth.users
     );
 INSERT INTO public.decks (
@@ -79,7 +79,7 @@ INSERT INTO public.decks (
         user_id,
         name,
         description,
-        public,
+        is_public,
         created_at,
         updated_at
     ) (

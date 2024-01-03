@@ -27,7 +27,7 @@ describe('decks', () => {
                 description: 'Description for deck ' + (index + 1),
                 id: expect.stringMatching(uuidRegex),
                 name: 'Deck ' + (index + 1),
-                public: true,
+                is_public: true,
                 updated_at: expect.stringMatching(dateRegex),
                 user_id: expect.stringMatching(uuidRegex),
             });
@@ -38,7 +38,7 @@ describe('decks', () => {
         const { data, error } = await supabase
             .from('decks')
             .select('*')
-            .eq('public', false);
+            .eq('is_public', false);
         expect(error).toBeNull();
         expect(data).toEqual([]);
     });
@@ -48,7 +48,7 @@ describe('decks', () => {
         const { data } = await supabase
             .from('decks')
             .select('*')
-            .eq('public', false)
+            .eq('is_public', false)
             .eq('user_id', userId);
 
         expect(data).toEqual([
@@ -57,7 +57,7 @@ describe('decks', () => {
                 description: 'Description for private deck',
                 id: expect.stringMatching(uuidRegex),
                 name: 'Private deck',
-                public: false,
+                is_public: false,
                 updated_at: expect.stringMatching(dateRegex),
                 user_id: userId,
             },
@@ -69,9 +69,13 @@ describe('decks', () => {
         const { data } = await supabase
             .from('decks')
             .select('*')
-            .eq('public', false)
+            .eq('is_public', false)
             .eq('user_id', userId);
         const initialDate = data?.[0].updated_at;
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        console.log(data);
+
         await supabase
             .from('decks')
             .update({ name: 'New name' })
@@ -80,9 +84,13 @@ describe('decks', () => {
         const { data: newData } = await supabase
             .from('decks')
             .select('*')
-            .eq('public', false)
+            .eq('is_public', false)
             .eq('user_id', userId);
         const newDate = newData?.[0].updated_at;
+
+        console.log(newData);
+        console.log(new Date(initialDate).valueOf());
+        console.log(new Date(newDate).valueOf());
 
         expect(new Date(newDate).valueOf()).toBeGreaterThan(
             new Date(initialDate).valueOf(),
