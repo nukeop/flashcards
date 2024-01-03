@@ -25,9 +25,11 @@ create table public.flashcards (
     updated_at timestamp with time zone not null default timezone ('utc'::text, now ()),
     constraint flashcards_deck_id_front_key unique (deck_id, front)
 );
--- Create a trigger to update the updated_at column on updates
-create trigger handle_updated_at before
+-- Create triggers to update the updated_at column on updates
+create trigger handle_flashcards_updated_at before
 update on public.flashcards for each row execute procedure moddatetime (updated_at);
+create trigger handle_decks_updated_at before
+update on public.decks for each row execute procedure moddatetime (updated_at);
 -- Enable RLS on public.flashcards
 alter table public.flashcards enable row level security;
 -- Allow anon users to read public.flashcards
