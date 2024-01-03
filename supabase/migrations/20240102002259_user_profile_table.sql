@@ -8,7 +8,7 @@ create table public.user_profiles (
 );
 -- Create a trigger to update the updated_at column on updates
 create trigger handle_updated_at before
-update on public.user_profiles for each row execute procedure moddatetime (updated_at);
+update on public.user_profiles for each row execute procedure moddatetime();
 -- Enable RLS on public.user_profiles
 alter table public.user_profiles enable row level security;
 -- Create indexes for user_profiles

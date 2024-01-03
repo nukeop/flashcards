@@ -74,8 +74,6 @@ describe('decks', () => {
         const initialDate = data?.[0].updated_at;
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        console.log(data);
-
         await supabase
             .from('decks')
             .update({ name: 'New name' })
@@ -87,10 +85,6 @@ describe('decks', () => {
             .eq('is_public', false)
             .eq('user_id', userId);
         const newDate = newData?.[0].updated_at;
-
-        console.log(newData);
-        console.log(new Date(initialDate).valueOf());
-        console.log(new Date(newDate).valueOf());
 
         expect(new Date(newDate).valueOf()).toBeGreaterThan(
             new Date(initialDate).valueOf(),
