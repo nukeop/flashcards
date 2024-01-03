@@ -1,0 +1,17 @@
+name: Run Supabase tests
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  run-supabase-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - run: supabase start
+      - run: npm run test:supabase

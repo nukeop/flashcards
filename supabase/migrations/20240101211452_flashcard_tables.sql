@@ -1,3 +1,4 @@
+create extension if not exists moddatetime schema extensions;
 -- Create table public.decks
 create table public.decks (
     id uuid not null primary key,

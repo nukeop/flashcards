@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest",
+    "test:supabase": "vitest --config vitest.supabase.config.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.0.10",
@@ -18,20 +20,24 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@testing-library/react": "^14.1.2",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.2",
+    "jsdom": "^23.0.1",
     "postcss": "^8",
     "prettier": "^3.1.1",
     "sass": "^1.69.6",
     "tailwindcss": "^3.3.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^1.1.1"
   }
 }
