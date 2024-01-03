@@ -13,5 +13,8 @@ jobs:
       - uses: supabase/setup-cli@v1
         with:
           version: latest
+      - uses: actions/setup-node@latest
+        with:
+          node-version: "20"
       - run: supabase start
       - run: npm run test:supabase
