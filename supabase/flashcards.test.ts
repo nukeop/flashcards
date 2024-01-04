@@ -73,6 +73,28 @@ describe('flashcards', () => {
         await supabase.from('decks').delete().eq('id', deckData![0].id);
     });
 
+    it('should not allow logged in users to insert new cards into other users decks', async () => {
+        await logIn()('user2@example.com', 'password123');
+        const { data: deckData } = await supabase
+            .from('decks')
+            .select('id,user_id')
+            .eq('name', 'Deck 1');
+
+        const { data: cardData, error: cardError } = await supabase
+            .from('flashcards')
+            .insert([
+                {
+                    deck_id: (deckData![0] as { id: string }).id,
+                    front: 'test front',
+                    back: 'test back',
+                },
+            ])
+            .select();
+
+        expect(cardError).toBeNull();
+        expect(cardData).toEqual([]);
+    });
+
     it('should not allow anon users to view cards in private decks', async () => {
         const userId = await logIn()('user1@example.com', 'password123');
         const { data: deckData } = await supabase
@@ -103,8 +125,6 @@ describe('flashcards', () => {
             .from('flashcards')
             .select('*')
             .eq('id', (cardData![0] as { id: string }).id);
-
-        console.log(data, error);
 
         expect(error).toBeNull();
         expect(data).toEqual([]);
