@@ -48,7 +48,8 @@ describe('decks', () => {
             .from('decks')
             .select('*')
             .eq('is_public', false)
-            .eq('user_id', userId);
+            .eq('user_id', userId)
+            .eq('name', 'Private deck');
 
         expect(data).toEqual([
             {
