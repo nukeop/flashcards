@@ -4,7 +4,7 @@ END;
 $$ LANGUAGE plpgsql;
 -- Create table public.decks
 create table public.decks (
-    id uuid not null primary key,
+    id uuid DEFAULT uuid_generate_v4() not null primary key,
     user_id uuid not null references auth.users (id),
     name text not null,
     description text not null,
@@ -17,7 +17,7 @@ create table public.decks (
 alter table public.decks enable row level security;
 -- Create table public.flashcards
 create table public.flashcards (
-    id uuid not null primary key,
+    id uuid DEFAULT uuid_generate_v4() not null primary key,
     deck_id uuid not null references public.decks (id),
     front text not null,
     back text not null,
@@ -39,21 +39,21 @@ Create index on public.flashcards (deck_id);
 Create index on public.decks (user_id);
 -- Policy to allow authenticated users to read their own decks, regardless of public status
 create policy "Allow users to read their own decks" on public.decks for
-select using (auth.uid() = user_id);
+select to authenticated using (auth.uid() = user_id);
 -- Policy to allow anon users to read public decks
 create policy "Allow anon users to read public decks" on public.decks for
-select using (is_public = true);
+select to anon using (is_public = true);
 -- Policy to allow authenticated users to insert new decks
 create policy "Allow users to insert decks" on public.decks for
-insert with check (auth.uid() = user_id);
+insert to authenticated with check(auth.uid() = user_id);
 -- Policy to allow authenticated users to update their own decks
 create policy "Allow users to update their own decks" on public.decks for
-update using (auth.uid() = user_id);
+update to authenticated using (auth.uid() = user_id);
 -- Policy to allow authenticated users to delete their own decks
-create policy "Allow users to delete their own decks" on public.decks for delete using (auth.uid() = user_id);
+create policy "Allow users to delete their own decks" on public.decks for delete to authenticated using (auth.uid() = user_id);
 -- Policy to allow authenticated users to insert new flashcards
 create policy "Allow users to insert flashcards" on public.flashcards for
-insert with check (
+insert to authenticated with check (
         auth.uid() = (
             select user_id
             from public.decks
@@ -70,7 +70,7 @@ update using (
         )
     );
 -- Policy to allow authenticated users to delete their own flashcards
-create policy "Allow users to delete their own flashcards" on public.flashcards for delete using (
+create policy "Allow users to delete their own flashcards" on public.flashcards for delete to authenticated using (
     auth.uid() = (
         select user_id
         from public.decks
@@ -79,7 +79,7 @@ create policy "Allow users to delete their own flashcards" on public.flashcards 
 );
 -- Policy to allow anon users to read flashcard in public decks
 create policy "Allow anon users to read flashcards in public decks" on public.flashcards for
-select using (
+select to anon using (
         EXISTS (
             SELECT 1
             FROM public.decks

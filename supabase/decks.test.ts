@@ -91,6 +91,57 @@ describe('decks', () => {
         );
     });
 
+    it('should allow a user to create a deck', async () => {
+        const userId = await logIn('user1@example.com', 'password123');
+        await supabase.from('decks').insert([
+            {
+                name: 'test deck',
+                description: 'New deck description',
+                is_public: false,
+                user_id: userId,
+            },
+        ]);
+
+        const { data: selectData } = await supabase
+            .from('decks')
+            .select('*')
+            .eq('name', 'test deck');
+        expect(selectData).toEqual([
+            {
+                id: expect.stringMatching(uuidRegex),
+                description: 'New deck description',
+                name: 'test deck',
+                is_public: false,
+                user_id: userId,
+                updated_at: expect.stringMatching(dateRegex),
+                created_at: expect.stringMatching(dateRegex),
+            },
+        ]);
+    });
+
+    it('should allow a user to delete his own deck', async () => {
+        const userId = await logIn('user1@example.com', 'password123');
+        await supabase.from('decks').insert([
+            {
+                name: 'New deck',
+                description: 'New deck description',
+                is_public: false,
+                user_id: userId,
+            },
+        ]);
+
+        const { error } = await supabase
+            .from('decks')
+            .delete()
+            .eq('name', 'New deck');
+        expect(error).toBeNull();
+        const { data } = await supabase
+            .from('decks')
+            .select('*')
+            .eq('name', 'New deck');
+        expect(data).toEqual([]);
+    });
+
     const logIn = async (email: string, password: string) => {
         const { data } = await supabase.auth.signInWithPassword({
             email,
