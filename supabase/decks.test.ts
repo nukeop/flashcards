@@ -2,8 +2,7 @@ import { SupabaseClient, createClient } from '@supabase/supabase-js';
 import { beforeEach } from 'node:test';
 import { beforeAll, describe, expect, it } from 'vitest';
 
-const dateRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}\+\d{2}:\d{2}/;
-const uuidRegex = /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/;
+import { createLogIn, dateRegex, uuidRegex } from './test-utils';
 
 describe('decks', () => {
     let supabase: SupabaseClient;
@@ -44,7 +43,7 @@ describe('decks', () => {
     });
 
     it("should return a user's private decks with user key", async () => {
-        const userId = await logIn('user1@example.com', 'password123');
+        const userId = await logIn()('user1@example.com', 'password123');
         const { data } = await supabase
             .from('decks')
             .select('*')
@@ -65,7 +64,7 @@ describe('decks', () => {
     });
 
     it('should update the updated_at field when a deck is updated', async () => {
-        const userId = await logIn('user1@example.com', 'password123');
+        const userId = await logIn()('user1@example.com', 'password123');
         const { data } = await supabase
             .from('decks')
             .select('*')
@@ -92,7 +91,7 @@ describe('decks', () => {
     });
 
     it('should allow a user to create a deck', async () => {
-        const userId = await logIn('user1@example.com', 'password123');
+        const userId = await logIn()('user1@example.com', 'password123');
         await supabase.from('decks').insert([
             {
                 name: 'test deck',
@@ -120,7 +119,7 @@ describe('decks', () => {
     });
 
     it('should allow a user to delete his own deck', async () => {
-        const userId = await logIn('user1@example.com', 'password123');
+        const userId = await logIn()('user1@example.com', 'password123');
         await supabase.from('decks').insert([
             {
                 name: 'New deck',
@@ -142,11 +141,22 @@ describe('decks', () => {
         expect(data).toEqual([]);
     });
 
-    const logIn = async (email: string, password: string) => {
-        const { data } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        });
-        return data?.user?.id;
-    };
+    it('should not allow a user to delete another user deck', async () => {
+        await logIn()('user1@example.com', 'password123');
+
+        await supabase.from('decks').delete().eq('name', 'Deck 2');
+        await logIn()('user2@example.com', 'password123');
+        const { data } = await supabase
+            .from('decks')
+            .select('*')
+            .eq('name', 'Deck 2');
+
+        expect(data).toEqual([
+            expect.objectContaining({
+                name: 'Deck 2',
+            }),
+        ]);
+    });
+
+    const logIn = () => createLogIn(supabase);
 });

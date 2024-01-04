@@ -93,3 +93,19 @@ INSERT INTO public.decks (
         from auth.users
         where email = 'user1@example.com'
     );
+INSERT INTO public.flashcards(
+        id,
+        deck_id,
+        front,
+        back,
+        created_at,
+        updated_at
+    ) (
+        select uuid_generate_v4 (),
+            id,
+            'Front ' || (ROW_NUMBER() OVER ())::text,
+            'Back ' || (ROW_NUMBER() OVER ())::text,
+            current_timestamp,
+            current_timestamp
+        from public.decks
+    );
