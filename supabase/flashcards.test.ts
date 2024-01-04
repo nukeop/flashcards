@@ -56,7 +56,7 @@ describe('flashcards', () => {
                 },
             ])
             .select();
-        console.log(cardData, cardError);
+
         expect(cardError).toBeNull();
         expect(cardData).toEqual([
             {
@@ -87,7 +87,7 @@ describe('flashcards', () => {
             ])
             .select();
 
-        const { data: cardData, error: cardError } = await supabase
+        const { data: cardData } = await supabase
             .from('flashcards')
             .insert([
                 {
@@ -97,17 +97,20 @@ describe('flashcards', () => {
                 },
             ])
             .select();
-        console.log(cardData, cardError);
 
         await supabase.auth.signOut();
         const { data, error } = await supabase
             .from('flashcards')
             .select('*')
-            .eq('id', (cardData![0] as { id: string }).id)
-            .single();
+            .eq('id', (cardData![0] as { id: string }).id);
+
+        console.log(data, error);
 
         expect(error).toBeNull();
         expect(data).toEqual([]);
+
+        await supabase.from('flashcards').delete().eq('id', cardData![0].id);
+        await supabase.from('decks').delete().eq('id', deckData![0].id);
     });
 
     const logIn = () => createLogIn(supabase);

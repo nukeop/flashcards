@@ -87,3 +87,12 @@ select to anon using (
                 AND is_public = true
         )
     );
+-- Policy to allow users to read flashcards in their own decks
+create policy "Allow users to read flashcards in their own decks" on public.flashcards for
+select to authenticated using (
+        auth.uid() = (
+            select user_id
+            from public.decks
+            where id = deck_id
+        )
+    );
