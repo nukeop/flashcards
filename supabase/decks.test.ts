@@ -1,24 +1,21 @@
-import { SupabaseClient, createClient } from '@supabase/supabase-js';
 import { beforeEach } from 'node:test';
 import { beforeAll, describe, expect, it } from 'vitest';
 
-import { createLogIn, dateRegex, uuidRegex } from './test-utils';
+import { TestFixture, dateRegex, uuidRegex } from './test-utils';
 
 describe('decks', () => {
-    let supabase: SupabaseClient;
     beforeAll(() => {
-        const supabaseUrl = 'http://127.0.0.1:54321';
-        const SUPABASE_KEY =
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0';
-        supabase = createClient(supabaseUrl, SUPABASE_KEY);
+        TestFixture.initialize();
     });
 
     beforeEach(async () => {
-        supabase.auth.signOut();
+        await TestFixture.logOut();
     });
 
     it('should return public decks', async () => {
-        const { data, error } = await supabase.from('decks').select('*');
+        const { data, error } = await TestFixture.getClient()
+            .from('decks')
+            .select('*');
         expect(error).toBeNull();
         expect(data?.length).toBe(10);
         data?.forEach((deck, index) => {
@@ -35,8 +32,8 @@ describe('decks', () => {
     });
 
     it('should not return private decks with anon key', async () => {
-        await logIn()('user1@example.com', 'password123');
-        const { data, error } = await supabase
+        await TestFixture.logIn('user1@example.com', 'password123');
+        const { data, error } = await TestFixture.getClient()
             .from('decks')
             .select('*')
             .eq('name', 'Private deck');
@@ -46,19 +43,22 @@ describe('decks', () => {
             expect.objectContaining({ name: 'Private deck' }),
         ]);
 
-        await supabase.auth.signOut();
+        await TestFixture.getClient().auth.signOut();
 
-        const { data: anonData, error: anonError } = await supabase
-            .from('decks')
-            .select('*')
-            .eq('name', 'Private deck');
+        const { data: anonData, error: anonError } =
+            await TestFixture.getClient()
+                .from('decks')
+                .select('*')
+                .eq('name', 'Private deck');
         expect(anonError).toBeNull();
         expect(anonData).toEqual([]);
     });
 
     it('should return public decks with user key', async () => {
-        await logIn()('user2@example.com', 'password123');
-        const { data, error } = await supabase.from('decks').select('*');
+        await TestFixture.logIn('user2@example.com', 'password123');
+        const { data, error } = await TestFixture.getClient()
+            .from('decks')
+            .select('*');
 
         expect(error).toBeNull();
         expect(data?.length).toBe(10);
@@ -76,8 +76,11 @@ describe('decks', () => {
     });
 
     it("should return a user's private decks with user key", async () => {
-        const userId = await logIn()('user1@example.com', 'password123');
-        const { data } = await supabase
+        const userId = await TestFixture.logIn(
+            'user1@example.com',
+            'password123',
+        );
+        const { data } = await TestFixture.getClient()
             .from('decks')
             .select('*')
             .eq('is_public', false)
@@ -98,20 +101,23 @@ describe('decks', () => {
     });
 
     it('should update the updated_at field when a deck is updated', async () => {
-        const userId = await logIn()('user1@example.com', 'password123');
-        const { data } = await supabase
+        const userId = await TestFixture.logIn(
+            'user1@example.com',
+            'password123',
+        );
+        const { data } = await TestFixture.getClient()
             .from('decks')
             .select('*')
             .eq('is_public', false)
             .eq('user_id', userId);
         const initialDate = data?.[0].updated_at;
 
-        await supabase
+        await TestFixture.getClient()
             .from('decks')
             .update({ name: 'New name' })
             .eq('id', data?.[0].id);
 
-        const { data: newData } = await supabase
+        const { data: newData } = await TestFixture.getClient()
             .from('decks')
             .select('*')
             .eq('is_public', false)
@@ -122,24 +128,29 @@ describe('decks', () => {
             new Date(initialDate).valueOf(),
         );
 
-        await supabase
+        await TestFixture.getClient()
             .from('decks')
             .update({ name: 'Private deck' })
             .eq('id', data?.[0].id);
     });
 
     it('should allow a user to create a deck', async () => {
-        const userId = await logIn()('user1@example.com', 'password123');
-        await supabase.from('decks').insert([
-            {
-                name: 'test deck',
-                description: 'New deck description',
-                is_public: false,
-                user_id: userId,
-            },
-        ]);
+        const userId = await TestFixture.logIn(
+            'user1@example.com',
+            'password123',
+        );
+        await TestFixture.getClient()
+            .from('decks')
+            .insert([
+                {
+                    name: 'test deck',
+                    description: 'New deck description',
+                    is_public: false,
+                    user_id: userId,
+                },
+            ]);
 
-        const { data: selectData } = await supabase
+        const { data: selectData } = await TestFixture.getClient()
             .from('decks')
             .select('*')
             .eq('name', 'test deck');
@@ -157,22 +168,27 @@ describe('decks', () => {
     });
 
     it('should allow a user to delete his own deck', async () => {
-        const userId = await logIn()('user1@example.com', 'password123');
-        await supabase.from('decks').insert([
-            {
-                name: 'New deck',
-                description: 'New deck description',
-                is_public: false,
-                user_id: userId,
-            },
-        ]);
+        const userId = await TestFixture.logIn(
+            'user1@example.com',
+            'password123',
+        );
+        await TestFixture.getClient()
+            .from('decks')
+            .insert([
+                {
+                    name: 'New deck',
+                    description: 'New deck description',
+                    is_public: false,
+                    user_id: userId,
+                },
+            ]);
 
-        const { error } = await supabase
+        const { error } = await TestFixture.getClient()
             .from('decks')
             .delete()
             .eq('name', 'New deck');
         expect(error).toBeNull();
-        const { data } = await supabase
+        const { data } = await TestFixture.getClient()
             .from('decks')
             .select('*')
             .eq('name', 'New deck');
@@ -180,11 +196,14 @@ describe('decks', () => {
     });
 
     it('should not allow a user to delete another user deck', async () => {
-        await logIn()('user1@example.com', 'password123');
+        await TestFixture.logIn('user1@example.com', 'password123');
 
-        await supabase.from('decks').delete().eq('name', 'Deck 2');
-        await logIn()('user2@example.com', 'password123');
-        const { data } = await supabase
+        await TestFixture.getClient()
+            .from('decks')
+            .delete()
+            .eq('name', 'Deck 2');
+        await TestFixture.logIn('user2@example.com', 'password123');
+        const { data } = await TestFixture.getClient()
             .from('decks')
             .select('*')
             .eq('name', 'Deck 2');
@@ -195,6 +214,4 @@ describe('decks', () => {
             }),
         ]);
     });
-
-    const logIn = () => createLogIn(supabase);
 });
