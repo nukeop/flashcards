@@ -1,4 +1,6 @@
-type SidebarProps = {};
+type SidebarProps = {
+    content?: string;
+};
 
 const Sidebar: React.FC<SidebarProps> = () => {
     return (
