@@ -1,23 +1,16 @@
-import { SupabaseClient, createClient } from '@supabase/supabase-js';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
-import { createLogIn, dateRegex, uuidRegex } from './test-utils';
+import { TestFixture, dateRegex, uuidRegex } from './test-utils';
 
 describe('User profiles', () => {
-    let supabase: SupabaseClient;
     beforeAll(() => {
-        const supabaseUrl = 'http://127.0.0.1:54321';
-        const SUPABASE_KEY =
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0';
-        supabase = createClient(supabaseUrl, SUPABASE_KEY);
+        TestFixture.initialize();
     });
 
-    beforeEach(async () => {
-        supabase.auth.signOut();
-    });
+    beforeEach(async () => TestFixture.logOut());
 
     it('should allow anon users to view user profiles', async () => {
-        const { data: profile, error } = await supabase
+        const { data: profile, error } = await TestFixture.getClient()
             .from('user_profiles')
             .select('*')
             .eq('username', 'user1')
@@ -34,52 +27,52 @@ describe('User profiles', () => {
     });
 
     it('should allow users to update their own user_profiles', async () => {
-        await logIn()('user1@example.com', 'password123');
+        await TestFixture.logIn('user1@example.com', 'password123');
 
-        const { data: profileData } = await supabase
+        const { data: profileData } = await TestFixture.getClient()
             .from('user_profiles')
             .select('id')
             .eq('username', 'user1');
 
-        const { data: updatedProfileData, error: updateError } = await supabase
-            .from('user_profiles')
-            .update({ username: 'user2' })
-            .eq('id', (profileData![0] as { id: string }).id)
-            .select('username');
+        const { data: updatedProfileData, error: updateError } =
+            await TestFixture.getClient()
+                .from('user_profiles')
+                .update({ username: 'user2' })
+                .eq('id', (profileData![0] as { id: string }).id)
+                .select('username');
 
         expect(updateError).toBeNull();
         expect(updatedProfileData).toEqual([{ username: 'user2' }]);
 
-        await supabase
+        await TestFixture.getClient()
             .from('user_profiles')
             .update({ username: 'user1' })
             .eq('id', (profileData![0] as { id: string }).id);
     });
 
     it('should not allow users to update other users user_profiles', async () => {
-        await logIn()('user2@example.com', 'password123');
+        await TestFixture.logIn('user2@example.com', 'password123');
 
-        const { data: profileData } = await supabase
+        const { data: profileData } = await TestFixture.getClient()
             .from('user_profiles')
             .select('id')
             .eq('username', 'user1');
 
-        const { data: updatedProfileData, error: updateError } = await supabase
-            .from('user_profiles')
-            .update({ username: 'user2 changed this' })
-            .eq('id', (profileData![0] as { id: string }).id)
-            .select('username');
+        const { data: updatedProfileData, error: updateError } =
+            await TestFixture.getClient()
+                .from('user_profiles')
+                .update({ username: 'user2 changed this' })
+                .eq('id', (profileData![0] as { id: string }).id)
+                .select('username');
 
         expect(updateError).toBeNull();
         expect(updatedProfileData).toEqual([]);
 
-        const { data: originalProfileData } = await supabase
+        const { data: originalProfileData } = await TestFixture.getClient()
             .from('user_profiles')
             .select('username')
             .eq('id', (profileData![0] as { id: string }).id);
 
         expect(originalProfileData).toEqual([{ username: 'user1' }]);
     });
-
-    const logIn = () => createLogIn(supabase);
 });

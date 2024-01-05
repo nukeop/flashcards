@@ -1,28 +1,21 @@
-import { SupabaseClient, createClient } from '@supabase/supabase-js';
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
 
-import { createLogIn, dateRegex, uuidRegex } from './test-utils';
+import { TestFixture, dateRegex, uuidRegex } from './test-utils';
 
 describe('flashcards', () => {
-    let supabase: SupabaseClient;
     beforeAll(() => {
-        const supabaseUrl = 'http://127.0.0.1:54321';
-        const SUPABASE_KEY =
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0';
-        supabase = createClient(supabaseUrl, SUPABASE_KEY);
+        TestFixture.initialize();
     });
 
-    beforeEach(async () => {
-        supabase.auth.signOut();
-    });
+    beforeEach(async () => TestFixture.logOut());
 
     it('should allow anon users to view cards in public decks', async () => {
-        const { data: deck } = await supabase
+        const { data: deck } = await TestFixture.getClient()
             .from('decks')
             .select('*')
             .eq('name', 'Deck 1')
             .single();
-        const { data: card, error } = await supabase
+        const { data: card, error } = await TestFixture.getClient()
             .from('flashcards')
             .select('*')
             .eq('deck_id', deck.id)
@@ -40,22 +33,23 @@ describe('flashcards', () => {
     });
 
     it('should allow logged in users to insert new cards into their own decks', async () => {
-        await logIn()('user1@example.com', 'password123');
-        const { data: deckData } = await supabase
+        await TestFixture.logIn('user1@example.com', 'password123');
+        const { data: deckData } = await TestFixture.getClient()
             .from('decks')
             .select('id,user_id')
             .eq('name', 'Deck 1');
 
-        const { data: cardData, error: cardError } = await supabase
-            .from('flashcards')
-            .insert([
-                {
-                    deck_id: (deckData![0] as { id: string }).id,
-                    front: 'test front',
-                    back: 'test back',
-                },
-            ])
-            .select();
+        const { data: cardData, error: cardError } =
+            await TestFixture.getClient()
+                .from('flashcards')
+                .insert([
+                    {
+                        deck_id: (deckData![0] as { id: string }).id,
+                        front: 'test front',
+                        back: 'test back',
+                    },
+                ])
+                .select();
 
         expect(cardError).toBeNull();
         expect(cardData).toEqual([
@@ -69,18 +63,24 @@ describe('flashcards', () => {
             },
         ]);
 
-        await supabase.from('flashcards').delete().eq('id', cardData![0].id);
-        await supabase.from('decks').delete().eq('id', deckData![0].id);
+        await TestFixture.getClient()
+            .from('flashcards')
+            .delete()
+            .eq('id', cardData![0].id);
+        await TestFixture.getClient()
+            .from('decks')
+            .delete()
+            .eq('id', deckData![0].id);
     });
 
     it('should not allow logged in users to insert new cards into other users decks', async () => {
-        await logIn()('user2@example.com', 'password123');
-        const { data: deckData } = await supabase
+        await TestFixture.logIn('user2@example.com', 'password123');
+        const { data: deckData } = await TestFixture.getClient()
             .from('decks')
             .select('id,user_id')
             .eq('name', 'Deck 1');
 
-        const { error: cardError } = await supabase
+        const { error: cardError } = await TestFixture.getClient()
             .from('flashcards')
             .insert([
                 {
@@ -98,8 +98,11 @@ describe('flashcards', () => {
     });
 
     it('should not allow anon users to view cards in private decks', async () => {
-        const userId = await logIn()('user1@example.com', 'password123');
-        const { data: deckData } = await supabase
+        const userId = await TestFixture.logIn(
+            'user1@example.com',
+            'password123',
+        );
+        const { data: deckData } = await TestFixture.getClient()
             .from('decks')
             .insert([
                 {
@@ -111,7 +114,7 @@ describe('flashcards', () => {
             ])
             .select();
 
-        const { data: cardData } = await supabase
+        const { data: cardData } = await TestFixture.getClient()
             .from('flashcards')
             .insert([
                 {
@@ -122,8 +125,8 @@ describe('flashcards', () => {
             ])
             .select();
 
-        await supabase.auth.signOut();
-        const { data, error } = await supabase
+        await TestFixture.getClient().auth.signOut();
+        const { data, error } = await TestFixture.getClient()
             .from('flashcards')
             .select('*')
             .eq('id', (cardData![0] as { id: string }).id);
@@ -131,9 +134,13 @@ describe('flashcards', () => {
         expect(error).toBeNull();
         expect(data).toEqual([]);
 
-        await supabase.from('flashcards').delete().eq('id', cardData![0].id);
-        await supabase.from('decks').delete().eq('id', deckData![0].id);
+        await TestFixture.getClient()
+            .from('flashcards')
+            .delete()
+            .eq('id', cardData![0].id);
+        await TestFixture.getClient()
+            .from('decks')
+            .delete()
+            .eq('id', deckData![0].id);
     });
-
-    const logIn = () => createLogIn(supabase);
 });
