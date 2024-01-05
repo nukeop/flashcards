@@ -20,6 +20,7 @@ describe('decks', () => {
     it('should return public decks', async () => {
         const { data, error } = await supabase.from('decks').select('*');
         expect(error).toBeNull();
+        expect(data?.length).toBe(10);
         data?.forEach((deck, index) => {
             expect(deck).toEqual({
                 created_at: expect.stringMatching(dateRegex),
@@ -34,12 +35,44 @@ describe('decks', () => {
     });
 
     it('should not return private decks with anon key', async () => {
+        await logIn()('user1@example.com', 'password123');
         const { data, error } = await supabase
             .from('decks')
             .select('*')
-            .eq('is_public', false);
+            .eq('name', 'Private deck');
+
         expect(error).toBeNull();
-        expect(data).toEqual([]);
+        expect(data).toEqual([
+            expect.objectContaining({ name: 'Private deck' }),
+        ]);
+
+        await supabase.auth.signOut();
+
+        const { data: anonData, error: anonError } = await supabase
+            .from('decks')
+            .select('*')
+            .eq('name', 'Private deck');
+        expect(anonError).toBeNull();
+        expect(anonData).toEqual([]);
+    });
+
+    it('should return public decks with user key', async () => {
+        await logIn()('user2@example.com', 'password123');
+        const { data, error } = await supabase.from('decks').select('*');
+
+        expect(error).toBeNull();
+        expect(data?.length).toBe(10);
+        data?.forEach((deck, index) => {
+            expect(deck).toEqual({
+                created_at: expect.stringMatching(dateRegex),
+                description: 'Description for deck ' + (index + 1),
+                id: expect.stringMatching(uuidRegex),
+                name: 'Deck ' + (index + 1),
+                is_public: true,
+                updated_at: expect.stringMatching(dateRegex),
+                user_id: expect.stringMatching(uuidRegex),
+            });
+        });
     });
 
     it("should return a user's private decks with user key", async () => {
@@ -72,7 +105,6 @@ describe('decks', () => {
             .eq('is_public', false)
             .eq('user_id', userId);
         const initialDate = data?.[0].updated_at;
-        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         await supabase
             .from('decks')
@@ -89,6 +121,11 @@ describe('decks', () => {
         expect(new Date(newDate).valueOf()).toBeGreaterThan(
             new Date(initialDate).valueOf(),
         );
+
+        await supabase
+            .from('decks')
+            .update({ name: 'Private deck' })
+            .eq('id', data?.[0].id);
     });
 
     it('should allow a user to create a deck', async () => {

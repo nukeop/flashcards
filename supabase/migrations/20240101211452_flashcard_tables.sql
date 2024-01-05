@@ -37,9 +37,12 @@ grant select on public.flashcards to anon;
 -- Create indexes for flashcards and decks
 Create index on public.flashcards (deck_id);
 Create index on public.decks (user_id);
--- Policy to allow authenticated users to read their own decks, regardless of public status
+-- Policy to allow authenticated users to read their own decks, regardless of public status, and other users' public decks
 create policy "Allow users to read their own decks" on public.decks for
-select to authenticated using (auth.uid() = user_id);
+select to authenticated using (
+        auth.uid() = user_id
+        OR is_public = true
+    );
 -- Policy to allow anon users to read public decks
 create policy "Allow anon users to read public decks" on public.decks for
 select to anon using (is_public = true);

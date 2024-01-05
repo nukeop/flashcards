@@ -80,7 +80,7 @@ describe('flashcards', () => {
             .select('id,user_id')
             .eq('name', 'Deck 1');
 
-        const { data: cardData, error: cardError } = await supabase
+        const { error: cardError } = await supabase
             .from('flashcards')
             .insert([
                 {
@@ -91,8 +91,10 @@ describe('flashcards', () => {
             ])
             .select();
 
-        expect(cardError).toBeNull();
-        expect(cardData).toEqual([]);
+        expect(cardError).not.toBeNull();
+        expect(cardError?.message).toEqual(
+            'new row violates row-level security policy for table "flashcards"',
+        );
     });
 
     it('should not allow anon users to view cards in private decks', async () => {

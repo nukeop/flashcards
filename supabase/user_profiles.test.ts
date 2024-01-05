@@ -49,6 +49,11 @@ describe('User profiles', () => {
 
         expect(updateError).toBeNull();
         expect(updatedProfileData).toEqual([{ username: 'user2' }]);
+
+        await supabase
+            .from('user_profiles')
+            .update({ username: 'user1' })
+            .eq('id', (profileData![0] as { id: string }).id);
     });
 
     it('should not allow users to update other users user_profiles', async () => {
@@ -61,12 +66,19 @@ describe('User profiles', () => {
 
         const { data: updatedProfileData, error: updateError } = await supabase
             .from('user_profiles')
-            .update({ username: 'user2' })
+            .update({ username: 'user2 changed this' })
             .eq('id', (profileData![0] as { id: string }).id)
             .select('username');
 
         expect(updateError).toBeNull();
         expect(updatedProfileData).toEqual([]);
+
+        const { data: originalProfileData } = await supabase
+            .from('user_profiles')
+            .select('username')
+            .eq('id', (profileData![0] as { id: string }).id);
+
+        expect(originalProfileData).toEqual([{ username: 'user1' }]);
     });
 
     const logIn = () => createLogIn(supabase);
