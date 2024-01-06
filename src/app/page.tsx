@@ -1,3 +1,10 @@
+import Sidebar from './_components/Sidebar';
+
 export default function Home() {
-    return <main className="flex-grow-1"></main>;
+    return (
+        <>
+            <Sidebar />
+            <main className="flex-grow-1"></main>
+        </>
+    );
 }
