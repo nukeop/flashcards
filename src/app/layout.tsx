@@ -1,9 +1,13 @@
 import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
+import { Atkinson_Hyperlegible } from 'next/font/google';
 
 import './globals.scss';
 
-const font = Poppins({ style: 'normal', weight: '400', subsets: ['latin'] });
+const font = Atkinson_Hyperlegible({
+    style: 'normal',
+    weight: ['400', '700'],
+    subsets: ['latin'],
+});
 
 export const metadata: Metadata = {
     title: 'Create Next App',

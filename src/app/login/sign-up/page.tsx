@@ -1,17 +1,16 @@
+import Button from '@/app/_components/Button';
+import Card from '@/app/_components/Card';
+import Input from '@/app/_components/Input';
 import { AtSymbolIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
-import Button from '../_components/Button';
-import Card from '../_components/Card';
-import Input from '../_components/Input';
-
-const Login = () => {
+const Signup = () => {
     return (
         <Card transparency="transparent" layout="centered">
-            <h3 className="mb-4">Log in</h3>
+            <h3 className="mb-4">Sign up</h3>
             <form
                 className="flex flex-col items-center gap-3 mt-8 mb-8 w-full"
-                action="/auth/login"
+                action="/auth/sign-up"
                 method="post"
             >
                 <Input
@@ -34,16 +33,16 @@ const Login = () => {
                         <LockClosedIcon className="h-4 w-4 text-base-contrast" />
                     }
                 />
-                <Button intent="primary">Log in</Button>
+                <Button intent="primary">Sign up</Button>
             </form>
             <div className="mt-3 text-sm">
-                Not a member?{' '}
-                <Link href="/login/sign-up" className="text-accent">
-                    Sign up
+                Already a member?{' '}
+                <Link href="login" className="text-accent">
+                    Log in
                 </Link>
             </div>
         </Card>
     );
 };
 
-export default Login;
+export default Signup;

@@ -21,6 +21,7 @@ const config: Config = {
                 subtle: 'rgb(var(--color-subtle) / <alpha-value>)',
                 text: 'rgb(var(--color-text) / <alpha-value>)',
                 accent: 'rgb(var(--color-accent) / <alpha-value>)',
+                'theme-red': 'rgb(var(--color-theme-red) / <alpha-value>)',
                 'base-contrast':
                     'rgb(var(--color-base-contrast) / <alpha-value>)',
                 'surface-contrast':

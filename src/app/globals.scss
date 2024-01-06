@@ -16,6 +16,11 @@
     --color-subtle: 144 140 170;
     --color-text: 224 222 244;
     --color-accent: 196 167 231;
+    --color-theme-red: 235 111 146;
+
+    --color-highlight-low: 33 32 46;
+    --color-highlight-medium: 64 61 82;
+    --color-highlight-high: 82 79 103;
 
     --color-base-contrast: 250 244 237;
     --color-surface-contrast: 255 250 243;
@@ -34,6 +39,11 @@
     --color-subtle: 121 117 147;
     --color-text: 87 82 121;
     --color-accent: 40 105 131;
+    --color-theme-red: 235 111 146;
+
+    --color-highlight-low: 244 237 232;
+    --color-highlight-medium: 223 218 217;
+    --color-highlight-high: 206 202 205;
 
     --color-base-contrast: 25 23 36;
     --color-surface-contrast: 31 29 46;
@@ -55,4 +65,15 @@ body {
 
 h1 {
   @apply text-4xl font-bold;
+}
+
+h2 {
+  @apply text-3xl font-bold;
+}
+
+h3 {
+  @apply text-2xl font-bold;
+}
+
+p {
 }
