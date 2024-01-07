@@ -25,7 +25,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             <div className="flex-grow" />
 
             <Tooltip content={<span>Log out</span>}>
-                <Button intent="sidebar">
+                <Button intent="sidebar" as={Link} href="/auth/logout">
                     <ArrowLeftStartOnRectangleIcon className="w-6 h-6" />
                 </Button>
             </Tooltip>
