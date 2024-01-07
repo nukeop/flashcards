@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Atkinson_Hyperlegible } from 'next/font/google';
 
 import './globals.scss';
+import { Providers } from './providers';
 
 const font = Atkinson_Hyperlegible({
     style: 'normal',
@@ -21,7 +22,9 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body className={font.className}>{children}</body>
+            <body className={font.className}>
+                <Providers>{children}</Providers>
+            </body>
         </html>
     );
 }
