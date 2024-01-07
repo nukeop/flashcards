@@ -14,19 +14,22 @@ const button = cva('flex flex-row rounded-lg py-2 text-sm font-bold', {
     },
 });
 
-type ButtonProps = {
+type ButtonProps<T extends React.ElementType> = {
     children?: React.ReactNode;
+    as?: T;
 } & VariantProps<typeof button> &
-    React.ButtonHTMLAttributes<HTMLButtonElement>;
+    Omit<React.ComponentProps<T>, 'as'>;
 
-const Button: React.FC<ButtonProps> = ({
+function Button<T extends React.ElementType>({
     children,
     intent,
     isLoading,
+    as,
     ...rest
-}: ButtonProps) => {
+}: ButtonProps<T>) {
+    const Component = as || 'button';
     return (
-        <button className={button({ intent, isLoading })} {...rest}>
+        <Component className={button({ intent, isLoading })} {...rest}>
             {isLoading && (
                 <svg
                     className="animate-spin -ml-1 mr-3 h-5 w-5 text-surface"
@@ -50,8 +53,8 @@ const Button: React.FC<ButtonProps> = ({
                 </svg>
             )}
             {children}
-        </button>
+        </Component>
     );
-};
+}
 
 export default Button;

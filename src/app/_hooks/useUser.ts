@@ -28,10 +28,11 @@ export const useUser = () => {
                     context.setIsReady(true);
                     return;
                 }
+
                 return supabase
-                    .from('users')
+                    .from('user_profiles')
                     .select('*')
-                    .eq('supabaseUserId', session.user.id)
+                    .eq('user_id', session.user.id)
                     .single();
             })
             .then(async (profile) => {
