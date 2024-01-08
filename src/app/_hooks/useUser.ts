@@ -18,34 +18,32 @@ export const useUser = () => {
     );
 
     useEffect(() => {
-        supabase.auth
-            .getSession()
-            .then(({ data: { session } }) => {
-                context.setSession(session);
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            context.setSession(session);
 
-                if (!session?.user?.id) {
-                    context.setIsLoading(false);
-                    context.setIsReady(true);
-                    return;
-                }
+            if (!session?.user?.id) {
+                context.setIsLoading(false);
+                context.setIsReady(true);
+                return;
+            }
+        });
+        //     return supabase
+        //         .from('user_profiles')
+        //         .select('*')
+        //         .eq('user_id', session.user.id)
+        //         .single();
+        // })
+        // .then(async (profile) => {
+        //     if (profile?.error) {
+        //         throw new Error(profile.error.message);
+        //     }
 
-                return supabase
-                    .from('user_profiles')
-                    .select('*')
-                    .eq('user_id', session.user.id)
-                    .single();
-            })
-            .then(async (profile) => {
-                if (profile?.error) {
-                    throw new Error(profile.error.message);
-                }
-
-                if (profile?.data) {
-                    context.setUserProfile(profile.data);
-                    context.setIsLoading(false);
-                    context.setIsReady(true);
-                }
-            });
+        //     if (profile?.data) {
+        //         context.setUserProfile(profile.data);
+        //         context.setIsLoading(false);
+        //         context.setIsReady(true);
+        //     }
+        // });
 
         const {
             data: { subscription },

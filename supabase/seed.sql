@@ -109,17 +109,3 @@ INSERT INTO public.flashcards(
             current_timestamp
         from public.decks
     );
-INSERT INTO public.user_profiles (
-        id,
-        user_id,
-        username,
-        created_at,
-        updated_at
-    ) (
-        select uuid_generate_v4 (),
-            id,
-            'user' || (ROW_NUMBER() OVER ())::text,
-            current_timestamp,
-            current_timestamp
-        from auth.users
-    );

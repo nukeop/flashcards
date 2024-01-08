@@ -1,13 +1,15 @@
 import { VariantProps, cva } from 'class-variance-authority';
 
-const card = cva('bg-surface border-1 rounded-lg p-4 w-96', {
+const card = cva('bg-surface border-1 rounded-lg p-4 w-96 shadow-lg', {
     variants: {
-        transparency: {
-            transparent:
-                'border border-muted/50 bg-surface/50 backdrop-blur-md',
+        transparent: {
+            true: 'border border-muted/50 bg-surface/50 backdrop-blur-md',
         },
         layout: {
             centered: 'flex flex-col justify-center items-center',
+        },
+        fluid: {
+            true: 'w-full',
         },
     },
 });
@@ -18,11 +20,14 @@ type CardProps = {
 
 const Card: React.FC<CardProps> = ({
     children,
-    transparency,
+    transparent,
     layout,
+    fluid,
 }: CardProps) => {
     return (
-        <section className={card({ transparency, layout })}>{children}</section>
+        <section className={card({ transparent, layout, fluid })}>
+            {children}
+        </section>
     );
 };
 

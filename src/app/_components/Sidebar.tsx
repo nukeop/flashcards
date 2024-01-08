@@ -14,7 +14,7 @@ type SidebarProps = {
 
 const Sidebar: React.FC<SidebarProps> = () => {
     return (
-        <header className="relative flex flex-col items-center gap-4 box-border m-4 px-2 py-4 bg-gradient-to-b from-base-contrast to-surface-contrast text-overlay rounded-lg flex-grow-0">
+        <header className="relative flex flex-col items-center gap-4 box-border my-4 ml-4 px-2 py-4 bg-gradient-to-b from-base-contrast to-overlay-contrast text-overlay rounded-lg flex-grow-0 z-10">
             <span>teste</span>
             <SidebarProfile />
             <Tooltip content="Decks">

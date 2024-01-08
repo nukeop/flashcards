@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Atkinson_Hyperlegible } from 'next/font/google';
 
+import Sidebar from './_components/Sidebar';
 import './globals.scss';
 import { Providers } from './providers';
 
@@ -17,13 +18,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
     children,
+    menu,
 }: {
     children: React.ReactNode;
+    menu: React.ReactNode;
 }) {
     return (
         <html lang="en">
             <body className={font.className}>
-                <Providers>{children}</Providers>
+                <Providers>
+                    <Sidebar />
+                    {menu && <div className="w-4">{menu}</div>}
+                    {children}
+                </Providers>
             </body>
         </html>
     );

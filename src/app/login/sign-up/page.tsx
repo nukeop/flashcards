@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 const Signup = () => {
     return (
-        <Card transparency="transparent" layout="centered">
+        <Card transparent layout="centered">
             <h3 className="mb-4">Sign up</h3>
             <form
                 className="flex flex-col items-center gap-3 mt-8 mb-8 w-full"

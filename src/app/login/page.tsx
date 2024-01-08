@@ -7,7 +7,7 @@ import Input from '../_components/Input';
 
 const Login = () => {
     return (
-        <Card transparency="transparent" layout="centered">
+        <Card transparent layout="centered">
             <h3 className="mb-4">Log in</h3>
             <form
                 className="flex flex-col items-center gap-3 mt-8 mb-8 w-full"

@@ -11,6 +11,7 @@
     "test:supabase": "vitest --config vitest.supabase.config.ts"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.1.1",
     "@supabase/ssr": "^0.0.10",
     "@supabase/supabase-js": "^2.39.1",
