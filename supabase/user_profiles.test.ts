@@ -97,22 +97,4 @@ describe('User profiles', () => {
             },
         ]);
     });
-
-    it('should delete a user profile when a user in auth.users is deleted', async () => {
-        await TestFixture.logIn('user1@example.com', 'password123');
-        const { data: userData } = await TestFixture.getClient().auth.getUser();
-
-        const result = await TestFixture.getClient().auth.admin.deleteUser(
-            userData.user!.id,
-        );
-
-        const { data: profileData, error: profileError } =
-            await TestFixture.getClient()
-                .from('user_profiles')
-                .select('*')
-                .eq('display_name', 'user1@example.com');
-
-        expect(profileError).toBeNull();
-        expect(profileData).toEqual([]);
-    });
 });

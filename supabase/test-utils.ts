@@ -15,17 +15,28 @@ export const createLogIn =
 
 export class TestFixture {
     private static supabase: SupabaseClient;
+    private static adminSupabaseClient: SupabaseClient;
     private constructor() {}
 
     static initialize() {
         const supabaseUrl = 'http://127.0.0.1:54321';
         const SUPABASE_KEY =
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0';
+        const SERVICE_KEY =
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU';
         TestFixture.supabase = createClient(supabaseUrl, SUPABASE_KEY);
+        TestFixture.adminSupabaseClient = createClient(
+            supabaseUrl,
+            SERVICE_KEY,
+        );
     }
 
     static getClient() {
         return this.supabase;
+    }
+
+    static getAdminClient() {
+        return this.adminSupabaseClient;
     }
 
     static async logIn(email: string, password: string) {
