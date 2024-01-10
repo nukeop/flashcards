@@ -13,14 +13,14 @@ describe('User profiles', () => {
         const { data: profile, error } = await TestFixture.getClient()
             .from('user_profiles')
             .select('*')
-            .eq('username', 'user1')
+            .eq('display_name', 'user1@example.com')
             .single();
 
         expect(error).toBeNull();
         expect(profile).toEqual({
             id: expect.stringMatching(uuidRegex),
             user_id: expect.stringMatching(uuidRegex),
-            username: 'user1',
+            display_name: 'user1@example.com',
             created_at: expect.stringMatching(dateRegex),
             updated_at: expect.stringMatching(dateRegex),
         });
@@ -32,21 +32,21 @@ describe('User profiles', () => {
         const { data: profileData } = await TestFixture.getClient()
             .from('user_profiles')
             .select('id')
-            .eq('username', 'user1');
+            .eq('display_name', 'user1@example.com');
 
         const { data: updatedProfileData, error: updateError } =
             await TestFixture.getClient()
                 .from('user_profiles')
-                .update({ username: 'user2' })
+                .update({ display_name: 'user2' })
                 .eq('id', (profileData![0] as { id: string }).id)
-                .select('username');
+                .select('display_name');
 
         expect(updateError).toBeNull();
-        expect(updatedProfileData).toEqual([{ username: 'user2' }]);
+        expect(updatedProfileData).toEqual([{ display_name: 'user2' }]);
 
         await TestFixture.getClient()
             .from('user_profiles')
-            .update({ username: 'user1' })
+            .update({ display_name: 'user1@example.com' })
             .eq('id', (profileData![0] as { id: string }).id);
     });
 
@@ -56,24 +56,26 @@ describe('User profiles', () => {
         const { data: profileData } = await TestFixture.getClient()
             .from('user_profiles')
             .select('id')
-            .eq('username', 'user1');
+            .eq('display_name', 'user1@example.com');
 
         const { data: updatedProfileData, error: updateError } =
             await TestFixture.getClient()
                 .from('user_profiles')
-                .update({ username: 'user2 changed this' })
+                .update({ display_name: 'user2 changed this' })
                 .eq('id', (profileData![0] as { id: string }).id)
-                .select('username');
+                .select('display_name');
 
         expect(updateError).toBeNull();
         expect(updatedProfileData).toEqual([]);
 
         const { data: originalProfileData } = await TestFixture.getClient()
             .from('user_profiles')
-            .select('username')
+            .select('display_name')
             .eq('id', (profileData![0] as { id: string }).id);
 
-        expect(originalProfileData).toEqual([{ username: 'user1' }]);
+        expect(originalProfileData).toEqual([
+            { display_name: 'user1@example.com' },
+        ]);
     });
 
     it('should create a user profile when a user in auth.users is created', async () => {
