@@ -15,7 +15,7 @@ type SidebarProps = {
 const Sidebar: React.FC<SidebarProps> = () => {
     return (
         <header className="relative flex flex-col items-center gap-4 box-border my-4 ml-4 px-2 py-4 bg-gradient-to-b from-base-contrast to-overlay-contrast text-overlay rounded-lg flex-grow-0 z-10">
-            <span>teste</span>
+            <Link href="/">teste</Link>
             <SidebarProfile />
             <Tooltip content="Decks">
                 <Button intent="sidebar" as={Link} href="/decks">
@@ -24,11 +24,17 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </Tooltip>
             <div className="flex-grow" />
 
-            <Tooltip content={<span>Log out</span>}>
-                <Button intent="sidebar" as={Link} href="/auth/logout">
-                    <ArrowLeftStartOnRectangleIcon className="w-6 h-6" />
-                </Button>
-            </Tooltip>
+            <form
+                className="flex items-center justify-center flex-grow-0"
+                action="/auth/logout"
+                method="post"
+            >
+                <Tooltip content={<span>Log out</span>}>
+                    <Button intent="sidebar" type="submit">
+                        <ArrowLeftStartOnRectangleIcon className="w-6 h-6" />
+                    </Button>
+                </Tooltip>
+            </form>
         </header>
     );
 };

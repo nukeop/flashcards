@@ -1,18 +1,21 @@
 import { VariantProps, cva } from 'class-variance-authority';
 
-const card = cva('bg-surface border-1 rounded-lg p-4 w-96 shadow-lg', {
-    variants: {
-        transparent: {
-            true: 'border border-muted/50 bg-surface/50 backdrop-blur-md',
-        },
-        layout: {
-            centered: 'flex flex-col justify-center items-center',
-        },
-        fluid: {
-            true: 'w-full',
+const card = cva(
+    'bg-surface border border-accent/25 rounded-lg p-4 w-96 drop-shadow-lg hover:drop-shadow-xl transition-shadow hover:scale-105 transform-gpu duration-200 ease-in-out transition-transform',
+    {
+        variants: {
+            transparent: {
+                true: 'border border-muted/50 bg-surface/50 backdrop-blur-md',
+            },
+            layout: {
+                centered: 'flex flex-col justify-center items-center',
+            },
+            fluid: {
+                true: 'w-full',
+            },
         },
     },
-});
+);
 
 type CardProps = {
     children?: React.ReactNode;

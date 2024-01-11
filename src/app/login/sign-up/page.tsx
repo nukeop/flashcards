@@ -37,7 +37,7 @@ const Signup = () => {
             </form>
             <div className="mt-3 text-sm">
                 Already a member?{' '}
-                <Link href="login" className="text-accent">
+                <Link href="/login" className="text-accent">
                     Log in
                 </Link>
             </div>

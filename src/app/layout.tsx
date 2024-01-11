@@ -18,17 +18,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
     children,
-    menu,
 }: {
     children: React.ReactNode;
-    menu: React.ReactNode;
 }) {
     return (
         <html lang="en">
             <body className={font.className}>
                 <Providers>
                     <Sidebar />
-                    {menu && <div className="w-4">{menu}</div>}
                     {children}
                 </Providers>
             </body>
