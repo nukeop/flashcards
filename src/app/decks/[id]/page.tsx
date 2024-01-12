@@ -1,4 +1,3 @@
-import Card from '@/app/_components/Card';
 import { createSSRClient } from '@/app/_lib/supabase';
 
 const Deck = async ({ params: { id } }: { params: { id: string } }) => {

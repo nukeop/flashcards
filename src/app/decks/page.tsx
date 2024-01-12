@@ -1,5 +1,7 @@
+import { EllipsisVerticalIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
+import Button from '../_components/Button';
 import Card from '../_components/Card';
 import { createSSRClient } from '../_lib/supabase';
 
@@ -28,8 +30,15 @@ const Decks = async () => {
                     return (
                         <Link href={`/decks/${deck.id}`} key={deck.id}>
                             <Card>
-                                <h3>{deck.name}</h3>
-                                <p>{deck.description}</p>
+                                <div className="relative w-full h-full flex flex-row">
+                                    <div className="flex-grow">
+                                        <h3>{deck.name}</h3>
+                                        <p>{deck.description}</p>
+                                    </div>
+                                    <Button>
+                                        <EllipsisVerticalIcon className="w-5 h-5" />
+                                    </Button>
+                                </div>
                             </Card>
                         </Link>
                     );
