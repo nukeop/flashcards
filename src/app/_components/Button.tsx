@@ -10,6 +10,7 @@ const button = cva(
                 green: 'bg-green-400 text-surface px-6',
                 sidebar:
                     'px-2 hover:bg-overlay-contrast active:bg-muted-contrast/25 ',
+                basic: 'bg-base px-2 border border-muted/50 hover:bg-overlay',
             },
             isLoading: {
                 true: 'cursor-not-allowed',
