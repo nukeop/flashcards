@@ -10,7 +10,7 @@ SELECT decks.id AS deck_id,
     flashcards.created_at AS card_created_at,
     flashcards.updated_at AS card_updated_at
 FROM decks
-    LEFT JOIN public.flashcards ON public.decks.id = public.flashcards.deck_id
+    INNER JOIN public.flashcards ON public.decks.id = public.flashcards.deck_id
 ORDER BY public.decks.id,
     public.flashcards.id;
 ALTER VIEW deck_cards_view

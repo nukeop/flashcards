@@ -37,6 +37,12 @@ const config: Config = {
                 'accent-contrast':
                     'rgb(var(--color-accent-contrast) / <alpha-value>)',
             },
+            dropShadow: {
+                glow: [
+                    '0px 0px 4px rgba(255,255, 255, 0.5)',
+                    '0px 0px 8px rgba(255, 255,255, 0.3)',
+                ],
+            },
         },
     },
     plugins: [],

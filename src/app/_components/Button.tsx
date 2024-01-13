@@ -1,18 +1,22 @@
 import { VariantProps, cva } from 'class-variance-authority';
 
-const button = cva('flex flex-row rounded-lg py-2 text-sm font-bold', {
-    variants: {
-        intent: {
-            primary: 'bg-accent text-surface px-6',
-            secondary: 'bg-transparent text-accent px-6',
-            sidebar:
-                'px-2 hover:bg-overlay-contrast active:bg-muted-contrast/25 ',
-        },
-        isLoading: {
-            true: 'cursor-not-allowed',
+const button = cva(
+    'flex flex-row items-center justify-between rounded-lg py-2 text-sm font-bold',
+    {
+        variants: {
+            intent: {
+                primary: 'bg-accent text-surface px-6',
+                secondary: 'bg-transparent text-accent px-6',
+                green: 'bg-green-400 text-surface px-6',
+                sidebar:
+                    'px-2 hover:bg-overlay-contrast active:bg-muted-contrast/25 ',
+            },
+            isLoading: {
+                true: 'cursor-not-allowed',
+            },
         },
     },
-});
+);
 
 type ButtonProps<T extends React.ElementType> = {
     children?: React.ReactNode;

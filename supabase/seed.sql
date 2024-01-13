@@ -1,3 +1,4 @@
+DELETE FROM auth.users;
 INSERT INTO auth.users (
         instance_id,
         id,

@@ -1,9 +1,8 @@
-import { EllipsisVerticalIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
-import Button from '../_components/Button';
 import Card from '../_components/Card';
 import { createSSRClient } from '../_lib/supabase';
+import DecksSearchBar from './DecksSearchBar';
 
 const Decks = async () => {
     const supabase = createSSRClient();
@@ -23,28 +22,24 @@ const Decks = async () => {
     }
 
     return (
-        <div className="relative flex-grow h-auto m-4 box-border">
+        <main className="relative flex-grow h-auto m-4 p-2 box-border">
             <h1 className="mb-4">Decks</h1>
-            <div className="grid relative bg-overlay p-2 h-auto rounded-lg">
+            <DecksSearchBar />
+            <div className="grid grid-cols-3 gap-4 relative h-auto rounded-lg">
                 {decks?.data.map((deck) => {
                     return (
                         <Link href={`/decks/${deck.id}`} key={deck.id}>
-                            <Card>
-                                <div className="relative w-full h-full flex flex-row">
-                                    <div className="flex-grow">
-                                        <h3>{deck.name}</h3>
-                                        <p>{deck.description}</p>
-                                    </div>
-                                    <Button>
-                                        <EllipsisVerticalIcon className="w-5 h-5" />
-                                    </Button>
+                            <Card fluid accent="violetpink">
+                                <div className="relative w-full h-full flex flex-col">
+                                    <h3>{deck.name}</h3>
+                                    <p>{deck.description}</p>
                                 </div>
                             </Card>
                         </Link>
                     );
                 })}
             </div>
-        </div>
+        </main>
     );
 };
 

@@ -1,4 +1,17 @@
-import { cva } from 'class-variance-authority';
+import { VariantProps, cva } from 'class-variance-authority';
+
+const input = cva('p-0.5 outline-none bg-transparent border-none flex-grow', {
+    variants: {
+        error: {
+            true: 'border-theme-red',
+        },
+        textSize: {
+            sm: 'text-sm',
+            md: 'text-md',
+            lg: 'text-lg',
+        },
+    },
+});
 
 type InputProps = Omit<
     React.DetailedHTMLProps<
@@ -6,27 +19,17 @@ type InputProps = Omit<
         HTMLInputElement
     >,
     'prefix'
-> & {
-    error?: string;
-    prefix?: React.ReactElement;
-};
+> &
+    VariantProps<typeof input> & {
+        prefix?: React.ReactElement;
+    };
 
 const Input: React.FC<InputProps> = ({
     error,
     prefix,
+    textSize,
     ...props
 }: InputProps) => {
-    const input = cva(
-        'p-0.5 outline-none bg-transparent border-none flex-grow',
-        {
-            variants: {
-                error: {
-                    true: 'border-theme-red',
-                },
-            },
-        },
-    );
-
     return (
         <div className="w-full text-sm">
             <label className="block text-sm font-medium text-text rounded border border-muted px-2 py-0.5 [&:not(focus)]:hover:border-subtle focus-within:border-accent cursor-text">
@@ -37,7 +40,7 @@ const Input: React.FC<InputProps> = ({
                         </div>
                     )}
                     <input
-                        className={input({ error: !!error })}
+                        className={input({ error, textSize })}
                         aria-invalid={!!error}
                         {...props}
                     />
