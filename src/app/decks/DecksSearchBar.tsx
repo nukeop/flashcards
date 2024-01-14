@@ -8,7 +8,9 @@ import {
 import Button from '../_components/Button';
 import Input from '../_components/Input';
 
-type DecksSearchBarProps = {};
+type DecksSearchBarProps = {
+    onSearch?: (query: string) => void;
+};
 
 const DecksSearchBar: React.FC<DecksSearchBarProps> = () => {
     return (
