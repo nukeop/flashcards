@@ -3,7 +3,7 @@
 import { Switch } from '@headlessui/react';
 import clsx from 'clsx';
 
-type ToggleProps = {
+export type ToggleProps = {
     checked: boolean;
     onChange?: (checked: boolean) => void;
     className?: string;
