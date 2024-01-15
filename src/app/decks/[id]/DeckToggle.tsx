@@ -1,6 +1,6 @@
 'use client';
 
-import Toggle, { ToggleProps } from '@/app/_components/Toggle';
+import Toggle, { ToggleProps } from '@/app/_components/client-side/Toggle';
 import { startTransition, useOptimistic } from 'react';
 
 const DeckToggle: React.FC<ToggleProps> = ({ checked, onChange }) => {

@@ -39,7 +39,7 @@ const Deck = async ({ params: { id } }: { params: { id: string } }) => {
     };
 
     return (
-        <main className="relative flex-grow h-auto m-4 p-2 box-border">
+        <>
             <div className="bg-surface border border-accent/25 mb-8 rounded-lg">
                 <div className="flex flex-row items-center justify-start gap-4 p-4 pb-0">
                     <div>
@@ -73,7 +73,7 @@ const Deck = async ({ params: { id } }: { params: { id: string } }) => {
                     </li>
                 ))}
             </ul>
-        </main>
+        </>
     );
 };
 

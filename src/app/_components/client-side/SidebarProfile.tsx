@@ -3,9 +3,9 @@
 import { UserCircleIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
-import { useUser } from '../_hooks/useUser';
-import Button from './Button';
-import SidebarTooltip from './SidebarTooltip';
+import { useUser } from '../../_hooks/useUser';
+import Button from '../Button';
+import SidebarTooltip from '../SidebarTooltip';
 
 const SidebarProfile = () => {
     const { session } = useUser();

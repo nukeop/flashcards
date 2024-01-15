@@ -7,7 +7,7 @@ import Link from 'next/link';
 const Signup = () => {
     return (
         <Card transparent layout="centered">
-            <h3 className="mb-4">Sign up</h3>
+            <h3 className="mb-4 text-center">Sign up</h3>
             <form
                 className="flex flex-col items-center gap-3 mt-8 mb-8 w-full"
                 action="/auth/sign-up"
@@ -35,7 +35,7 @@ const Signup = () => {
                 />
                 <Button intent="primary">Sign up</Button>
             </form>
-            <div className="mt-3 text-sm">
+            <div className="mt-3 text-sm text-center">
                 Already a member?{' '}
                 <Link href="/login" className="text-accent">
                     Log in

@@ -26,7 +26,9 @@ export default function RootLayout({
             <body className={font.className}>
                 <Providers>
                     <Sidebar />
-                    {children}
+                    <main className="relative flex-grow p-4 box-border w-full h-auto">
+                        {children}
+                    </main>
                 </Providers>
             </body>
         </html>

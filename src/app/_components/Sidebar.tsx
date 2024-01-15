@@ -5,8 +5,8 @@ import {
 import Link from 'next/link';
 
 import Button from './Button';
-import SidebarProfile from './SidebarProfile';
 import Tooltip from './SidebarTooltip';
+import SidebarProfile from './client-side/SidebarProfile';
 
 type SidebarProps = {
     content?: string;

@@ -1,9 +1,7 @@
 'use client';
 
-import {
-    ChevronDownIcon,
-    MagnifyingGlassIcon,
-} from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 
 import Button from '../_components/Button';
 import Input from '../_components/Input';
@@ -22,10 +20,12 @@ const DecksSearchBar: React.FC<DecksSearchBarProps> = () => {
                     placeholder="Type to search..."
                 />
             </div>
-            <Button intent="green">
-                Add
-                <ChevronDownIcon className="w-6 h-6 ml-2" />
-            </Button>
+            <Link href="/decks/new" passHref>
+                <Button intent="green">
+                    <PlusIcon className="w-6 h-6 mr-2" />
+                    Add
+                </Button>
+            </Link>
         </div>
     );
 };

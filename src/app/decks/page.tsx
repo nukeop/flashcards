@@ -22,7 +22,7 @@ const Decks = async () => {
     }
 
     return (
-        <main className="relative flex-grow h-auto m-4 p-2 box-border">
+        <>
             <h1 className="mb-4">Decks</h1>
             <DecksSearchBar />
             <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4 relative h-auto rounded-lg">
@@ -39,7 +39,7 @@ const Decks = async () => {
                     );
                 })}
             </div>
-        </main>
+        </>
     );
 };
 
