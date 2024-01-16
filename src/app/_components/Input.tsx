@@ -22,18 +22,29 @@ type InputProps = Omit<
 > &
     VariantProps<typeof input> & {
         prefix?: React.ReactElement;
+        label?: string;
     };
 
 const Input: React.FC<InputProps> = ({
     error,
     prefix,
     textSize,
+    label,
     ...props
 }: InputProps) => {
     return (
         <div className="w-full text-sm">
-            <label className="block text-sm font-medium text-text rounded border border-muted px-2 py-0.5 [&:not(focus)]:hover:border-subtle focus-within:border-accent cursor-text">
-                <div className={'flex flex-row'}>
+            <label className="block text-sm font-medium text-text rounded  cursor-text">
+                {label && (
+                    <div className="flex flex-row justify-start items-center cursor-default mb-1">
+                        <span>{label}</span>
+                    </div>
+                )}
+                <div
+                    className={
+                        'flex flex-row border border-muted [&:not(focus)]:hover:border-subtle focus-within:border-accent px-2 py-0.5 rounded'
+                    }
+                >
                     {prefix && (
                         <div className="flex flex-row items-center justify-start mr-2">
                             {prefix}
