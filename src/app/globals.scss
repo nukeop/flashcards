@@ -9,31 +9,6 @@
 
   html,
   html[data-theme="default"] {
-    --color-base: 25 23 36;
-    --color-surface: 31 29 46;
-    --color-overlay: 38 35 58;
-    --color-muted: 110 106 134;
-    --color-subtle: 144 140 170;
-    --color-text: 224 222 244;
-    --color-accent: 196 167 231;
-    --color-theme-red: 235 111 146;
-    --color-theme-blue: 49 116 143;
-    --color-theme-gold: 246 193 119;
-
-    --color-highlight-low: 33 32 46;
-    --color-highlight-medium: 64 61 82;
-    --color-highlight-high: 82 79 103;
-
-    --color-base-contrast: 250 244 237;
-    --color-surface-contrast: 255 250 243;
-    --color-overlay-contrast: 242 233 222;
-    --color-muted-contrast: 152 147 165;
-    --color-subtle-contrast: 121 117 147;
-    --color-text-contrast: 87 82 121;
-    --color-accent-contrast: 40 105 131;
-  }
-
-  html[data-theme="light"] {
     --color-base: 250 244 237;
     --color-surface: 255 250 243;
     --color-overlay: 242 233 222;
@@ -57,14 +32,38 @@
     --color-text-contrast: 224 222 244;
     --color-accent-contrast: 196 167 231;
   }
+
+  html[data-theme="dark"] {
+    --color-base: 25 23 36;
+    --color-surface: 31 29 46;
+    --color-overlay: 38 35 58;
+    --color-muted: 110 106 134;
+    --color-subtle: 144 140 170;
+    --color-text: 224 222 244;
+    --color-accent: 196 167 231;
+    --color-theme-red: 235 111 146;
+    --color-theme-blue: 49 116 143;
+    --color-theme-gold: 246 193 119;
+
+    --color-highlight-low: 33 32 46;
+    --color-highlight-medium: 64 61 82;
+    --color-highlight-high: 82 79 103;
+
+    --color-base-contrast: 250 244 237;
+    --color-surface-contrast: 255 250 243;
+    --color-overlay-contrast: 242 233 222;
+    --color-muted-contrast: 152 147 165;
+    --color-subtle-contrast: 121 117 147;
+    --color-text-contrast: 87 82 121;
+    --color-accent-contrast: 40 105 131;
+  }
 }
 
 body {
   @apply bg-base text-text;
-  @apply relative h-full w-full flex flex-row;
+  @apply relative h-full w-full flex flex-col;
 
   background-color: rgb(var(--color-base));
-  background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='rgb( 38 35 58)' fill-opacity='0.4'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
 h1 {

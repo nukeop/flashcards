@@ -38,12 +38,38 @@ const config: Config = {
                     'rgb(var(--color-text-contrast) / <alpha-value>)',
                 'accent-contrast':
                     'rgb(var(--color-accent-contrast) / <alpha-value>)',
+                'highlight-low':
+                    'rgb(var(--color-highlight-low) / <alpha-value>)',
+                'highlight-medium':
+                    'rgb(var(--color-highlight-medium) / <alpha-value>)',
+                'highlight-high':
+                    'rgb(var(--color-highlight-high) / <alpha-value>)',
             },
             dropShadow: {
                 glow: [
                     '0px 0px 4px rgba(255,255, 255, 0.5)',
                     '0px 0px 8px rgba(255, 255,255, 0.3)',
                 ],
+            },
+            boxShadow: {
+                'smooth-low': `0px 0.4px 2.2px rgba(0, 0, 0, 0.02),
+                    0px 1.1px 5.3px rgba(0, 0, 0, 0.028),
+                    0px 2px 10px rgba(0, 0, 0, 0.035),
+                    0px 3.6px 17.9px rgba(0, 0, 0, 0.042),
+                    0px 6.7px 33.4px rgba(0, 0, 0, 0.05),                  
+                    0px 16px 80px rgba(0, 0, 0, 0.07)`,
+                smooth: `0px 1.8px 2.2px rgba(0, 0, 0, 0.02),
+                0px 4.3px 5.3px rgba(0, 0, 0, 0.028),
+                0px 8px 10px rgba(0, 0, 0, 0.035),
+                0px 14.3px 17.9px rgba(0, 0, 0, 0.042),
+                0px 26.7px 33.4px rgba(0, 0, 0, 0.05),
+                0px 64px 80px rgba(0, 0, 0, 0.07)`,
+                'smooth-high': `0px 2.7px 2.2px rgba(0, 0, 0, 0.02),
+                0px 6.4px 5.3px rgba(0, 0, 0, 0.028),
+                0px 12px 10px rgba(0, 0, 0, 0.035),
+                0px 21.4px 17.9px rgba(0, 0, 0, 0.042),
+                0px 40.1px 33.4px rgba(0, 0, 0, 0.05),
+                0px 96px 80px rgba(0, 0, 0, 0.07)`,
             },
         },
     },

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Atkinson_Hyperlegible } from 'next/font/google';
 
 import Sidebar from './_components/Sidebar';
+import TopNavBar from './_components/TopNavBar';
 import './globals.scss';
 import { Providers } from './providers';
 
@@ -25,7 +26,7 @@ export default function RootLayout({
         <html lang="en">
             <body className={font.className}>
                 <Providers>
-                    <Sidebar />
+                    <TopNavBar />
                     <main className="relative flex-grow p-4 box-border w-full h-auto">
                         {children}
                     </main>
