@@ -30,10 +30,8 @@ const Decks = async () => {
                     return (
                         <Link href={`/decks/${deck.id}`} key={deck.id}>
                             <Card fluid accent="violetpink">
-                                <div className="relative w-full h-full flex flex-col">
-                                    <h3>{deck.name}</h3>
-                                    <p>{deck.description}</p>
-                                </div>
+                                <h3 className="truncate">{deck.name}</h3>
+                                <p className="truncate">{deck.description}</p>
                             </Card>
                         </Link>
                     );

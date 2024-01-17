@@ -48,7 +48,9 @@ const Card: React.FC<CardProps> = ({
             className={clsx(card({ transparent, layout, fluid }), className)}
         >
             {accent && <div className={accentBar({ accent })} />}
-            <div className="flex-grow p-4">{children}</div>
+            <div className="flex flex-col relative p-4 truncate">
+                {children}
+            </div>
         </section>
     );
 };
