@@ -1,5 +1,6 @@
 import Button from '@/app/_components/Button';
 import Card from '@/app/_components/Card';
+import Flashcard from '@/app/_components/Flashcard';
 import { createSSRClient } from '@/app/_lib/supabase';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { revalidatePath } from 'next/cache';
@@ -64,12 +65,12 @@ const Deck = async ({ params: { id } }: { params: { id: string } }) => {
             <ul className="grid grid-cols-3">
                 {deckCards.data.map((card) => (
                     <li key={card.card_id}>
-                        <Card fluid>
+                        <Flashcard>
                             <div className="relative w-full h-full flex flex-col">
                                 <h3>{card.card_front}</h3>
                                 <p>{card.card_back}</p>
                             </div>
-                        </Card>
+                        </Flashcard>
                     </li>
                 ))}
             </ul>

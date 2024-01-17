@@ -2,7 +2,7 @@ import { VariantProps, cva } from 'class-variance-authority';
 import clsx from 'clsx';
 
 const card = cva(
-    'relative flex flex-row bg-surface border border-accent/25 rounded-lg w-96 drop-shadow-lg hover:drop-shadow-xl transition-shadow transform-gpu duration-200 ease-in-out overflow-hidden',
+    'relative flex flex-row bg-surface border border-muted/50 rounded-lg w-96 drop-shadow-lg hover:drop-shadow-xl transition-shadow transform-gpu duration-200 ease-in-out overflow-hidden',
     {
         variants: {
             transparent: {
