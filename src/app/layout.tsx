@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Atkinson_Hyperlegible } from 'next/font/google';
 
-import Sidebar from './_components/Sidebar';
 import TopNavBar from './_components/TopNavBar';
 import './globals.scss';
 import { Providers } from './providers';

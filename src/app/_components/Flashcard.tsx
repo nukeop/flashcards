@@ -62,7 +62,9 @@ const Flashcard: React.FC<FlashcardProps> = ({ children }: FlashcardProps) => {
             glareY: 50,
         });
 
-        setInteracting(false);
+        if (isInteracting) {
+            setInteracting(false);
+        }
     };
 
     const glareStyles = {
