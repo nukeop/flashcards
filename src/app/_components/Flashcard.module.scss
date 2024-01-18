@@ -49,6 +49,8 @@
     --clip-trainer: inset(14.5% 8.5% 48.2% 8.5%);
     --clip-borders: inset(2.8% 4% round 2.55% / 1.5%);
 
+    perspective: 600px;
+
     .shine,
     .glare {
         will-change: transform, opacity, background-image, background-size, background-position, background-blend-mode,

@@ -1,14 +1,14 @@
 'use client';
 
+import { animated, useSpring } from '@react-spring/web';
 import { VariantProps, cva } from 'class-variance-authority';
 import clsx from 'clsx';
 import { useRef, useState } from 'react';
-import { animated, useSpring } from 'react-spring';
 
 import styles from './Flashcard.module.scss';
 
 const card = cva(
-    'relative flex bg-surface border border-muted/50 rounded-lg drop-shadow-lg hover:drop-shadow-xl transition-shadow transform-gpu duration-200 ease-in-out overflow-hidden p-2',
+    'relative flex bg-surface border border-muted/50 rounded-lg drop-shadow-lg hover:drop-shadow-xl transition-shadow transform-gpu duration-200 ease-in-out overflow-hidden p-2 shadow-lg',
 );
 
 type FlashcardProps = {
@@ -65,19 +65,10 @@ const Flashcard: React.FC<FlashcardProps> = ({ children }: FlashcardProps) => {
         setInteracting(false);
     };
 
-    const cardStyles = {
-        transform: clsx(
-            rotateX.to((x) => `perspective(600px) rotateX(${x}deg)`).calc(),
-            rotateY.to((y) => ` rotateY(${y}deg)`).calc(),
-        ),
-    };
-
     const glareStyles = {
         backgroundPositionX: glareX.to((gx) => `${gx}%`).calc(),
         backgroundPositionY: glareY.to((gy) => `${gy}%`).calc(),
     };
-
-    console.log(cardStyles, glareStyles);
 
     return (
         <animated.div
@@ -86,7 +77,13 @@ const Flashcard: React.FC<FlashcardProps> = ({ children }: FlashcardProps) => {
             onMouseMove={interact}
             onMouseLeave={interactEnd}
             onMouseUp={interactEnd}
-            style={cardStyles}
+            style={{
+                rotateX,
+                rotateY,
+                background: `linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 100%)`,
+                backgroundPositionX: glareX.to((gx) => `${gx}%`),
+                backgroundPositionY: glareY.to((gy) => `${gy}%`),
+            }}
         >
             <animated.div className={styles.glare} style={glareStyles}>
                 {children}
