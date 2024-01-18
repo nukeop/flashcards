@@ -1,7 +1,3 @@
-import { ArrowLeftStartOnRectangleIcon } from '@heroicons/react/24/outline';
-
-import Button from './Button';
-import Tooltip from './Tooltip';
 import Breadcrumbs from './client-side/Breadcrumbs';
 import TopBarProfile from './client-side/TopBarProfile';
 

@@ -18,10 +18,11 @@ export const useUser = () => {
     );
 
     useEffect(() => {
+        context.setIsLoading(true);
         supabase.auth.getSession().then(({ data: { session } }) => {
             context.setSession(session);
 
-            if (!session?.user?.id) {
+            if (session?.user?.id) {
                 context.setIsLoading(false);
                 context.setIsReady(true);
                 return;
