@@ -30,7 +30,7 @@ const Flashcard: React.FC<FlashcardProps> = ({ children }: FlashcardProps) => {
         config: { mass: 1, tension: 170, friction: 26 },
     }));
 
-    const interact = (e) => {
+    const interact = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         if (!cardRef.current) return;
         const rect = cardRef.current.getBoundingClientRect();
         const mouseX = e.clientX - rect.left - rect.width / 2;
