@@ -1,4 +1,5 @@
 import { VariantProps, cva } from 'class-variance-authority';
+import clsx from 'clsx';
 
 const button = cva(
     'flex flex-row items-center justify-between rounded-lg py-2 text-sm font-bold',
@@ -10,6 +11,7 @@ const button = cva(
                 green: 'bg-green-400 text-surface px-6',
                 sidebar:
                     'px-2 hover:bg-overlay-contrast active:bg-muted-contrast/25 ',
+                topbar: 'px-2 hover:bg-overlay active:bg-highlight-medium',
                 basic: 'bg-base px-2 border border-muted/50 hover:bg-overlay',
             },
             isLoading: {
@@ -21,12 +23,14 @@ const button = cva(
 
 type ButtonProps<T extends React.ElementType> = {
     children?: React.ReactNode;
+    className?: string;
     as?: T;
 } & VariantProps<typeof button> &
-    Omit<React.ComponentProps<T>, 'as'>;
+    Omit<React.ComponentProps<T>, 'as' | 'className'>;
 
 function Button<T extends React.ElementType>({
     children,
+    className,
     intent,
     isLoading,
     as,
@@ -34,7 +38,10 @@ function Button<T extends React.ElementType>({
 }: ButtonProps<T>) {
     const Component = as || 'button';
     return (
-        <Component className={button({ intent, isLoading })} {...rest}>
+        <Component
+            className={clsx(button({ intent, isLoading }), className)}
+            {...rest}
+        >
             {isLoading && (
                 <svg
                     className="animate-spin -ml-1 mr-3 h-5 w-5 text-surface"

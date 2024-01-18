@@ -2,7 +2,7 @@ import { Square2StackIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
 import Button from './Button';
-import Tooltip from './SidebarTooltip';
+import Tooltip from './Tooltip';
 
 type SidebarProps = {
     content?: string;

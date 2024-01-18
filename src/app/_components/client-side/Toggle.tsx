@@ -45,7 +45,7 @@ const Toggle: React.FC<ToggleProps> = ({
                             'bg-accent': checked || renderProps.checked,
                             'bg-base': !checked && !renderProps.checked,
                         },
-                        'border border-muted/75 relative inline-flex h-6 w-11 items-center rounded-full',
+                        'border border-muted relative inline-flex h-6 w-11 items-center rounded-full',
                         className,
                     )}
                 >
@@ -54,7 +54,7 @@ const Toggle: React.FC<ToggleProps> = ({
                             checked || renderProps.checked
                                 ? 'translate-x-6'
                                 : 'translate-x-1'
-                        } inline-block h-4 w-4 transform rounded-full bg-white shadow-md transition`}
+                        } inline-block h-4 w-4 transform rounded-full bg-surface shadow-md transition border border-muted`}
                     />
                 </button>
             )}
