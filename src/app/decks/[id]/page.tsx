@@ -48,7 +48,7 @@ const Deck = async ({ params: { id } }: { params: { id: string } }) => {
                         <p className="text-subtle">{deck.data?.description}</p>
                     </div>
                     <Button intent="basic">
-                        <PencilSquareIcon className="w-8 h-8" />
+                        <PencilSquareIcon className="h-8 w-8" />
                     </Button>
                 </div>
                 <hr className="border-overlay" />
@@ -62,15 +62,13 @@ const Deck = async ({ params: { id } }: { params: { id: string } }) => {
                     </div>
                 </div>
             </Panel>
-            <ul className="grid grid-cols-3">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
                 {deckCards.data.map((card) => (
                     <li key={card.card_id}>
-                        <Flashcard>
-                            <div className="relative w-full h-full flex flex-col">
-                                <h3>{card.card_front}</h3>
-                                <p>{card.card_back}</p>
-                            </div>
-                        </Flashcard>
+                        <Flashcard
+                            front={card.card_front}
+                            back={card.card_back}
+                        ></Flashcard>
                     </li>
                 ))}
             </ul>

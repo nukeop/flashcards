@@ -14,8 +14,6 @@ export async function POST(request: Request) {
         password,
     });
 
-    console.log(data, error);
-
     if (error instanceof AuthApiError) {
         return NextResponse.redirect(requestUrl.origin, {
             status: 301,
