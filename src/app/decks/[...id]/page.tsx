@@ -1,13 +1,14 @@
 import Button from '@/app/_components/Button';
-import Flashcard from '@/app/_components/Flashcard';
+import FlashcardEditor from '@/app/_components/FlashcardEditor';
 import Panel from '@/app/_components/Panel';
 import { createSSRClient } from '@/app/_lib/supabase';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
 import { revalidatePath } from 'next/cache';
-
+import Link from 'next/link';
 import DeckToggle from './DeckToggle';
 
-const Deck = async ({ params: { id } }: { params: { id: string } }) => {
+const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
     const supabase = createSSRClient();
     const user = await supabase.auth.getUser();
 
@@ -15,12 +16,16 @@ const Deck = async ({ params: { id } }: { params: { id: string } }) => {
         return null;
     }
 
-    const deck = await supabase.from('decks').select('*').eq('id', id).single();
+    const deck = await supabase
+        .from('decks')
+        .select('*')
+        .eq('id', id[0])
+        .single();
 
     const deckCards = await supabase
         .from('deck_cards_view')
         .select('*')
-        .eq('deck_id', id);
+        .eq('deck_id', id[0]);
 
     if (!deckCards || !deckCards.data) {
         return <div>Deck not found</div>;
@@ -33,7 +38,7 @@ const Deck = async ({ params: { id } }: { params: { id: string } }) => {
         await supabase
             .from('decks')
             .update({ is_public: !checked })
-            .eq('id', id)
+            .eq('id', id[0])
             .select('*');
 
         revalidatePath(`/decks/${id}`);
@@ -62,16 +67,38 @@ const Deck = async ({ params: { id } }: { params: { id: string } }) => {
                     </div>
                 </div>
             </Panel>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
-                {deckCards.data.map((card) => (
-                    <li key={card.card_id}>
-                        <Flashcard
-                            front={card.card_front}
-                            back={card.card_back}
-                        ></Flashcard>
-                    </li>
-                ))}
-            </ul>
+
+            <div className="grid flex-grow grid-cols-3 gap-2">
+                <FlashcardEditor
+                    className="col-span-2"
+                    currentCard={deckCards.data.find(
+                        (card) => card.card_id === id[1],
+                    )}
+                    onFrontChange={(front: string) => {}}
+                    onBackChange={(back: string) => {}}
+                />
+
+                <ul className="unordered-list">
+                    {deckCards.data.map((card) => (
+                        <Link
+                            key={card.card_id}
+                            href={`/decks/${card.deck_id}/${card.card_id}`}
+                        >
+                            <li
+                                className={clsx(
+                                    'hover: my-2 rounded border border-muted/25 bg-surface px-2 py-1 text-text transition-all duration-200 hover:border-muted/50 hover:bg-overlay',
+                                    {
+                                        'border-accent/50 bg-accent/15 text-accent                                        ':
+                                            card.card_id === id[1],
+                                    },
+                                )}
+                            >
+                                {card.card_front}
+                            </li>
+                        </Link>
+                    ))}
+                </ul>
+            </div>
         </>
     );
 };

@@ -1,14 +1,13 @@
 'use client';
 
 import { animated, useSpring } from '@react-spring/web';
-import { VariantProps, cva } from 'class-variance-authority';
+import { cva, VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
-
 import styles from './Flashcard.module.scss';
 
 const card = cva(
-    'relative flex h-48 transform-gpu overflow-hidden rounded-lg border border-muted/50 bg-surface p-2 shadow-lg drop-shadow-lg transition-shadow duration-200 ease-in-out hover:drop-shadow-xl select-none',
+    'relative flex h-48 transform-gpu select-none overflow-hidden rounded-lg border border-muted/50 bg-surface p-2 shadow-lg drop-shadow-lg transition-shadow duration-200 ease-in-out hover:drop-shadow-xl',
 );
 
 const clamp = (value: number, min = 0, max = 100) => {
@@ -75,21 +74,20 @@ const Flashcard: React.FC<FlashcardProps> = ({
     };
 
     useEffect(() => {
-        const rX = rotateX.get();
-        const rY = rotateY.get();
-
         if (isFlipped) {
             setRotate({
-                rotateX: rX + 180,
-                rotateY: rY,
+                rotateX: 180,
+                rotateY: 0,
             });
         } else {
             setRotate({
-                rotateX: rX - 180,
-                rotateY: rY,
+                rotateX: 0,
+                rotateY: 0,
             });
         }
     }, [isFlipped]);
+
+    console.log({ isFlipped, rotateX: rotateX.get() });
 
     return (
         <div
@@ -115,7 +113,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
             >
                 <animated.div
                     className={clsx(
-                        'z-[2] flex h-full w-full flex-col items-center justify-center',
+                        'z-[2] flex h-full w-full flex-col items-center justify-center p-4',
                         styles.front,
                     )}
                     style={{
