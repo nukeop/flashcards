@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './Flashcard.module.scss';
 
 const card = cva(
-    'relative flex h-48 transform-gpu select-none overflow-hidden rounded-lg border border-muted/50 bg-surface p-2 shadow-lg drop-shadow-lg transition-shadow duration-200 ease-in-out hover:drop-shadow-xl',
+    'relative flex h-48 transform-gpu select-none overflow-hidden rounded-lg border border-muted/75 bg-surface p-2 shadow-lg drop-shadow-lg transition-shadow duration-200 ease-in-out hover:drop-shadow-xl',
 );
 
 const clamp = (value: number, min = 0, max = 100) => {
@@ -17,14 +17,18 @@ const clamp = (value: number, min = 0, max = 100) => {
 type FlashcardProps = {
     front: React.ReactNode;
     back: React.ReactNode;
+    isFlipped?: boolean;
+    onClick?: () => void;
 } & VariantProps<typeof card>;
 const Flashcard: React.FC<FlashcardProps> = ({
     front,
     back,
+    isFlipped: propIsFlipped,
+    onClick,
 }: FlashcardProps) => {
     const cardRef = useRef<HTMLDivElement>(null);
     const [isInteracting, setInteracting] = useState(false);
-    const [isFlipped, setFlipped] = useState(false);
+    const [isFlipped, setFlipped] = useState(propIsFlipped ?? false);
 
     const [{ rotateX, rotateY }, setRotate] = useSpring(() => ({
         rotateX: 0,
@@ -73,21 +77,33 @@ const Flashcard: React.FC<FlashcardProps> = ({
         }
     };
 
-    useEffect(() => {
-        if (isFlipped) {
-            setRotate({
-                rotateX: 180,
-                rotateY: 0,
-            });
-        } else {
-            setRotate({
-                rotateX: 0,
-                rotateY: 0,
-            });
-        }
-    }, [isFlipped]);
+    useEffect(
+        () => {
+            if (isFlipped) {
+                setRotate({
+                    rotateX: 180,
+                    rotateY: 0,
+                });
+            } else {
+                setRotate({
+                    rotateX: 0,
+                    rotateY: 0,
+                });
+            }
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [isFlipped],
+    );
 
-    console.log({ isFlipped, rotateX: rotateX.get() });
+    useEffect(
+        () => {
+            if (propIsFlipped !== undefined) {
+                setFlipped(propIsFlipped);
+            }
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [propIsFlipped, isFlipped],
+    );
 
     return (
         <div
@@ -97,6 +113,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
                     return !prevFlipped;
                 });
                 interact(e);
+                onClick?.();
                 e.stopPropagation();
             }}
         >
@@ -118,10 +135,9 @@ const Flashcard: React.FC<FlashcardProps> = ({
                     )}
                     style={{
                         rotateY: rotateX,
-                        rotateX: rotateY,
                     }}
                 >
-                    <h3>{front}</h3>
+                    <h4>{front}</h4>
                 </animated.div>
                 <animated.div
                     className={clsx(
@@ -130,11 +146,10 @@ const Flashcard: React.FC<FlashcardProps> = ({
                     )}
                     style={{
                         rotateY: rotateX.to((x) => x + 180),
-                        rotateX: rotateY,
                         scaleX: -1,
                     }}
                 >
-                    <h3>{back}</h3>
+                    <h4>{back}</h4>
                 </animated.div>
             </animated.div>
         </div>

@@ -68,14 +68,24 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
                 </div>
             </Panel>
 
-            <div className="grid flex-grow grid-cols-3 gap-2">
+            <div className="grid flex-grow grid-cols-1 gap-2 lg:grid-cols-3">
                 <FlashcardEditor
                     className="col-span-2"
                     currentCard={deckCards.data.find(
                         (card) => card.card_id === id[1],
                     )}
-                    onFrontChange={(front: string) => {}}
-                    onBackChange={(back: string) => {}}
+                    onSave={async (front: string, back: string) => {
+                        'use server';
+                        const supabase = createSSRClient();
+
+                        await supabase
+                            .from('flashcards')
+                            .update({
+                                front,
+                                back,
+                            })
+                            .eq('id', id[1]);
+                    }}
                 />
 
                 <ul className="unordered-list">
@@ -86,9 +96,9 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
                         >
                             <li
                                 className={clsx(
-                                    'hover: my-2 rounded border border-muted/25 bg-surface px-2 py-1 text-text transition-all duration-200 hover:border-muted/50 hover:bg-overlay',
+                                    'hover: my-2 rounded border border-muted/75 bg-surface px-2 py-1 text-text transition-all duration-200 hover:border-muted hover:bg-overlay',
                                     {
-                                        'border-accent/50 bg-accent/15 text-accent                                        ':
+                                        'border-accent/50 bg-accent/15 text-accent':
                                             card.card_id === id[1],
                                     },
                                 )}

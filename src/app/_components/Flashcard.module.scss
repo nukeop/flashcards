@@ -1,12 +1,12 @@
 .flashcard-wrapper {
-    @apply flex flex-row items-center justify-center w-full h-full relative;
+    @apply flex flex-row items-center justify-center w-full h-full relative min-w-48;
     perspective: 600px;
     transform-style: preserve-3d;
 }
 
 .flashcard {
     @apply relative w-full h-full;
-    perspective: 600px;
+    perspective: 6000px;
     transform-style: preserve-3d;
     transform-origin: center;
 
@@ -15,12 +15,15 @@
         @apply absolute text-center w-full h-full top-0 left-0 cursor-pointer;
         backface-visibility: hidden;
         transform-style: preserve-3d;
-        perspective: 600px;
+        perspective: 6000px;
     }
 
     .shine,
     .glare {
         will-change: transform, opacity, background-image, background-size, background-position, background-blend-mode,
             filter;
+    }
+
+    h3 {
     }
 }

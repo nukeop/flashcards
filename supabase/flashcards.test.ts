@@ -1,6 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
-
-import { TestFixture, dateRegex, uuidRegex } from './test-utils';
+import { dateRegex, TestFixture, uuidRegex } from './test-utils';
 
 describe('flashcards', () => {
     beforeAll(() => {
@@ -239,6 +238,39 @@ describe('flashcards', () => {
                 card_back: 'Back 11',
                 card_created_at: expect.stringMatching(dateRegex),
                 card_updated_at: expect.stringMatching(dateRegex),
+            },
+        ]);
+    });
+
+    it('should allow authenticated users to update their own cards by id', async () => {
+        await TestFixture.logIn('user1@example.com', 'password123');
+        const { data: cardData } = await TestFixture.getClient()
+            .from('flashcards')
+            .select('*')
+            .eq('front', 'Front 1')
+            .single();
+        await TestFixture.getClient()
+            .from('flashcards')
+            .update({
+                front: 'New front text',
+                back: 'New back text',
+            })
+            .eq('id', cardData!.id);
+
+        const { data: card, error } = await TestFixture.getClient()
+            .from('flashcards')
+            .select('*')
+            .eq('front', 'New front text');
+
+        expect(error).toBeNull();
+        expect(card).toEqual([
+            {
+                id: expect.stringMatching(uuidRegex),
+                deck_id: expect.stringMatching(uuidRegex),
+                front: 'New front text',
+                back: 'New back text',
+                created_at: expect.stringMatching(dateRegex),
+                updated_at: expect.stringMatching(dateRegex),
             },
         ]);
     });

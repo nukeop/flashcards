@@ -1,18 +1,18 @@
-import { VariantProps, cva } from 'class-variance-authority';
+import { cva, VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 
 const button = cva(
-    'flex flex-row items-center justify-between rounded-lg py-2 text-sm font-bold',
+    'flex flex-row items-center justify-center rounded-lg py-2 text-sm font-bold',
     {
         variants: {
             intent: {
-                primary: 'bg-accent text-surface px-6',
-                secondary: 'bg-transparent text-accent px-6',
-                green: 'bg-green-400 text-surface px-6',
+                primary: 'bg-accent px-6 text-surface',
+                secondary: 'bg-transparent px-6 text-accent',
+                green: 'ring-inner bg-green-400 px-6 text-surface ring-1 ring-green-500',
                 sidebar:
                     'px-2 hover:bg-overlay-contrast active:bg-muted-contrast/25 ',
                 topbar: 'px-2 hover:bg-overlay active:bg-highlight-medium',
-                basic: 'bg-base px-2 border border-muted/50 hover:bg-overlay',
+                basic: 'border border-muted/75 bg-base px-2 hover:bg-overlay',
             },
             isLoading: {
                 true: 'cursor-not-allowed',
@@ -44,7 +44,7 @@ function Button<T extends React.ElementType>({
         >
             {isLoading && (
                 <svg
-                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-surface"
+                    className="-ml-1 mr-3 h-5 w-5 animate-spin text-surface"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"

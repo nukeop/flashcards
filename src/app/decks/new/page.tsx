@@ -1,6 +1,6 @@
 import Button from '@/app/_components/Button';
-import Input from '@/app/_components/Input';
 import Toggle from '@/app/_components/client-side/Toggle';
+import Input from '@/app/_components/Input';
 import { createSSRClient } from '@/app/_lib/supabase';
 import { redirect } from 'next/navigation';
 
@@ -29,11 +29,11 @@ const NewDeck = () => {
     };
 
     return (
-        <div className="grid grid-cols-[17%_66%_17%] w-full justify-center">
+        <div className="grid w-full grid-cols-[17%_66%_17%] justify-center">
             <form
                 action={handleNewDeck}
                 method="post"
-                className="flex flex-col gap-2 mx-auto bg-surface border border-muted/50 px-8 py-4 rounded-lg col-start-2"
+                className="col-start-2 mx-auto flex flex-col gap-2 rounded-lg border border-muted/75 bg-surface px-8 py-4"
             >
                 <h1>Create a new deck</h1>
                 <p className="text-muted">
@@ -56,11 +56,11 @@ const NewDeck = () => {
                         autoComplete="off"
                         label="Description"
                     />
-                    <label className="flex flex-row gap-2 justify-start items-center">
+                    <label className="flex flex-row items-center justify-start gap-2">
                         <span>Public</span>
                         <Toggle defaultChecked={false} name="public" />
                     </label>
-                    <div className="flex flex-row justify-end items-center">
+                    <div className="flex flex-row items-center justify-end">
                         <Button intent="green" type="submit">
                             Create deck
                         </Button>

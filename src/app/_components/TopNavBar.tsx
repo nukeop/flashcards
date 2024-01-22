@@ -3,8 +3,8 @@ import TopBarProfile from './client-side/TopBarProfile';
 
 const TopNavBar = () => {
     return (
-        <nav className="flex flex-row items-center flex-shrink-0 p-2 border-b border-highlight-high bg-surface">
-            <div className="flex-grow-0 flex-shrink-0 ml-4 text-2xl font-bold">
+        <nav className="flex flex-shrink-0 flex-row items-center border-b border-muted/75 bg-surface p-2">
+            <div className="ml-4 flex-shrink-0 flex-grow-0 text-2xl font-bold">
                 <a href="/">Flashcards</a>
             </div>
             <Breadcrumbs />

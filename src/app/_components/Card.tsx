@@ -1,18 +1,18 @@
-import { VariantProps, cva } from 'class-variance-authority';
+import { cva, VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 
 const card = cva(
-    'relative flex flex-row bg-surface border border-muted/50 rounded-lg w-96 shadow-smooth hover:shadow-smooth-high transition-box-shadow transform-gpu duration-500 ease-in-out overflow-hidden',
+    'transition-box-shadow relative flex w-96 transform-gpu flex-row overflow-hidden rounded-lg border border-muted/75 bg-surface shadow-smooth duration-500 ease-in-out hover:shadow-smooth-high',
     {
         variants: {
             transparent: {
-                true: 'border border-muted/50 bg-surface/50 backdrop-blur-md',
+                true: 'border border-muted/75 bg-surface/50 backdrop-blur-md',
             },
             hoverEffect: {
                 true: 'hover:bg-overlay',
             },
             layout: {
-                centered: 'flex flex-col justify-center items-center',
+                centered: 'flex flex-col items-center justify-center',
             },
             fluid: {
                 true: 'w-full',
@@ -21,11 +21,11 @@ const card = cva(
     },
 );
 
-const accentBar = cva('relative flex-grow-0 flex-shrink-0 w-3', {
+const accentBar = cva('relative w-3 flex-shrink-0 flex-grow-0', {
     variants: {
         accent: {
-            greenblue: 'from-green-400 to-blue-500 bg-gradient-to-t',
-            violetpink: 'from-purple-400 to-pink-500 bg-gradient-to-t',
+            greenblue: 'bg-gradient-to-t from-green-400 to-blue-500',
+            violetpink: 'bg-gradient-to-t from-purple-400 to-pink-500',
         },
     },
 });
@@ -49,7 +49,7 @@ const Card: React.FC<CardProps> = ({
             className={clsx(card({ transparent, layout, fluid }), className)}
         >
             {accent && <div className={accentBar({ accent })} />}
-            <div className="flex flex-col relative p-4 truncate">
+            <div className="relative flex flex-col truncate p-4">
                 {children}
             </div>
         </section>

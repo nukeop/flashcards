@@ -1,7 +1,7 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 
-const panel = cva('mb-4 rounded-lg border border-muted/25 bg-surface', {
+const panel = cva('mb-4 rounded-lg border border-muted/75 bg-surface', {
     variants: {
         padding: {
             none: 'p-0',
