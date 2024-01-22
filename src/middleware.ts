@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-
 import { createSSRClient } from './app/_lib/supabase';
 
 export async function middleware(req: NextRequest) {
