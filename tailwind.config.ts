@@ -24,6 +24,9 @@ const config: Config = {
                 'theme-red': 'rgb(var(--color-theme-red) / <alpha-value>)',
                 'theme-blue': 'rgb(var(--color-theme-blue) / <alpha-value>)',
                 'theme-gold': 'rgb(var(--color-theme-gold) / <alpha-value>)',
+                'theme-green': 'rgb(var(--color-theme-green) / <alpha-value>)',
+                'theme-purple':
+                    'rgb(var(--color-theme-purple) / <alpha-value>)',
                 'base-contrast':
                     'rgb(var(--color-base-contrast) / <alpha-value>)',
                 'surface-contrast':

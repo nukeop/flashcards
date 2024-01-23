@@ -2,7 +2,12 @@ import Button from '@/app/_components/Button';
 import FlashcardEditor from '@/app/_components/FlashcardEditor';
 import Panel from '@/app/_components/Panel';
 import { createSSRClient } from '@/app/_lib/supabase';
-import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import {
+    ChevronDownIcon,
+    PencilSquareIcon,
+    PlusCircleIcon,
+    TrashIcon,
+} from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
@@ -46,18 +51,22 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
 
     return (
         <>
-            <Panel padding="none">
-                <div className="flex flex-row items-center justify-start gap-4 p-4 pb-0">
-                    <div>
-                        <h3 className="mb-4">{deck.data?.name}</h3>
-                        <p className="text-subtle">{deck.data?.description}</p>
+            <Panel padding="none" className="bg-overlay">
+                <div className="flex flex-row items-center justify-start gap-2 px-4 py-2">
+                    <div className="flex flex-grow flex-col">
+                        <h3 className=" flex flex-row items-center">
+                            {deck.data?.name}
+                            <Button className="ml-2 text-muted">
+                                <PencilSquareIcon className="h-6 w-6" />
+                            </Button>
+                        </h3>
+                        <p className="flex flex-row items-center text-subtle">
+                            {deck.data?.description}
+                            <Button className="ml-2 text-subtle">
+                                <PencilSquareIcon className="h-4 w-4" />
+                            </Button>
+                        </p>
                     </div>
-                    <Button intent="basic">
-                        <PencilSquareIcon className="h-8 w-8" />
-                    </Button>
-                </div>
-                <hr className="border-overlay" />
-                <div className="flex flex-row p-4 pt-0">
                     <div className="flex flex-row">
                         <label className="mr-2">Private:</label>
                         <DeckToggle
@@ -68,8 +77,8 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
                 </div>
             </Panel>
 
-            <div className="grid flex-grow grid-cols-1 gap-2 lg:grid-cols-3">
-                <FlashcardEditor
+            <div className="flex flex-grow flex-col">
+                {/* <FlashcardEditor
                     className="col-span-2"
                     currentCard={deckCards.data.find(
                         (card) => card.card_id === id[1],
@@ -86,27 +95,81 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
                             })
                             .eq('id', id[1]);
                     }}
-                />
+                /> */}
 
                 <ul className="unordered-list">
                     {deckCards.data.map((card) => (
-                        <Link
+                        <li
                             key={card.card_id}
-                            href={`/decks/${card.deck_id}/${card.card_id}`}
+                            className={clsx(
+                                'group hover: my-2 flex flex-row items-center rounded border border-muted/75 bg-surface px-3 py-3 text-text shadow-md transition-all duration-200 hover:border-muted hover:bg-highlight-low',
+                                {
+                                    'border-accent/50 bg-accent/15 text-accent':
+                                        card.card_id === id[1],
+                                },
+                            )}
                         >
-                            <li
-                                className={clsx(
-                                    'hover: my-2 rounded border border-muted/75 bg-surface px-2 py-1 text-text transition-all duration-200 hover:border-muted hover:bg-overlay',
-                                    {
-                                        'border-accent/50 bg-accent/15 text-accent':
-                                            card.card_id === id[1],
-                                    },
+                            <div className="flex flex-grow flex-col">
+                                <div className="flex flex-row items-center justify-start">
+                                    <Link
+                                        key={card.card_id}
+                                        href={`/decks/${card.deck_id}/${card.card_id}`}
+                                    >
+                                        <Button className="mr-2 flex h-10 w-10 items-center justify-center p-0">
+                                            <ChevronDownIcon className="h-4 w-4" />
+                                        </Button>
+                                    </Link>
+                                    <span className="cursor-default">
+                                        {card.card_front}
+                                    </span>
+                                    <span className='flex-grow' />
+                                    <Button className="ml-2 text-muted h-10 w-10 hidden group-hover:flex" onClick={
+                                        async () => {
+                                            'use server';
+                                            const supabase = createSSRClient();
+
+                                            const { error } = await supabase
+                                                .from('flashcards')
+                                                .delete()
+                                                .eq('id', id[1]);
+                                            if(error) {
+                                                console.log(error)
+                                            }
+                                        }
+                                    }>
+                                        <TrashIcon className="h-6 w-6" />
+                                    </Button>
+                                </div>
+                                {card.card_id === id[1] && (
+                                    <FlashcardEditor
+                                        className="col-span-2 mt-2"
+                                        currentCard={deckCards.data.find(
+                                            (card) => card.card_id === id[1],
+                                        )}
+                                        onSave={async (
+                                            front: string,
+                                            back: string,
+                                        ) => {
+                                            'use server';
+                                            const supabase = createSSRClient();
+
+                                            await supabase
+                                                .from('flashcards')
+                                                .update({
+                                                    front,
+                                                    back,
+                                                })
+                                                .eq('id', id[1]);
+                                        }}
+                                    />
                                 )}
-                            >
-                                {card.card_front}
-                            </li>
-                        </Link>
+                            </div>
+                        </li>
                     ))}
+                    <li className="border-theme-green bg-theme-green/10 flex cursor-pointer flex-row justify-center rounded border border-2 border-dashed p-4 text-accent">
+                        <PlusCircleIcon className="mr-2 h-6 w-6" /> Add a new
+                        card
+                    </li>
                 </ul>
             </div>
         </>
