@@ -8,10 +8,12 @@ const button = cva(
             intent: {
                 primary: 'bg-accent px-6 text-surface',
                 secondary: 'bg-transparent px-6 text-accent',
-                green: 'ring-inner bg-green-400 px-6 text-surface ring-1 ring-green-500',
+                green: 'ring-inner bg-green-500 px-6 text-white hover:bg-green-400 active:bg-green-400',
                 sidebar:
                     'px-2 hover:bg-overlay-contrast active:bg-muted-contrast/25 ',
-                topbar: 'px-2 hover:bg-overlay active:bg-highlight-medium',
+                topbar: 'px-2 hover:bg-indigo-500 active:bg-indigo-400',
+                breadcrumbs:
+                    'px-2 hover:bg-white hover:shadow active:bg-white active:shadow',
                 basic: 'border border-muted/75 bg-base px-2 hover:bg-overlay',
             },
             isLoading: {

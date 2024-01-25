@@ -2,14 +2,14 @@ import { cva, VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 
 const card = cva(
-    'transition-box-shadow relative flex w-96 transform-gpu flex-row overflow-hidden rounded-lg border border-muted/75 bg-surface shadow-smooth duration-500 ease-in-out hover:shadow-smooth-high',
+    'transition-box-shadow relative flex w-96 transform-gpu flex-row overflow-hidden rounded-lg border border-slate-200 bg-white shadow-smooth-low duration-500 ease-in-out hover:shadow-smooth',
     {
         variants: {
             transparent: {
                 true: 'border border-muted/75 bg-surface/50 backdrop-blur-md',
             },
             hoverEffect: {
-                true: 'hover:bg-overlay',
+                true: 'hover:bg-slate-50',
             },
             layout: {
                 centered: 'flex flex-col items-center justify-center',

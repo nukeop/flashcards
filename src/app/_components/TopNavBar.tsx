@@ -1,13 +1,11 @@
-import Breadcrumbs from './client-side/Breadcrumbs';
 import TopBarProfile from './client-side/TopBarProfile';
 
 const TopNavBar = () => {
     return (
-        <nav className="flex flex-shrink-0 flex-row items-center border-b border-muted/75 bg-surface p-2">
-            <div className="ml-4 flex-shrink-0 flex-grow-0 text-2xl font-bold">
+        <nav className="relative flex flex-shrink-0 flex-row items-center justify-start border-b border-indigo-800 bg-indigo-600 px-4 py-1 text-white shadow-md">
+            <div className="inline flex-shrink-0 flex-grow-0 text-2xl font-bold">
                 <a href="/">Flashcards</a>
             </div>
-            <Breadcrumbs />
             <div className="flex-grow" />
             <TopBarProfile />
         </nav>

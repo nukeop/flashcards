@@ -27,7 +27,7 @@ const FlashcardEditor: React.FC<FlashcardEditorProps> = ({
     return (
         <div className={clsx('flex flex-grow flex-row gap-2', className)}>
             <div className="flex flex-grow flex-col rounded ring-1 ring-muted/75 focus-within:ring-2 focus-within:ring-accent">
-                <label className="rounded bg-base px-2 py-1 text-sm text-accent">
+                <label className="rounded bg-base px-2 py-1 text-sm font-bold text-accent">
                     Front
                 </label>
                 <textarea
@@ -42,7 +42,7 @@ const FlashcardEditor: React.FC<FlashcardEditorProps> = ({
                 />
             </div>
             <div className="ring-inner flex flex-grow flex-col rounded ring-1 ring-muted/75 focus-within:ring-2 focus-within:ring-accent">
-                <label className="rounded bg-base px-2 py-1 text-sm text-accent">
+                <label className="rounded bg-base px-2 py-1 text-sm font-bold text-accent">
                     Back
                 </label>
                 <textarea
@@ -57,7 +57,7 @@ const FlashcardEditor: React.FC<FlashcardEditorProps> = ({
                 />
             </div>
             <div className="flex min-h-64 flex-shrink-0 flex-col items-center justify-center rounded border-muted/75 px-4">
-                <label className="w-full bg-transparent px-2 text-sm">
+                <label className="w-full bg-transparent px-2 text-sm font-bold">
                     Preview
                 </label>
                 <div className="flex-grow px-2 py-2 pb-4">

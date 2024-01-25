@@ -42,10 +42,10 @@ const Toggle: React.FC<ToggleProps> = ({
                 <button
                     className={clsx(
                         {
-                            'bg-text': checked || renderProps.checked,
-                            'bg-base': !checked && !renderProps.checked,
+                            'bg-indigo-500': checked || renderProps.checked,
+                            'bg-slate-300': !checked && !renderProps.checked,
                         },
-                        'border border-text relative inline-flex h-6 w-11 items-center rounded-full',
+                        ' relative inline-flex h-6 w-11 items-center rounded-full',
                         className,
                     )}
                 >
@@ -54,7 +54,7 @@ const Toggle: React.FC<ToggleProps> = ({
                             checked || renderProps.checked
                                 ? 'translate-x-6'
                                 : 'translate-x-1'
-                        } inline-block h-4 w-4 transform rounded-full bg-surface shadow-md transition border border-text`}
+                        } inline-block h-4 w-4 transform rounded-full bg-slate-50 shadow-md transition`}
                     />
                 </button>
             )}

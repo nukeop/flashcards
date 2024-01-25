@@ -64,10 +64,8 @@
 }
 
 body {
-  @apply bg-base text-text;
+  @apply bg-slate-100 text-stone-900;
   @apply relative h-full w-full flex flex-col;
-
-  background-color: rgb(var(--color-base));
 }
 
 h1 {

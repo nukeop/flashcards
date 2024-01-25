@@ -51,7 +51,7 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
 
     return (
         <>
-            <Panel padding="none" className="bg-overlay">
+            <Panel padding="none" className="bg-overlay" border="none">
                 <div className="flex flex-row items-center justify-start gap-2 px-4 py-2">
                     <div className="flex flex-grow flex-col">
                         <h3 className=" flex flex-row items-center">
@@ -102,7 +102,7 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
                         <li
                             key={card.card_id}
                             className={clsx(
-                                'group hover: my-2 flex flex-row items-center rounded border border-muted/75 bg-surface px-3 py-3 text-text shadow-md transition-all duration-200 hover:border-muted hover:bg-highlight-low',
+                                'hover: group my-2 flex flex-row items-center rounded border border-slate-200 bg-white px-3 py-3 text-text shadow transition-all duration-200 hover:bg-slate-50',
                                 {
                                     'border-accent/50 bg-accent/15 text-accent':
                                         card.card_id === id[1],
@@ -122,9 +122,10 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
                                     <span className="cursor-default">
                                         {card.card_front}
                                     </span>
-                                    <span className='flex-grow' />
-                                    <Button className="ml-2 text-muted h-10 w-10 hidden group-hover:flex" onClick={
-                                        async () => {
+                                    <span className="flex-grow" />
+                                    <Button
+                                        className="ml-2 hidden h-10 w-10 text-muted shadow group-hover:flex"
+                                        onClick={async () => {
                                             'use server';
                                             const supabase = createSSRClient();
 
@@ -132,11 +133,11 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
                                                 .from('flashcards')
                                                 .delete()
                                                 .eq('id', id[1]);
-                                            if(error) {
-                                                console.log(error)
+                                            if (error) {
+                                                console.log(error);
                                             }
-                                        }
-                                    }>
+                                        }}
+                                    >
                                         <TrashIcon className="h-6 w-6" />
                                     </Button>
                                 </div>
@@ -166,7 +167,7 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
                             </div>
                         </li>
                     ))}
-                    <li className="border-theme-green bg-theme-green/10 flex cursor-pointer flex-row justify-center rounded border border-2 border-dashed p-4 text-accent">
+                    <li className="flex cursor-pointer flex-row justify-center rounded border-2 border-dashed border-green-500 bg-green-500/25 p-4 text-green-700 shadow-md">
                         <PlusCircleIcon className="mr-2 h-6 w-6" /> Add a new
                         card
                     </li>

@@ -1,11 +1,12 @@
-import { VariantProps, cva } from 'class-variance-authority';
+import { cva, VariantProps } from 'class-variance-authority';
+import clsx from 'clsx';
 
-const loader = cva('text-overlay animate-spin fill-text', {
+const loader = cva('animate-spin fill-text text-overlay', {
     variants: {
         size: {
-            sm: 'w-6 h-6',
-            md: 'w-12 h-12',
-            lg: 'w-24 h-24',
+            sm: 'h-6 w-6',
+            md: 'h-12 w-12',
+            lg: 'h-24 w-24',
         },
     },
     defaultVariants: {
@@ -13,14 +14,16 @@ const loader = cva('text-overlay animate-spin fill-text', {
     },
 });
 
-type LoaderProps = VariantProps<typeof loader>;
+type LoaderProps = {
+    className?: string;
+} & VariantProps<typeof loader>;
 
-const Loader: React.FC<LoaderProps> = ({ size }) => {
+const Loader: React.FC<LoaderProps> = ({ className, size }) => {
     return (
-        <div className="relative flex items-center justify-center h-full col-span-full">
+        <div className="relative col-span-full flex h-full items-center justify-center">
             <svg
                 aria-hidden="true"
-                className={loader({ size })}
+                className={clsx(loader({ size }), className)}
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
