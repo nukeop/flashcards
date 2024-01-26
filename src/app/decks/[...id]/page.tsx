@@ -51,7 +51,7 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
 
     return (
         <>
-            <Panel padding="none" className="bg-overlay" border="none">
+            <Panel padding="none">
                 <div className="flex flex-row items-center justify-start gap-2 px-4 py-2">
                     <div className="flex flex-grow flex-col">
                         <h3 className=" flex flex-row items-center">
@@ -99,15 +99,17 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
 
                 <ul className="unordered-list">
                     {deckCards.data.map((card) => (
-                        <li
+                        <Panel
+                            as="li"
                             key={card.card_id}
                             className={clsx(
-                                'hover: group my-2 flex flex-row items-center rounded border border-slate-200 bg-white px-3 py-3 text-text shadow transition-all duration-200 hover:bg-slate-50',
+                                'hover: group my-2 flex flex-row items-center rounded border border-slate-200 bg-white px-3 py-3 text-text shadow ',
                                 {
-                                    'border-accent/50 bg-accent/15 text-accent':
+                                    'border-indigo-400 bg-indigo-50 text-stone-600':
                                         card.card_id === id[1],
                                 },
                             )}
+                            hoverEffect
                         >
                             <div className="flex flex-grow flex-col">
                                 <div className="flex flex-row items-center justify-start">
@@ -165,7 +167,7 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
                                     />
                                 )}
                             </div>
-                        </li>
+                        </Panel>
                     ))}
                     <li className="flex cursor-pointer flex-row justify-center rounded border-2 border-dashed border-green-500 bg-green-500/25 p-4 text-green-700 shadow-md">
                         <PlusCircleIcon className="mr-2 h-6 w-6" /> Add a new

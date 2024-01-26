@@ -3,7 +3,6 @@
 import clsx from 'clsx';
 import { useState } from 'react';
 import { Database } from '../_lib/database.types';
-import Button from './Button';
 import Flashcard from './Flashcard';
 
 type FlashcardEditorProps = {
@@ -26,12 +25,12 @@ const FlashcardEditor: React.FC<FlashcardEditorProps> = ({
 
     return (
         <div className={clsx('flex flex-grow flex-row gap-2', className)}>
-            <div className="flex flex-grow flex-col rounded ring-1 ring-muted/75 focus-within:ring-2 focus-within:ring-accent">
-                <label className="rounded bg-base px-2 py-1 text-sm font-bold text-accent">
+            <div className="flex flex-grow flex-col rounded ring-1 ring-indigo-200 focus-within:ring-2 focus-within:ring-indigo-400">
+                <label className="rounded bg-slate-50 px-2 py-1 text-sm font-bold text-indigo-800">
                     Front
                 </label>
                 <textarea
-                    className="w-full flex-grow rounded-b border-t border-muted/75 bg-surface px-4 py-2 outline-none "
+                    className="w-full flex-grow rounded-b border-t border-indigo-200 bg-white px-4 py-2 outline-none "
                     value={front}
                     onChange={(e) => {
                         setFront(e.target.value);
@@ -41,12 +40,12 @@ const FlashcardEditor: React.FC<FlashcardEditorProps> = ({
                     }}
                 />
             </div>
-            <div className="ring-inner flex flex-grow flex-col rounded ring-1 ring-muted/75 focus-within:ring-2 focus-within:ring-accent">
-                <label className="rounded bg-base px-2 py-1 text-sm font-bold text-accent">
+            <div className="ring-inner flex flex-grow flex-col rounded ring-1 ring-indigo-200 focus-within:ring-2 focus-within:ring-indigo-400">
+                <label className="rounded bg-slate-50 px-2 py-1 text-sm font-bold text-indigo-800">
                     Back
                 </label>
                 <textarea
-                    className="w-full flex-grow rounded-b border-t border-muted/75 bg-surface px-4 py-2 outline-none"
+                    className="w-full flex-grow rounded-b border-t border-indigo-200 bg-white px-4 py-2 outline-none"
                     value={back}
                     onChange={(e) => {
                         setBack(e.target.value);
@@ -56,7 +55,7 @@ const FlashcardEditor: React.FC<FlashcardEditorProps> = ({
                     }}
                 />
             </div>
-            <div className="flex min-h-64 flex-shrink-0 flex-col items-center justify-center rounded border-muted/75 px-4">
+            <div className="flex min-h-64 flex-shrink-0 flex-col items-center justify-center rounded px-4">
                 <label className="w-full bg-transparent px-2 text-sm font-bold">
                     Preview
                 </label>

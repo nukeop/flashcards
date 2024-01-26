@@ -5,7 +5,6 @@ import {
     UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-
 import { useUser } from '../../_hooks/useUser';
 import Button from '../Button';
 import Loader from '../Loader';
@@ -20,18 +19,18 @@ const TopBarProfile = () => {
                 <>
                     <Tooltip content={<span>Profile</span>} placement="bottom">
                         <Button
-                            className="flex flex-row items-center gap-2 mr-2"
+                            className="mr-2 flex flex-row items-center gap-2"
                             intent="topbar"
                             as={Link}
                             href="/me"
                         >
-                            <UserCircleIcon className="w-6 h-6" />
+                            <UserCircleIcon className="h-6 w-6" />
                             <div>{session?.user.email}</div>
                         </Button>
                     </Tooltip>
 
                     <form
-                        className="flex items-center justify-center flex-grow-0"
+                        className="flex flex-grow-0 items-center justify-center"
                         action="/auth/logout"
                         method="post"
                     >
@@ -40,7 +39,7 @@ const TopBarProfile = () => {
                             placement="bottom"
                         >
                             <Button intent="topbar" type="submit">
-                                <ArrowLeftStartOnRectangleIcon className="w-6 h-6" />
+                                <ArrowLeftStartOnRectangleIcon className="h-6 w-6" />
                             </Button>
                         </Tooltip>
                     </form>

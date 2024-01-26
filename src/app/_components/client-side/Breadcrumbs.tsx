@@ -11,17 +11,35 @@ import Button from '../Button';
 import Loader from '../Loader';
 
 type Deck = Database['public']['Tables']['decks']['Row'];
+type Flashcard = Database['public']['Tables']['flashcards']['Row'];
+
+const Crumb = ({ href, text }: { href: string; text: string }) => (
+    <Fragment>
+        <ChevronRightIcon className="h-4 w-4" />
+        <Link href={href}>
+            <Button
+                intent="breadcrumbs"
+                className="flex flex-row items-center font-normal"
+            >
+                {text}
+            </Button>
+        </Link>
+    </Fragment>
+);
 
 const Breadcrumbs = () => {
     const [isLoading, setLoading] = useState(true);
     const [decks, setDecks] = useState<Deck[] | null>(null);
+    const [currentDeckCards, setCurrentDeckCards] = useState<
+        Flashcard[] | null
+    >(null);
 
     const pathname = usePathname();
     const crumbs = pathname.split('/').filter((crumb) => crumb);
 
     useEffect(() => {
         async function getDecks() {
-            const supabase = createBrowserClient(
+            const supabase = createBrowserClient<Database>(
                 process.env.NEXT_PUBLIC_SUPABASE_URL!,
                 process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
             );
@@ -38,7 +56,29 @@ const Breadcrumbs = () => {
         getDecks();
     }, []);
 
+    useEffect(() => {
+        async function getCards() {
+            const supabase = createBrowserClient<Database>(
+                process.env.NEXT_PUBLIC_SUPABASE_URL!,
+                process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            );
+
+            const fetchedCards = await supabase
+                .from('flashcards')
+                .select('*')
+                .eq('deck_id', crumbs[1]);
+
+            setCurrentDeckCards(fetchedCards.data as Flashcard[]);
+            setLoading(false);
+        }
+
+        getCards();
+    }, [crumbs]);
+
     const currentDeckName = decks?.find((deck) => deck.id === crumbs[1])?.name;
+    const currentCardName = currentDeckCards?.find(
+        (card) => card.id === crumbs[2],
+    )?.front;
 
     return (
         <div className="ml-2 flex h-12 flex-row items-center gap-2 text-sm font-normal text-slate-600">
@@ -56,24 +96,36 @@ const Breadcrumbs = () => {
                             <HomeIcon className="h-4 w-4" />
                         </Button>
                     </Link>
-                    {crumbs.map((crumb, index) => (
-                        <Fragment key={index}>
-                            <ChevronRightIcon className="h-4 w-4" />
-                            <Link
-                                href={`/${crumbs.slice(0, index + 1).join('/')}`}
-                            >
-                                <Button
-                                    intent="breadcrumbs"
-                                    className="flex flex-row items-center font-normal"
-                                >
-                                    {crumbs[1] === crumb && currentDeckName
-                                        ? currentDeckName
-                                        : crumb[0].toUpperCase() +
-                                          crumb.slice(1)}
-                                </Button>
-                            </Link>
-                        </Fragment>
-                    ))}
+                    {crumbs.length > 0 && (
+                        <Crumb
+                            href={crumbs[0]}
+                            text={
+                                crumbs[0][0].toUpperCase() + crumbs[0].slice(1)
+                            }
+                        />
+                    )}
+                    {crumbs.length > 1 && (
+                        <Crumb
+                            href={`/${crumbs[0]}/${crumbs[1]}`}
+                            text={
+                                currentDeckName
+                                    ? currentDeckName
+                                    : crumbs[1][0].toUpperCase() +
+                                      crumbs[1].slice(1)
+                            }
+                        />
+                    )}
+                    {crumbs.length > 2 && (
+                        <Crumb
+                            href={`/${crumbs[0]}/${crumbs[1]}/${crumbs[2]}`}
+                            text={
+                                currentCardName
+                                    ? currentCardName
+                                    : crumbs[2][0].toUpperCase() +
+                                      crumbs[2].slice(1)
+                            }
+                        />
+                    )}
                 </>
             )}
         </div>

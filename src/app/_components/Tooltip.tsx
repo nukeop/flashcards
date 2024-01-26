@@ -1,7 +1,7 @@
-import { VariantProps, cva } from 'class-variance-authority';
+import { cva, VariantProps } from 'class-variance-authority';
 
 const tooltip = cva(
-    'absolute z-20 bg-slate-900 rounded-md p-2 shadow-smooth-low border border-slate-700 text-xs hidden group-hover:block whitespace-nowrap',
+    'absolute z-20 hidden whitespace-nowrap rounded-md border border-slate-700 bg-slate-900 p-2 text-xs shadow-smooth-low group-hover:block',
     {
         variants: {
             placement: {
@@ -21,7 +21,7 @@ type TooltipProps = {
 
 const Tooltip: React.FC<TooltipProps> = ({ content, children, placement }) => {
     return (
-        <div className="relative group flex justify-center">
+        <div className="group relative flex justify-center">
             <div className={tooltip({ placement })}>{content}</div>
             {children}
         </div>
