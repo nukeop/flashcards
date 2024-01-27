@@ -39,6 +39,7 @@ const Breadcrumbs = () => {
 
     useEffect(() => {
         async function getDecks() {
+            setLoading(true);
             const supabase = createBrowserClient<Database>(
                 process.env.NEXT_PUBLIC_SUPABASE_URL!,
                 process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -58,6 +59,7 @@ const Breadcrumbs = () => {
 
     useEffect(() => {
         async function getCards() {
+            setLoading(true);
             const supabase = createBrowserClient<Database>(
                 process.env.NEXT_PUBLIC_SUPABASE_URL!,
                 process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -73,7 +75,7 @@ const Breadcrumbs = () => {
         }
 
         getCards();
-    }, [crumbs]);
+    }, [pathname]);
 
     const currentDeckName = decks?.find((deck) => deck.id === crumbs[1])?.name;
     const currentCardName = currentDeckCards?.find(
@@ -98,7 +100,7 @@ const Breadcrumbs = () => {
                     </Link>
                     {crumbs.length > 0 && (
                         <Crumb
-                            href={crumbs[0]}
+                            href={`/${crumbs[0]}`}
                             text={
                                 crumbs[0][0].toUpperCase() + crumbs[0].slice(1)
                             }
