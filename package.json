@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
+    "dev": "next telemetry disable && next dev",
+    "build": "next telemetry disable && next build",
+    "start": "next telemetry disable && next start",
+    "lint": "next telemetry disable && next lint",
     "test": "vitest",
     "test:supabase": "vitest --config vitest.supabase.config.ts"
   },

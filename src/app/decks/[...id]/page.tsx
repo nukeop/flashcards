@@ -135,7 +135,6 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
                         <form action={handleNewCard}>
                             <Button
                                 className="flex w-full cursor-pointer flex-row justify-center rounded border-2 border-dashed border-green-500 bg-green-500/25 p-4 text-green-700 shadow-md"
-                                fluid
                                 type="submit"
                             >
                                 <PlusCircleIcon className="mr-2 h-6 w-6" /> Add

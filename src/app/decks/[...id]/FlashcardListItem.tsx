@@ -53,7 +53,7 @@ const FlashcardListItem: React.FC<ExpandedCardProps> = ({
             as="li"
             key={card.card_id}
             className={clsx(
-                'group relative my-2 flex flex-row items-center overflow-hidden rounded border border-slate-200 bg-white px-3 py-3 text-text shadow ',
+                'group relative my-2 flex flex-row items-center overflow-hidden rounded border border-slate-200 bg-white px-3 py-3 text-text shadow',
                 {
                     'border-indigo-400 bg-indigo-50 text-stone-600': isExpanded,
                 },
@@ -62,12 +62,12 @@ const FlashcardListItem: React.FC<ExpandedCardProps> = ({
         >
             <div
                 className={clsx(
-                    'duration-2000 transition-width absolute left-0 top-0 h-1 w-full ease-in-out',
+                    'duration-2000 transition-width absolute left-0 top-0 h-1 w-full',
                     styles['progress-bar'],
                     {
                         'bg-indigo-500': isProgressVisible,
                         'w-full': isProgressVisible,
-                        'w-0': !isProgressVisible,
+                        'w-1': !isProgressVisible,
                         'bg-transparent': !isProgressVisible,
                     },
                 )}
