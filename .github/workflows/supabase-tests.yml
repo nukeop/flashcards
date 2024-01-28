@@ -19,3 +19,4 @@ jobs:
       - run: npm install
       - run: supabase start
       - run: npm run test:supabase
+      - run: npm test
