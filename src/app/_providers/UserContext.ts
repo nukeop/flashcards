@@ -1,6 +1,5 @@
 import { AuthSession } from '@supabase/supabase-js';
 import { createContext } from 'react';
-
 import { Database } from '../_lib/database.types';
 
 export type SupabaseUserProfile =

@@ -1,6 +1,5 @@
 import { AtSymbolIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-
 import Button from '../_components/Button';
 import Card from '../_components/Card';
 import Input from '../_components/Input';
@@ -10,7 +9,7 @@ const Login = () => {
         <Card layout="centered">
             <h3 className="mb-4 text-center">Log in</h3>
             <form
-                className="flex flex-col items-center gap-3 mt-8 mb-8 w-full"
+                className="mb-8 mt-8 flex w-full flex-col items-center gap-3"
                 action="/auth/login"
                 method="post"
             >
@@ -36,7 +35,7 @@ const Login = () => {
                 />
                 <Button intent="primary">Log in</Button>
             </form>
-            <div className="mt-3 text-sm text-center">
+            <div className="mt-3 text-center text-sm">
                 Not a member?{' '}
                 <Link href="/login/sign-up" className="text-accent">
                     Sign up

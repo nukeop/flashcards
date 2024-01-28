@@ -1,6 +1,5 @@
 import { createBrowserClient } from '@supabase/ssr';
 import { useContext, useEffect, useState } from 'react';
-
 import { Database } from '../_lib/database.types';
 import { UserContext } from '../_providers/UserContext';
 

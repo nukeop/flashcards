@@ -9,7 +9,7 @@ const Signup = () => {
         <Card transparent layout="centered">
             <h3 className="mb-4 text-center">Sign up</h3>
             <form
-                className="flex flex-col items-center gap-3 mt-8 mb-8 w-full"
+                className="mb-8 mt-8 flex w-full flex-col items-center gap-3"
                 action="/auth/sign-up"
                 method="post"
             >
@@ -35,7 +35,7 @@ const Signup = () => {
                 />
                 <Button intent="primary">Sign up</Button>
             </form>
-            <div className="mt-3 text-sm text-center">
+            <div className="mt-3 text-center text-sm">
                 Already a member?{' '}
                 <Link href="/login" className="text-accent">
                     Log in

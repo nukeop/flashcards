@@ -2,7 +2,6 @@
 
 import { AuthSession } from '@supabase/supabase-js';
 import { useState } from 'react';
-
 import { SupabaseUserProfile, UserContext } from './_providers/UserContext';
 
 export function Providers({ children }: { children: React.ReactNode }) {
