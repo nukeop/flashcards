@@ -2,7 +2,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 
 const panel = cva(
-    'mb-4 rounded-lg border border-slate-200 bg-white shadow-sm transition-all duration-200 ease-in-out',
+    'mb-4 rounded-lg border border-stone-200 bg-stone-50 shadow-sm transition-all duration-200 ease-in-out',
     {
         variants: {
             padding: {
@@ -17,7 +17,7 @@ const panel = cva(
                 none: 'border-none',
             },
             hoverEffect: {
-                true: 'hover:bg-slate-100 hover:shadow-smooth-low',
+                true: 'hover:bg-stone-100 hover:shadow-smooth-low',
             },
         },
         defaultVariants: {

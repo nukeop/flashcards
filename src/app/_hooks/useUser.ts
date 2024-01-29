@@ -17,34 +17,51 @@ export const useUser = () => {
     );
 
     useEffect(() => {
-        context.setIsLoading(true);
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            context.setSession(session);
+        async function getUser() {
+            context.setIsLoading(true);
+            console.log('Start loading');
+            const {
+                data: { session },
+                error,
+            } = await supabase.auth.getSession();
 
-            if (session?.user?.id) {
+            if (session) {
+                context.setSession(session);
                 context.setIsLoading(false);
                 context.setIsReady(true);
+                context.setHasError(false);
+                context.setError(null);
                 return;
             }
-        });
-        //     return supabase
-        //         .from('user_profiles')
-        //         .select('*')
-        //         .eq('user_id', session.user.id)
-        //         .single();
-        // })
-        // .then(async (profile) => {
-        //     if (profile?.error) {
-        //         throw new Error(profile.error.message);
-        //     }
 
-        //     if (profile?.data) {
-        //         context.setUserProfile(profile.data);
-        //         context.setIsLoading(false);
-        //         context.setIsReady(true);
-        //     }
-        // });
+            if (error) {
+                console.log('Error loading');
+                context.setIsLoading(false);
+                context.setIsReady(true);
+                context.setHasError(true);
+                context.setError(error.message);
+                return;
+            }
+            //     return supabase
+            //         .from('user_profiles')
+            //         .select('*')
+            //         .eq('user_id', session.user.id)
+            //         .single();
+            // })
+            // .then(async (profile) => {
+            //     if (profile?.error) {
+            //         throw new Error(profile.error.message);
+            //     }
 
+            //     if (profile?.data) {
+            //         context.setUserProfile(profile.data);
+            //         context.setIsLoading(false);
+            //         context.setIsReady(true);
+            //     }
+            // });
+        }
+
+        getUser();
         const {
             data: { subscription },
         } = supabase.auth.onAuthStateChange((_event, session) => {

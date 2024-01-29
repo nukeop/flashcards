@@ -9,10 +9,11 @@ export async function POST(request: Request) {
     const password = String(formData.get('password'));
     const supabase = createSSRClient();
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
     });
+    console.log(data, error);
 
     if (error instanceof AuthApiError) {
         return NextResponse.redirect(requestUrl.origin, {

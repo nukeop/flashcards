@@ -73,15 +73,15 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
             <Panel padding="none">
                 <div className="flex flex-row items-center justify-start gap-2 px-4 py-2">
                     <div className="flex flex-grow flex-col">
-                        <h3 className=" flex flex-row items-center">
+                        <h3 className="flex flex-row items-center">
                             {deck.data?.name}
-                            <Button className="ml-2 text-muted">
+                            <Button className="ml-2 text-stone-600">
                                 <PencilSquareIcon className="h-6 w-6" />
                             </Button>
                         </h3>
-                        <p className="flex flex-row items-center text-subtle">
+                        <p className="flex flex-row items-center text-stone-500">
                             {deck.data?.description}
-                            <Button className="ml-2 text-subtle">
+                            <Button className="ml-2 text-stone-500">
                                 <PencilSquareIcon className="h-4 w-4" />
                             </Button>
                         </p>

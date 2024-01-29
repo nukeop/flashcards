@@ -11,11 +11,11 @@ import Loader from '../Loader';
 import Tooltip from '../Tooltip';
 
 const TopBarProfile = () => {
-    const { session, isLoading } = useUser();
+    const { session, isLoading, hasError } = useUser();
     return (
         <>
             {isLoading && <Loader size="sm" />}
-            {!isLoading && (
+            {!isLoading && !hasError && session && (
                 <>
                     <Tooltip content={<span>Profile</span>} placement="bottom">
                         <Button

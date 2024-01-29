@@ -14,7 +14,7 @@ const input = cva('flex-grow border-none bg-transparent p-0.5 outline-none', {
 });
 
 const inputFrame = cva(
-    'flex flex-row rounded border border-slate-400 px-2 py-0.5 focus-within:border-indigo-600 [&:not(focus)]:hover:border-slate-700',
+    'flex flex-row rounded border border-stone-400 px-2 py-0.5 focus-within:border-blue-400 [&:not(focus)]:hover:border-stone-600',
     {
         variants: {
             borderless: {

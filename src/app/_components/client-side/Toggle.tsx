@@ -42,10 +42,10 @@ const Toggle: React.FC<ToggleProps> = ({
                 <button
                     className={clsx(
                         {
-                            'bg-indigo-500': checked || renderProps.checked,
-                            'bg-slate-300': !checked && !renderProps.checked,
+                            'bg-stone-500': checked || renderProps.checked,
+                            'bg-stone-300': !checked && !renderProps.checked,
                         },
-                        ' relative inline-flex h-6 w-11 items-center rounded-full',
+                        'relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-stone-500 focus:ring-offset-2',
                         className,
                     )}
                 >
@@ -54,7 +54,7 @@ const Toggle: React.FC<ToggleProps> = ({
                             checked || renderProps.checked
                                 ? 'translate-x-6'
                                 : 'translate-x-1'
-                        } inline-block h-4 w-4 transform rounded-full bg-slate-50 shadow-md transition`}
+                        } inline-block h-4 w-4 transform rounded-full bg-stone-50 shadow-md transition`}
                     />
                 </button>
             )}

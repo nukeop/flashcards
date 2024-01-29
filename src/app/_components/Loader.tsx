@@ -1,7 +1,7 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 
-const loader = cva('animate-spin fill-text text-overlay', {
+const loader = cva('animate-spin fill-blue-500 text-stone-50', {
     variants: {
         size: {
             sm: 'h-6 w-6',

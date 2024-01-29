@@ -1,7 +1,7 @@
 import { cva, VariantProps } from 'class-variance-authority';
 
 const tooltip = cva(
-    'absolute z-20 hidden whitespace-nowrap rounded-md border border-slate-700 bg-slate-900 p-2 text-xs shadow-smooth-low group-hover:block',
+    'absolute z-20 hidden whitespace-nowrap rounded-md border border-stone-700 bg-stone-800 p-2 text-xs shadow-smooth-low group-hover:block',
     {
         variants: {
             placement: {

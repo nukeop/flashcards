@@ -11,6 +11,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
     );
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isReady, setIsReady] = useState<boolean>(false);
+    const [hasError, setHasError] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
 
     return (
         <UserContext.Provider
@@ -19,10 +21,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
                 userProfile,
                 isLoading,
                 isReady,
+                hasError,
+                error,
                 setSession,
                 setUserProfile,
                 setIsLoading,
                 setIsReady,
+                setHasError,
+                setError,
             }}
         >
             {children}

@@ -81,9 +81,9 @@ const Breadcrumbs = () => {
     )?.front;
 
     return (
-        <div className="ml-2 flex h-12 flex-row items-center gap-2 text-sm font-normal text-slate-600">
+        <div className="ml-2 flex h-12 flex-row items-center gap-2 text-sm font-normal text-stone-600">
             {isLoading && (
-                <Loader size="sm" className="fill-slate-100 text-slate-600" />
+                <Loader size="sm" className="fill-stone-100 text-stone-600" />
             )}
 
             {!isLoading && (
