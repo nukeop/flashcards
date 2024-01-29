@@ -1,6 +1,7 @@
 'use client';
 
 import { Database } from '@/app/_lib/database.types';
+import { Deck, Flashcard } from '@/app/_lib/types';
 import { HomeIcon } from '@heroicons/react/20/solid';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { createBrowserClient } from '@supabase/ssr';
@@ -9,9 +10,6 @@ import { usePathname } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
 import Button from '../Button';
 import Loader from '../Loader';
-
-type Deck = Database['public']['Tables']['decks']['Row'];
-type Flashcard = Database['public']['Tables']['flashcards']['Row'];
 
 const Crumb = ({ href, text }: { href: string; text: string }) => (
     <Fragment>

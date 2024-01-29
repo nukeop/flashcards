@@ -1,5 +1,5 @@
 .flashcard-wrapper {
-    @apply flex flex-row items-center justify-center w-full h-full relative min-w-48;
+    @apply flex flex-row items-center justify-center w-full h-full relative min-w-48 min-h-48;
     perspective: 600px;
     transform-style: preserve-3d;
 }
@@ -12,7 +12,7 @@
 
     .front,
     .back {
-        @apply absolute text-center w-full h-full top-0 left-0 cursor-pointer;
+        @apply absolute text-center w-full h-full top-0 left-0 cursor-pointer text-lg;
         backface-visibility: hidden;
         transform-style: preserve-3d;
         perspective: 6000px;

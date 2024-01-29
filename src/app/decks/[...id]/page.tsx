@@ -1,11 +1,11 @@
 import Button from '@/app/_components/Button';
+import FlashcardEditorGrid from '@/app/_components/client-side/FlashcardEditorGrid';
 import Panel from '@/app/_components/Panel';
 import { createSSRClient } from '@/app/_lib/supabase';
-import { PencilSquareIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import DeckToggle from './DeckToggle';
-import FlashcardListItem from './FlashcardListItem';
 
 const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
     const supabase = createSSRClient();
@@ -96,8 +96,8 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
                 </div>
             </Panel>
 
-            <div className="flex flex-grow flex-col items-center">
-                <ul className="unordered-list max-w-[800px]">
+            <FlashcardEditorGrid cards={deckCards.data} />
+            {/* <ul className="unordered-list max-w-[800px]">
                     {deckCards.data.map((card) => (
                         <FlashcardListItem
                             key={card.card_id}
@@ -142,8 +142,7 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
                             </Button>
                         </form>
                     </li>
-                </ul>
-            </div>
+                </ul> */}
         </>
     );
 };

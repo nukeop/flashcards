@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './Flashcard.module.scss';
 
 const card = cva(
-    'relative flex h-48 transform-gpu select-none overflow-hidden rounded-lg border-2 border-indigo-400 bg-white p-2 text-indigo-800 shadow-lg drop-shadow-lg transition-shadow duration-200 ease-in-out hover:drop-shadow-xl',
+    'duration-400 relative flex transform-gpu select-none overflow-hidden rounded-lg border border-stone-200 bg-stone-50 p-2 text-stone-600 shadow-md transition-shadow ease-in-out hover:shadow-xl',
 );
 
 const clamp = (value: number, min = 0, max = 100) => {
@@ -18,12 +18,15 @@ type FlashcardProps = {
     front: React.ReactNode;
     back: React.ReactNode;
     isFlipped?: boolean;
+    flipBackOnMouseLeave?: boolean;
     onClick?: () => void;
 } & VariantProps<typeof card>;
+
 const Flashcard: React.FC<FlashcardProps> = ({
     front,
     back,
     isFlipped: propIsFlipped,
+    flipBackOnMouseLeave,
     onClick,
 }: FlashcardProps) => {
     const cardRef = useRef<HTMLDivElement>(null);
@@ -116,6 +119,11 @@ const Flashcard: React.FC<FlashcardProps> = ({
                 onClick?.();
                 e.stopPropagation();
             }}
+            onMouseLeave={() => {
+                if (flipBackOnMouseLeave) {
+                    setFlipped(false);
+                }
+            }}
         >
             <animated.div
                 ref={cardRef}
@@ -137,7 +145,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
                         rotateY: rotateX,
                     }}
                 >
-                    <h4>{front}</h4>
+                    <p>{front}</p>
                 </animated.div>
                 <animated.div
                     className={clsx(
@@ -149,7 +157,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
                         scaleX: -1,
                     }}
                 >
-                    <h4>{back}</h4>
+                    <p>{back}</p>
                 </animated.div>
             </animated.div>
         </div>

@@ -3,7 +3,7 @@
 import Button from '@/app/_components/Button';
 import FlashcardEditor from '@/app/_components/FlashcardEditor';
 import Panel from '@/app/_components/Panel';
-import { Database } from '@/app/_lib/database.types';
+import { DeckCardView } from '@/app/_lib/types';
 import {
     ChevronDownIcon,
     ChevronUpIcon,
@@ -14,7 +14,6 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import styles from './FlashcardListItem.module.scss';
 
-type DeckCardView = Database['public']['Views']['deck_cards_view']['Row'];
 type ExpandedCardProps = {
     card: DeckCardView;
     currentCardId: string;
