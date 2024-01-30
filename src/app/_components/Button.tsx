@@ -7,14 +7,15 @@ const button = cva(
         variants: {
             intent: {
                 primary:
-                    'bg-blue-500 px-6 text-stone-50 hover:bg-blue-400 active:bg-blue-400',
+                    'bg-sky-500 px-6 text-stone-50 hover:bg-sky-400 active:bg-sky-400',
                 secondary: 'bg-transparent px-6 text-accent',
                 green: 'bg-green-500 px-6 text-stone-50 hover:bg-green-400 active:bg-green-400',
                 sidebar:
                     'px-2 hover:bg-overlay-contrast active:bg-muted-contrast/25 ',
-                topbar: 'px-2 hover:bg-blue-400 active:bg-blue-400',
+                topbar: 'px-2 hover:bg-sky-400 active:bg-sky-400',
                 breadcrumbs:
                     'px-2 hover:bg-white hover:shadow active:bg-white active:shadow',
+                text: 'bg-transparent px-4 hover:bg-stone-200 active:bg-stone-300',
                 basic: 'border border-muted/75 bg-base px-2 hover:bg-overlay',
             },
             isLoading: {

@@ -19,9 +19,7 @@ const Login = () => {
                     type="email"
                     autoComplete="email"
                     required
-                    prefix={
-                        <AtSymbolIcon className="h-4 w-4 text-base-contrast" />
-                    }
+                    prefix={<AtSymbolIcon className="h-4 w-4" />}
                 />
                 <Input
                     placeholder="Password"
@@ -29,15 +27,13 @@ const Login = () => {
                     type="password"
                     autoComplete="current-password"
                     required
-                    prefix={
-                        <LockClosedIcon className="h-4 w-4 text-base-contrast" />
-                    }
+                    prefix={<LockClosedIcon className="h-4 w-4" />}
                 />
                 <Button intent="primary">Log in</Button>
             </form>
             <div className="mt-3 text-center text-sm">
                 Not a member?{' '}
-                <Link href="/login/sign-up" className="text-blue-500">
+                <Link href="/login/sign-up" className="text-sky-500">
                     Sign up
                 </Link>
             </div>

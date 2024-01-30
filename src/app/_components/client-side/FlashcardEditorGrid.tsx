@@ -1,23 +1,23 @@
 'use client';
 
 import { DeckCardView } from '@/app/_lib/types';
-import {
-    DocumentTextIcon,
-    ForwardIcon,
-    PlusIcon,
-} from '@heroicons/react/24/outline';
+import { PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useState } from 'react';
 import Button from '../Button';
 import Flashcard from '../Flashcard';
-import Dialog from './Dialog';
+import AddFlashcardDialog from './AddFlashcardDialog';
 import styles from './FlashcardEditorGrid.module.scss';
 
 type FlashcardEditorGridProps = {
     cards: DeckCardView[];
+    onCreateFlashcard: (formData: FormData) => void;
 };
 
-const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({ cards }) => {
+const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
+    cards,
+    onCreateFlashcard,
+}) => {
     const [isAddCardDialogOpen, setAddCardDialogOpen] = useState(false);
 
     return (
@@ -27,40 +27,13 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({ cards }) => {
                 styles['flashcard-grid-container'],
             )}
         >
-            <Dialog
+            <AddFlashcardDialog
                 isOpen={isAddCardDialogOpen}
-                onOpen={() => setAddCardDialogOpen(true)}
+                onCancel={() => setAddCardDialogOpen(false)}
                 onClose={() => setAddCardDialogOpen(false)}
-            >
-                <div className="flex flex-col items-center justify-center">
-                    <div className="mb-2 flex w-full flex-row justify-between bg-stone-100 px-4 py-2 text-sm text-stone-500 shadow-sm">
-                        <Button>Cancel</Button>
-                        <Button>Save</Button>
-                    </div>
-                    <div className="grid flex-grow grid-cols-3 gap-2 bg-stone-50 px-2 py-4">
-                        <label
-                            className="px-2 py-1 text-sm text-stone-400"
-                            htmlFor="card-front"
-                        >
-                            Front
-                        </label>
-                        <textarea
-                            id="card-front"
-                            className="col-span-2 min-h-32 w-full min-w-64 flex-grow rounded border border-stone-300 bg-stone-200 px-4 py-2 outline-none focus:border-stone-400"
-                        />
-                        <label
-                            className="px-2 py-1 text-sm text-stone-400"
-                            htmlFor="card-back"
-                        >
-                            Back
-                        </label>
-                        <textarea
-                            id="card-back"
-                            className="col-span-2 min-h-32 w-full min-w-64 flex-grow rounded border border-stone-300 bg-stone-200 px-4 py-2 outline-none focus:border-stone-400"
-                        />
-                    </div>
-                </div>
-            </Dialog>
+                onOpen={() => setAddCardDialogOpen(true)}
+                onCreateFlashcard={onCreateFlashcard}
+            />
             <Button
                 className="border border-dashed border-stone-300 text-stone-400 hover:bg-stone-200/50"
                 onClick={() => setAddCardDialogOpen(true)}

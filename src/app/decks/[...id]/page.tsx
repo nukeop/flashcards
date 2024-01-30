@@ -3,8 +3,7 @@ import FlashcardEditorGrid from '@/app/_components/client-side/FlashcardEditorGr
 import Panel from '@/app/_components/Panel';
 import { createSSRClient } from '@/app/_lib/supabase';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+import { handleNewCard, handleTogglePublic } from './actions';
 import DeckToggle from './DeckToggle';
 
 const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
@@ -30,44 +29,6 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
         return <div>Deck not found</div>;
     }
 
-    const handleTogglePublic = async (checked: boolean) => {
-        'use server';
-        const supabase = createSSRClient();
-
-        await supabase
-            .from('decks')
-            .update({ is_public: !checked })
-            .eq('id', id[0])
-            .select('*');
-
-        revalidatePath(`/decks/${id}`);
-    };
-
-    const handleNewCard = async () => {
-        'use server';
-
-        const supabase = createSSRClient();
-        const { data, error } = await supabase
-            .from('flashcards')
-            .insert([
-                {
-                    deck_id: id[0],
-                    front: 'Front',
-                    back: 'Back',
-                },
-            ])
-            .select()
-            .single();
-
-        if (error) {
-            console.error(error);
-        }
-
-        if (data) {
-            redirect(`/decks/${id[0]}/${data.id}`);
-        }
-    };
-
     return (
         <>
             <Panel padding="none">
@@ -90,13 +51,16 @@ const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
                         <label className="mr-2">Private:</label>
                         <DeckToggle
                             checked={!deck.data?.is_public}
-                            onChange={handleTogglePublic}
+                            onChange={handleTogglePublic(id[0])}
                         />
                     </div>
                 </div>
             </Panel>
 
-            <FlashcardEditorGrid cards={deckCards.data} />
+            <FlashcardEditorGrid
+                cards={deckCards.data}
+                onCreateFlashcard={handleNewCard(id[0])}
+            />
             {/* <ul className="unordered-list max-w-[800px]">
                     {deckCards.data.map((card) => (
                         <FlashcardListItem

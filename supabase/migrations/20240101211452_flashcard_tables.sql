@@ -22,8 +22,7 @@ create table public.flashcards (
     front text not null,
     back text not null,
     created_at timestamp with time zone not null default timezone ('utc'::text, now ()),
-    updated_at timestamp with time zone not null default timezone ('utc'::text, now ()),
-    constraint flashcards_deck_id_front_key unique (deck_id, front)
+    updated_at timestamp with time zone not null default timezone ('utc'::text, now ())
 );
 -- Create triggers to update the updated_at column on updates
 create trigger handle_flashcards_updated_at before
