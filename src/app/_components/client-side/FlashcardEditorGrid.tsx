@@ -31,7 +31,6 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                 isOpen={isAddCardDialogOpen}
                 onCancel={() => setAddCardDialogOpen(false)}
                 onClose={() => setAddCardDialogOpen(false)}
-                onOpen={() => setAddCardDialogOpen(true)}
                 onCreateFlashcard={onCreateFlashcard}
             />
             <Button

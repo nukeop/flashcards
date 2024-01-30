@@ -3,17 +3,11 @@ import { Fragment } from 'react';
 
 type DialogProps = {
     isOpen: boolean;
-    onOpen: () => void;
     onClose: () => void;
     children: React.ReactNode;
 };
 
-const Dialog: React.FC<DialogProps> = ({
-    isOpen,
-    onOpen,
-    onClose,
-    children,
-}) => {
+const Dialog: React.FC<DialogProps> = ({ isOpen, onClose, children }) => {
     return (
         <Transition show={isOpen} as={Fragment}>
             <HUIDialog onClose={onClose}>

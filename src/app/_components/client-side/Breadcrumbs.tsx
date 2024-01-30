@@ -73,6 +73,7 @@ const Breadcrumbs = () => {
         }
 
         getCards();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
 
     const currentDeckName = decks?.find((deck) => deck.id === crumbs[1])?.name;

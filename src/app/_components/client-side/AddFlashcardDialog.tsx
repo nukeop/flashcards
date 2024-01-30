@@ -4,7 +4,6 @@ import Dialog from './Dialog';
 
 type AddFlashcardDialogProps = {
     isOpen: boolean;
-    onOpen: () => void;
     onClose: () => void;
 
     onCreateFlashcard: (formData: FormData) => void;
@@ -13,13 +12,12 @@ type AddFlashcardDialogProps = {
 
 const AddFlashcardDialog: React.FC<AddFlashcardDialogProps> = ({
     isOpen,
-    onOpen,
     onClose,
     onCreateFlashcard,
     onCancel,
 }) => {
     return (
-        <Dialog isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
+        <Dialog isOpen={isOpen} onClose={onClose}>
             <form
                 className="flex flex-col items-center justify-center"
                 action={onCreateFlashcard}
