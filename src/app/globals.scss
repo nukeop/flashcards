@@ -90,3 +90,7 @@ p {
 hr {
   @apply border-0 border-t border-solid border-subtle/50 my-4;
 }
+
+#headlessui-portal-root {
+  @apply fixed inset-0 z-50 flex items-center justify-center;
+}

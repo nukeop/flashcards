@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './Flashcard.module.scss';
 
 const card = cva(
-    'duration-400 relative flex transform-gpu select-none overflow-hidden rounded-lg border border-b-4 border-stone-200 bg-stone-50 p-2 text-stone-600 shadow-md transition-shadow ease-in-out hover:shadow-xl',
+    'duration-400 relative flex transform-gpu select-none overflow-hidden rounded-lg border border-b-4 border-stone-200 bg-stone-50 p-2 text-stone-600 shadow-md transition-shadow ease-in-out hover:shadow-smooth',
 );
 
 const clamp = (value: number, min = 0, max = 100) => {

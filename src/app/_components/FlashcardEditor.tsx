@@ -48,7 +48,7 @@ const FlashcardEditor: React.FC<FlashcardEditorProps> = ({
                     onBlur={handleBlur}
                 />
             </div>
-            <div className=" flex flex-grow flex-col rounded">
+            <div className="flex flex-grow flex-col rounded">
                 <label className="px-2 py-1 text-sm font-bold">Back</label>
                 <textarea
                     className="w-full flex-grow rounded bg-slate-100 px-4 py-2 outline-none ring-1 ring-slate-300 focus-within:ring-2 focus:ring-indigo-400"
