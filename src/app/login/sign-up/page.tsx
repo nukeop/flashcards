@@ -2,7 +2,13 @@ import Button from '@/app/_components/Button';
 import Card from '@/app/_components/Card';
 import Input from '@/app/_components/Input';
 import { AtSymbolIcon, LockClosedIcon } from '@heroicons/react/24/outline';
+import { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+    title: 'Sign up',
+    description: 'Sign up for an account',
+};
 
 const Signup = () => {
     return (
