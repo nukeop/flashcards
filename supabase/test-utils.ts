@@ -1,4 +1,4 @@
-import { SupabaseClient, createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 export const dateRegex =
     /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}\+\d{2}:\d{2}/;
@@ -18,6 +18,7 @@ export class TestFixture {
     private static adminSupabaseClient: SupabaseClient;
     private constructor() {}
 
+    // Local development keys - safe to commit
     static initialize() {
         const supabaseUrl = 'http://127.0.0.1:54321';
         const SUPABASE_KEY =
