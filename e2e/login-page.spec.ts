@@ -13,7 +13,7 @@ test('should redirect to the login page when not logged in', async ({
 test('should allow a user to go to the signup page', async ({ page }) => {
     await page.goto('http://localhost:3000/login');
 
-    await page.click('text=Sign up');
+    await page.getByText('Sign up').click();
 
     await expect(page).toHaveURL('http://localhost:3000/login/sign-up');
     await expect(page).toHaveTitle('Sign up | Flashcards');
