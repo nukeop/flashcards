@@ -5,6 +5,6 @@ export default defineConfig({
     plugins: [react()],
     test: {
         environment: 'jsdom',
-        exclude: ['**/node_modules/**', './supabase/**/*'],
+        exclude: ['**/node_modules/**', './supabase/**/*', './e2e/**/*'],
     },
 });
