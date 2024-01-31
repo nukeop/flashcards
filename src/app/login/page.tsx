@@ -1,8 +1,14 @@
 import { AtSymbolIcon, LockClosedIcon } from '@heroicons/react/24/outline';
+import { Metadata } from 'next';
 import Link from 'next/link';
 import Button from '../_components/Button';
 import Card from '../_components/Card';
 import Input from '../_components/Input';
+
+export const metadata: Metadata = {
+    title: 'Log in',
+    description: 'Log in to your account',
+};
 
 const Login = () => {
     return (
