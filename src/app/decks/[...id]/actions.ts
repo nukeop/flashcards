@@ -30,7 +30,7 @@ export const handleNewCard = (id: string) => async (formData: FormData) => {
     }
 
     if (data) {
-        redirect(`/decks/${id[0]}/${data.id}`);
+        redirect(`/decks/${id}/${data.id}`);
     }
 };
 
