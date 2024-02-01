@@ -19,7 +19,6 @@ export const useUser = () => {
     useEffect(() => {
         async function getUser() {
             context.setIsLoading(true);
-            console.log('Start loading');
             const {
                 data: { session },
                 error,
@@ -35,7 +34,6 @@ export const useUser = () => {
             }
 
             if (error) {
-                console.log('Error loading');
                 context.setIsLoading(false);
                 context.setIsReady(true);
                 context.setHasError(true);

@@ -13,7 +13,6 @@ export async function POST(request: Request) {
         email,
         password,
     });
-    console.log(data, error);
 
     if (error instanceof AuthApiError) {
         return NextResponse.redirect(requestUrl.origin, {
