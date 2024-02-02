@@ -1,6 +1,7 @@
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { MouseEventHandler } from 'react';
 import ContextMenu from './ContextMenu/ContextMenu';
+import ContextMenuIconWrapper from './ContextMenu/ContextMenuIconWrapper';
 
 type FlashcardContextMenuProps = {
     onEdit: MouseEventHandler;
@@ -13,16 +14,15 @@ const FlashcardContextMenu: React.FC<FlashcardContextMenuProps> = ({
 }) => {
     return (
         <ContextMenu
-            onClose={() => {}}
             items={[
                 {
                     label: 'Edit',
-                    icon: <PencilSquareIcon className="h-4 w-4" />,
+                    Icon: ContextMenuIconWrapper(PencilSquareIcon),
                     onClick: onEdit,
                 },
                 {
                     label: 'Delete',
-                    icon: <TrashIcon className="h-4 w-4" />,
+                    Icon: ContextMenuIconWrapper(TrashIcon),
                     intent: 'warning',
                     onClick: onDelete,
                 },

@@ -1,11 +1,10 @@
 import { Menu } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/24/outline';
-import { ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import Button from '../../Button';
 import ContextMenuItem, { ContextMenuItemProps } from './ContextMenuItem';
 
 type ContextMenuProps = {
-    onClose: () => void;
     classes?: Partial<{
         root: string;
         button: string;
@@ -13,13 +12,13 @@ type ContextMenuProps = {
     }>;
     items: {
         label: ReactNode;
-        icon?: ReactNode;
+        Icon?: ContextMenuItemProps['Icon'];
         intent?: ContextMenuItemProps['intent'];
         onClick?: ContextMenuItemProps['onClick'];
     }[];
 };
 
-const ContextMenu: React.FC<ContextMenuProps> = ({ onClose, items }) => {
+const ContextMenu: React.FC<ContextMenuProps> = ({ items }) => {
     return (
         <Menu>
             <Menu.Button
