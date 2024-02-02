@@ -4,6 +4,8 @@ import { animated, useSpring } from '@react-spring/web';
 import { cva, VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
+import { handleDelete } from '../decks/[...id]/server-actions';
+import FlashcardContextMenu from './client-side/FlashcardContextMenu';
 import styles from './Flashcard.module.scss';
 
 const card = cva(
@@ -15,6 +17,8 @@ const clamp = (value: number, min = 0, max = 100) => {
 };
 
 type FlashcardProps = {
+    id: string;
+    deckId: string;
     front: React.ReactNode;
     back: React.ReactNode;
     isFlipped?: boolean;
@@ -23,6 +27,8 @@ type FlashcardProps = {
 } & VariantProps<typeof card>;
 
 const Flashcard: React.FC<FlashcardProps> = ({
+    id,
+    deckId,
     front,
     back,
     isFlipped: propIsFlipped,
@@ -109,57 +115,63 @@ const Flashcard: React.FC<FlashcardProps> = ({
     );
 
     return (
-        <div
-            className={styles['flashcard-wrapper']}
-            onClick={(e) => {
-                setFlipped((prevFlipped) => {
-                    return !prevFlipped;
-                });
-                interact(e);
-                onClick?.();
-                e.stopPropagation();
-            }}
-            onMouseLeave={() => {
-                if (flipBackOnMouseLeave) {
-                    setFlipped(false);
-                }
-            }}
-        >
-            <animated.div
-                ref={cardRef}
-                className={clsx(card(), styles.flashcard)}
-                onMouseMove={interact}
-                onMouseLeave={interactEnd}
-                onMouseUp={interactEnd}
-                style={{
-                    rotateY: rotateX,
-                    rotateX: rotateY,
+        <div className={clsx(styles['flashcard-wrapper'], 'group')}>
+            <FlashcardContextMenu
+                onDelete={() => handleDelete(id, deckId)}
+                onEdit={() => {}}
+            />
+            <div
+                className={styles['flashcard-body']}
+                onClick={(e) => {
+                    setFlipped((prevFlipped) => {
+                        return !prevFlipped;
+                    });
+                    interact(e);
+                    onClick?.();
+                    e.stopPropagation();
+                }}
+                onMouseLeave={() => {
+                    if (flipBackOnMouseLeave) {
+                        setFlipped(false);
+                    }
                 }}
             >
                 <animated.div
-                    className={clsx(
-                        'z-[2] flex h-full w-full flex-col items-center justify-center p-4',
-                        styles.front,
-                    )}
+                    ref={cardRef}
+                    className={clsx(card(), styles['flashcard'])}
+                    onMouseMove={interact}
+                    onMouseLeave={interactEnd}
+                    onMouseUp={interactEnd}
                     style={{
                         rotateY: rotateX,
+                        rotateX: rotateY,
                     }}
                 >
-                    <p>{front}</p>
+                    <animated.div
+                        className={clsx(
+                            'z-[2] flex h-full w-full flex-col items-center justify-center p-4',
+                            styles.front,
+                        )}
+                        style={{
+                            rotateY: rotateX,
+                        }}
+                    >
+                        <p>{front}</p>
+                    </animated.div>
+                    <animated.div
+                        className={clsx(
+                            'flex h-full w-full flex-col items-center justify-center',
+                            styles.back,
+                        )}
+                        style={{
+                            rotateY: rotateX.to((x) => x + 180),
+                            scaleX: -1,
+                        }}
+                    >
+                        <p>{back}</p>
+                    </animated.div>
                 </animated.div>
-                <animated.div
-                    className={clsx(
-                        'flex h-full w-full flex-col items-center justify-center',
-                        styles.back,
-                    )}
-                    style={{
-                        rotateY: rotateX.to((x) => x + 180),
-                        scaleX: -1,
-                    }}
-                >
-                    <p>{back}</p>
-                </animated.div>
-            </animated.div>
+            </div>
         </div>
     );
 };

@@ -31,7 +31,10 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                 isOpen={isAddCardDialogOpen}
                 onCancel={() => setAddCardDialogOpen(false)}
                 onClose={() => setAddCardDialogOpen(false)}
-                onCreateFlashcard={onCreateFlashcard}
+                onCreateFlashcard={(formData: FormData) => {
+                    onCreateFlashcard(formData);
+                    setAddCardDialogOpen(false);
+                }}
             />
             <Button
                 className="border border-dashed border-stone-300 text-stone-400 hover:bg-stone-200/50"
@@ -42,6 +45,8 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
             </Button>
             {cards.map((card) => (
                 <Flashcard
+                    id={card.card_id!}
+                    deckId={card.deck_id!}
                     key={card.card_id}
                     front={card.card_front}
                     back={card.card_back}

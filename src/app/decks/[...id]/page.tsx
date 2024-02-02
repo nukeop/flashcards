@@ -3,8 +3,8 @@ import FlashcardEditorGrid from '@/app/_components/client-side/FlashcardEditorGr
 import Panel from '@/app/_components/Panel';
 import { createSSRClient } from '@/app/_lib/supabase';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
-import { handleNewCard, handleTogglePublic } from './actions';
 import DeckToggle from './DeckToggle';
+import { handleNewCard, handleTogglePublic } from './inline-actions';
 
 const Deck = async ({ params: { id } }: { params: { id: string[] } }) => {
     const supabase = createSSRClient();

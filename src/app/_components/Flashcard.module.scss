@@ -1,4 +1,8 @@
 .flashcard-wrapper {
+    @apply relative;
+}
+
+.flashcard-body {
     @apply flex flex-row items-center justify-center w-full h-full relative min-w-48 min-h-48;
     perspective: 600px;
     transform-style: preserve-3d;
