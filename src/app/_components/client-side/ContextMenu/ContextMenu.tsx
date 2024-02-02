@@ -1,6 +1,6 @@
-import { Menu } from '@headlessui/react';
+import { Menu, Transition } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/24/outline';
-import { FC, ReactNode } from 'react';
+import { FC, Fragment, ReactNode } from 'react';
 import Button from '../../Button';
 import ContextMenuItem, { ContextMenuItemProps } from './ContextMenuItem';
 
@@ -28,13 +28,23 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ items }) => {
             >
                 <EllipsisVerticalIcon className="h-5 w-5" />
             </Menu.Button>
-            <Menu.Items className="absolute right-0 top-10 z-30 min-w-48 rounded border border-stone-300 bg-stone-50 py-1 shadow-smooth">
-                {items.map((item, index) => (
-                    <ContextMenuItem key={index} {...item}>
-                        {item.label}
-                    </ContextMenuItem>
-                ))}
-            </Menu.Items>
+            <Transition
+                as={Fragment}
+                enter="transition duration-100 ease-out"
+                enterFrom="transform scale-95 opacity-0"
+                enterTo="transform scale-100 opacity-100 z-30"
+                leave="transition duration-100 ease-out"
+                leaveFrom="transform scale-100 opacity-100"
+                leaveTo="transform scale-95 opacity-0"
+            >
+                <Menu.Items className="absolute right-0 top-10 z-30 min-w-48 rounded border border-stone-300 bg-stone-50 py-1 shadow-smooth">
+                    {items.map((item, index) => (
+                        <ContextMenuItem key={index} {...item}>
+                            {item.label}
+                        </ContextMenuItem>
+                    ))}
+                </Menu.Items>
+            </Transition>
         </Menu>
     );
 };
