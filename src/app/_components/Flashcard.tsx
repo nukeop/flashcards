@@ -4,7 +4,7 @@ import { animated, useSpring } from '@react-spring/web';
 import { cva, VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
-import { handleDelete } from '../decks/[id]/server-actions';
+import { handleDelete } from '../decks/[id]/actions';
 import FlashcardContextMenu from './client-side/FlashcardContextMenu';
 import styles from './Flashcard.module.scss';
 
@@ -121,6 +121,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
                 onEdit={() => {}}
             />
             <div
+                ref={cardRef}
                 className={styles['flashcard-body']}
                 onClick={(e) => {
                     setFlipped((prevFlipped) => {
@@ -137,7 +138,6 @@ const Flashcard: React.FC<FlashcardProps> = ({
                 }}
             >
                 <animated.div
-                    ref={cardRef}
                     className={clsx(card(), styles['flashcard'])}
                     onMouseMove={interact}
                     onMouseLeave={interactEnd}

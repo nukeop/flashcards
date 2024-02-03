@@ -1,6 +1,6 @@
 import { Menu, Transition } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/24/outline';
-import { FC, Fragment, ReactNode } from 'react';
+import { Fragment, ReactNode } from 'react';
 import Button from '../../Button';
 import ContextMenuItem, { ContextMenuItemProps } from './ContextMenuItem';
 

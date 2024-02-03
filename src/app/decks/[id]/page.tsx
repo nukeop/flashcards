@@ -3,8 +3,8 @@ import FlashcardEditorGrid from '@/app/_components/client-side/FlashcardEditorGr
 import Panel from '@/app/_components/Panel';
 import { createSSRClient } from '@/app/_lib/supabase';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import { handleTogglePublic } from './actions';
 import DeckToggle from './DeckToggle';
-import { handleNewCard, handleTogglePublic } from './inline-actions';
 
 const Deck = async ({ params: { id } }: { params: { id: string } }) => {
     const supabase = createSSRClient();
@@ -47,16 +47,14 @@ const Deck = async ({ params: { id } }: { params: { id: string } }) => {
                         <label className="mr-2">Private:</label>
                         <DeckToggle
                             checked={!deck.data?.is_public}
-                            onChange={handleTogglePublic(id)}
+                            onTogglePublic={handleTogglePublic}
+                            deckId={id}
                         />
                     </div>
                 </div>
             </Panel>
 
-            <FlashcardEditorGrid
-                cards={deckCards.data}
-                onCreateFlashcard={handleNewCard(id)}
-            />
+            <FlashcardEditorGrid cards={deckCards.data} deckId={id} />
         </>
     );
 };

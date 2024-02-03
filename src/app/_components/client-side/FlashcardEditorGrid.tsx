@@ -1,6 +1,7 @@
 'use client';
 
 import { DeckCardView } from '@/app/_lib/types';
+import { handleNewCard } from '@/app/decks/[id]/actions';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useState } from 'react';
@@ -11,12 +12,12 @@ import styles from './FlashcardEditorGrid.module.scss';
 
 type FlashcardEditorGridProps = {
     cards: DeckCardView[];
-    onCreateFlashcard: (formData: FormData) => void;
+    deckId: string;
 };
 
 const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
     cards,
-    onCreateFlashcard,
+    deckId,
 }) => {
     const [isAddCardDialogOpen, setAddCardDialogOpen] = useState(false);
 
@@ -32,7 +33,7 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                 onCancel={() => setAddCardDialogOpen(false)}
                 onClose={() => setAddCardDialogOpen(false)}
                 onCreateFlashcard={(formData: FormData) => {
-                    onCreateFlashcard(formData);
+                    handleNewCard(formData, deckId);
                     setAddCardDialogOpen(false);
                 }}
             />

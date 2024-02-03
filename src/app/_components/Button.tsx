@@ -1,5 +1,6 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
+import { forwardRef, LegacyRef } from 'react';
 
 const button = cva(
     'flex flex-row items-center justify-center rounded-lg py-2 text-sm font-bold',
@@ -30,48 +31,51 @@ type ButtonProps<T extends React.ElementType> = {
     children?: React.ReactNode;
     className?: string;
     as?: T;
+    ref?: LegacyRef<T>;
 } & VariantProps<typeof button> &
     Omit<React.ComponentProps<T>, 'as' | 'className'>;
 
-function Button<T extends React.ElementType>({
-    children,
-    className,
-    intent,
-    isLoading,
-    as,
-    ...rest
-}: ButtonProps<T>) {
-    const Component = as || 'button';
-    return (
-        <Component
-            className={clsx(button({ intent, isLoading }), className)}
-            {...rest}
-        >
-            {isLoading && (
-                <svg
-                    className="-ml-1 mr-3 h-5 w-5 animate-spin text-surface"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                >
-                    <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                    ></circle>
-                    <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                    ></path>
-                </svg>
-            )}
-            {children}
-        </Component>
-    );
-}
+const Button = forwardRef(
+    <T extends React.ElementType = 'button'>(
+        { children, className, intent, isLoading, as, ...rest }: ButtonProps<T>,
+        ref: React.Ref<T>,
+    ) => {
+        const Component = as || 'button';
+
+        return (
+            <Component
+                ref={ref}
+                className={clsx(button({ intent, isLoading }), className)}
+                {...rest}
+            >
+                {isLoading && (
+                    <svg
+                        className="-ml-1 mr-3 h-5 w-5 animate-spin text-surface"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                    >
+                        <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                        ></circle>
+                        <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                        ></path>
+                    </svg>
+                )}
+                {children}
+            </Component>
+        );
+    },
+);
+
+Button.displayName = 'Button';
 
 export default Button;
