@@ -4,16 +4,16 @@ import { createSSRClient } from '@/app/_lib/supabase';
 import { revalidatePath } from 'next/cache';
 
 export const handleTogglePublic = async (checked: boolean, deckId: string) => {
-    'use server';
     const supabase = createSSRClient();
 
-    await supabase
+    const { data } = await supabase
         .from('decks')
-        .update({ is_public: !checked })
+        .update({ is_public: checked })
         .eq('id', deckId)
-        .select('*');
+        .select('*')
+        .single();
 
-    revalidatePath(`/decks/${deckId}`);
+    return data;
 };
 
 export const handleNewCard = async (formData: FormData, deck_id: string) => {

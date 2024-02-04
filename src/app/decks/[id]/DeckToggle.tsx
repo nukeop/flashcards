@@ -1,35 +1,31 @@
 'use client';
 
 import Toggle, { ToggleProps } from '@/app/_components/client-side/Toggle';
-import { startTransition, useOptimistic } from 'react';
+import { startTransition, useOptimistic, useState } from 'react';
+import { handleTogglePublic } from './actions';
 
 type DeckToggleProps = {
     deckId: string;
-    onTogglePublic?: (checked: boolean, deckId: string) => Promise<void>;
-    checked: ToggleProps['checked'];
+    initialChecked: ToggleProps['checked'];
 };
 
-const DeckToggle: React.FC<DeckToggleProps> = ({
-    checked,
-    onTogglePublic,
-    deckId,
-}) => {
-    const [optimisticChecked, setOptimisticChecked] = useOptimistic<boolean>(
-        checked,
-        // @ts-expect-error "Type error: Expected 1 arguments, but got 2."
-        () => {
-            onTogglePublic?.(!checked, deckId);
-            return !checked;
-        },
-    );
+const DeckToggle: React.FC<DeckToggleProps> = ({ initialChecked, deckId }) => {
+    const [isChecked, setChecked] = useState<boolean>(initialChecked ?? false);
+
+    const [optimisticChecked, setOptimisticChecked] = useOptimistic<
+        boolean,
+        boolean
+    >(isChecked, (state: boolean, targetState: boolean) => targetState);
 
     return (
         <Toggle
             checked={optimisticChecked}
-            onChange={() => {
+            onChange={async (checked) => {
                 startTransition(() => {
-                    setOptimisticChecked(optimisticChecked);
+                    setOptimisticChecked(checked);
                 });
+                await handleTogglePublic?.(!checked, deckId);
+                setChecked(checked);
             }}
         />
     );

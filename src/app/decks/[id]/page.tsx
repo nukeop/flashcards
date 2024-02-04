@@ -3,7 +3,6 @@ import FlashcardEditorGrid from '@/app/_components/client-side/FlashcardEditorGr
 import Panel from '@/app/_components/Panel';
 import { createSSRClient } from '@/app/_lib/supabase';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
-import { handleTogglePublic } from './actions';
 import DeckToggle from './DeckToggle';
 
 const Deck = async ({ params: { id } }: { params: { id: string } }) => {
@@ -46,8 +45,7 @@ const Deck = async ({ params: { id } }: { params: { id: string } }) => {
                     <div className="flex flex-row">
                         <label className="mr-2">Private:</label>
                         <DeckToggle
-                            checked={!deck.data?.is_public}
-                            onTogglePublic={handleTogglePublic}
+                            initialChecked={!deck.data?.is_public}
                             deckId={id}
                         />
                     </div>
