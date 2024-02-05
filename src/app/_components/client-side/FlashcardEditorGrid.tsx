@@ -19,6 +19,7 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
     cards,
     deckId,
 }) => {
+    const [localCards, setLocalCards] = useState(cards);
     const [isAddCardDialogOpen, setAddCardDialogOpen] = useState(false);
 
     return (
@@ -44,7 +45,7 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                 <PlusIcon className="mr-2 h-5 w-5" />
                 Add
             </Button>
-            {cards.map((card) => (
+            {localCards.map((card) => (
                 <Flashcard
                     id={card.card_id!}
                     deckId={card.deck_id!}

@@ -53,6 +53,7 @@ export const handleDelete = async (flashcardId: string, deckId: string) => {
         .from('flashcards')
         .delete()
         .eq('id', flashcardId);
+
     if (error) {
         console.log(error);
     } else {

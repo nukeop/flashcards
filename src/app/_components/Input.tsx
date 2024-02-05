@@ -1,5 +1,14 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
+import {
+    DetailedHTMLProps,
+    ElementType,
+    InputHTMLAttributes,
+    ReactElement,
+    RefObject,
+    TextareaHTMLAttributes,
+} from 'react';
+import { useAutofocus } from '../_hooks/useAutofocus';
 
 const input = cva(
     'flex-grow rounded border-none bg-transparent p-0.5 outline-none',
@@ -28,11 +37,15 @@ const inputFrame = cva(
     },
 );
 
-type InputProps<T extends React.ElementType> = Omit<
-    React.ComponentPropsWithoutRef<T>,
-    'prefix' | 'as' | 'className' | 'id'
-> &
-    VariantProps<typeof input> &
+type InputElementProps = {
+    ref?: RefObject<HTMLInputElement>;
+};
+
+type TextAreaElementProps = {
+    ref?: RefObject<HTMLTextAreaElement>;
+};
+
+type CommonProps = VariantProps<typeof input> &
     VariantProps<typeof inputFrame> & {
         classes?: Partial<{
             input: string;
@@ -40,12 +53,42 @@ type InputProps<T extends React.ElementType> = Omit<
             root: string;
         }>;
         id?: string;
-        prefix?: React.ReactElement;
+        prefix?: ReactElement;
         label?: string;
-        as?: T;
+        autoFocus?: boolean;
     };
 
-function Input<T extends React.ElementType>({
+type TextAreaInputProps = Omit<
+    DetailedHTMLProps<
+        TextareaHTMLAttributes<HTMLTextAreaElement>,
+        HTMLTextAreaElement
+    >,
+    'prefix' | 'as' | 'className' | 'autoFocus'
+> &
+    CommonProps &
+    TextAreaElementProps & {
+        as: 'textarea';
+    };
+
+type InputProps = Omit<
+    DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
+    'prefix' | 'as' | 'className' | 'autoFocus'
+> &
+    CommonProps &
+    InputElementProps & {
+        as: 'input';
+    };
+
+type CombinedProps = InputProps | TextAreaInputProps;
+
+type ElementTypeMap = {
+    input: HTMLInputElement;
+    textarea: HTMLTextAreaElement;
+};
+
+type TagNameToElementType<T extends keyof ElementTypeMap> = ElementTypeMap[T];
+
+function Input({
     id,
     error,
     prefix,
@@ -54,9 +97,11 @@ function Input<T extends React.ElementType>({
     borderless,
     classes,
     as,
+    autoFocus,
     ...props
-}: InputProps<T>) {
-    const Component = as || 'input';
+}: CombinedProps) {
+    const Component = as as ElementType;
+    const inputRef = useAutofocus<TagNameToElementType<typeof as>>(autoFocus);
     return (
         <div className={clsx('group w-full text-sm', classes?.root)}>
             <label className="block h-full w-full cursor-text rounded text-sm font-medium">
@@ -77,6 +122,7 @@ function Input<T extends React.ElementType>({
                         </div>
                     )}
                     <Component
+                        ref={inputRef}
                         id={id}
                         name={id}
                         className={clsx(
@@ -94,5 +140,7 @@ function Input<T extends React.ElementType>({
         </div>
     );
 }
+
+Input.displayName = 'Input';
 
 export default Input;
