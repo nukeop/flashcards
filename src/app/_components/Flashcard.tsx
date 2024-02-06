@@ -4,7 +4,6 @@ import { animated, useSpring } from '@react-spring/web';
 import { cva, VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
-import { handleDelete } from '../decks/[id]/actions';
 import FlashcardContextMenu from './client-side/FlashcardContextMenu';
 import styles from './Flashcard.module.scss';
 
@@ -17,23 +16,21 @@ const clamp = (value: number, min = 0, max = 100) => {
 };
 
 type FlashcardProps = {
-    id: string;
-    deckId: string;
     front: React.ReactNode;
     back: React.ReactNode;
     isFlipped?: boolean;
     flipBackOnMouseLeave?: boolean;
     onClick?: () => void;
+    onDelete?: () => void;
 } & VariantProps<typeof card>;
 
 const Flashcard: React.FC<FlashcardProps> = ({
-    id,
-    deckId,
     front,
     back,
     isFlipped: propIsFlipped,
     flipBackOnMouseLeave,
     onClick,
+    onDelete,
 }: FlashcardProps) => {
     const cardRef = useRef<HTMLDivElement>(null);
     const [isInteracting, setInteracting] = useState(false);
@@ -116,10 +113,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
 
     return (
         <div className={clsx(styles['flashcard-wrapper'], 'group')}>
-            <FlashcardContextMenu
-                onDelete={() => handleDelete(id, deckId)}
-                onEdit={() => {}}
-            />
+            <FlashcardContextMenu onDelete={onDelete} onEdit={() => {}} />
             <div
                 ref={cardRef}
                 className={styles['flashcard-body']}

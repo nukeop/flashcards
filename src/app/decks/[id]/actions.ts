@@ -41,22 +41,21 @@ export const handleNewCard = async (formData: FormData, deck_id: string) => {
         console.error(error);
     }
 
-    if (data) {
-        revalidatePath(`/decks/${deck_id}`);
-    }
+    return data;
 };
 
-export const handleDelete = async (flashcardId: string, deckId: string) => {
+export const handleDelete = async (flashcardId: string) => {
     const supabase = createSSRClient();
 
-    const { error } = await supabase
+    const { data, error } = await supabase
         .from('flashcards')
         .delete()
         .eq('id', flashcardId);
 
     if (error) {
         console.log(error);
+        throw new Error('Failed to delete flashcard');
     } else {
-        revalidatePath(`/decks/${deckId}`);
+        return data;
     }
 };

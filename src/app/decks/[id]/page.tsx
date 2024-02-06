@@ -16,7 +16,7 @@ const Deck = async ({ params: { id } }: { params: { id: string } }) => {
     const deck = await supabase.from('decks').select('*').eq('id', id).single();
 
     const deckCards = await supabase
-        .from('deck_cards_view')
+        .from('flashcards')
         .select('*')
         .eq('deck_id', id);
 

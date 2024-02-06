@@ -1,17 +1,17 @@
 'use client';
 
-import { DeckCardView } from '@/app/_lib/types';
-import { handleNewCard } from '@/app/decks/[id]/actions';
+import { Flashcard as FlashcardType } from '@/app/_lib/types';
+import { handleDelete, handleNewCard } from '@/app/decks/[id]/actions';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { startTransition, useOptimistic, useState } from 'react';
 import Button from '../Button';
 import Flashcard from '../Flashcard';
 import AddFlashcardDialog from './AddFlashcardDialog';
 import styles from './FlashcardEditorGrid.module.scss';
 
 type FlashcardEditorGridProps = {
-    cards: DeckCardView[];
+    cards: FlashcardType[];
     deckId: string;
 };
 
@@ -21,6 +21,14 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
 }) => {
     const [localCards, setLocalCards] = useState(cards);
     const [isAddCardDialogOpen, setAddCardDialogOpen] = useState(false);
+
+    const [optimisticCards, setOptimisticCards] = useOptimistic<
+        FlashcardType[],
+        FlashcardType[]
+    >(
+        localCards,
+        (state: FlashcardType[], newCards: FlashcardType[]) => newCards,
+    );
 
     return (
         <div
@@ -33,9 +41,28 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                 isOpen={isAddCardDialogOpen}
                 onCancel={() => setAddCardDialogOpen(false)}
                 onClose={() => setAddCardDialogOpen(false)}
-                onCreateFlashcard={(formData: FormData) => {
-                    handleNewCard(formData, deckId);
-                    setAddCardDialogOpen(false);
+                onCreateFlashcard={async (formData: FormData) => {
+                    startTransition(() => {
+                        setAddCardDialogOpen(false);
+                        setOptimisticCards([
+                            ...optimisticCards,
+                            {
+                                id: 'temp-id',
+                                deck_id: deckId,
+                                front: formData.get('front') as string,
+                                back: formData.get('back') as string,
+                                created_at: new Date().toISOString(),
+                                updated_at: new Date().toISOString(),
+                            },
+                        ]);
+                    });
+                    const newCard = await handleNewCard(formData, deckId);
+
+                    if (newCard) {
+                        setLocalCards([...localCards, newCard]);
+                    } else {
+                        setLocalCards(localCards);
+                    }
                 }}
             />
             <Button
@@ -45,13 +72,27 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                 <PlusIcon className="mr-2 h-5 w-5" />
                 Add
             </Button>
-            {localCards.map((card) => (
+            {optimisticCards.map((card) => (
                 <Flashcard
-                    id={card.card_id!}
-                    deckId={card.deck_id!}
-                    key={card.card_id}
-                    front={card.card_front}
-                    back={card.card_back}
+                    key={card.id}
+                    front={card.front}
+                    back={card.back}
+                    onDelete={async () => {
+                        startTransition(() => {
+                            setOptimisticCards(
+                                optimisticCards.filter((c) => c.id !== card.id),
+                            );
+                        });
+
+                        try {
+                            await handleDelete(card.id);
+                            setLocalCards(
+                                localCards.filter((c) => c.id !== card.id),
+                            );
+                        } catch (e) {
+                            console.error(e);
+                        }
+                    }}
                     flipBackOnMouseLeave
                 />
             ))}

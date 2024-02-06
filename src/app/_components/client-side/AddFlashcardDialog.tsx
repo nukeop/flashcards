@@ -1,6 +1,5 @@
 'use client';
 
-import { useAutofocus } from '@/app/_hooks/useAutofocus';
 import Button from '../Button';
 import Input from '../Input';
 import Dialog from './Dialog';
