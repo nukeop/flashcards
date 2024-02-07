@@ -1,8 +1,8 @@
 'use client';
 
 import Button from '../Button';
-import Input from '../Input';
 import Dialog from './Dialog';
+import Input from './Input';
 
 type AddFlashcardDialogProps = {
     isOpen: boolean;

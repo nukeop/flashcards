@@ -1,6 +1,6 @@
 import Button from '@/app/_components/Button';
+import Input from '@/app/_components/client-side/Input';
 import Toggle from '@/app/_components/client-side/Toggle';
-import Input from '@/app/_components/Input';
 import { createSSRClient } from '@/app/_lib/supabase';
 import { redirect } from 'next/navigation';
 

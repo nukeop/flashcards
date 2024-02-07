@@ -1,13 +1,16 @@
 'use client';
 
 import { Flashcard as FlashcardType } from '@/app/_lib/types';
-import { handleDelete, handleNewCard } from '@/app/(logged-in)/decks/[id]/actions';
+import {
+    handleDelete,
+    handleNewCard,
+} from '@/app/(logged-in)/decks/[id]/actions';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { startTransition, useOptimistic, useState } from 'react';
 import Button from '../Button';
-import Flashcard from '../Flashcard';
 import AddFlashcardDialog from './AddFlashcardDialog';
+import Flashcard from './Flashcard';
 import styles from './FlashcardEditorGrid.module.scss';
 
 type FlashcardEditorGridProps = {

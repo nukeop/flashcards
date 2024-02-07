@@ -10,7 +10,7 @@ import {
     RefObject,
     TextareaHTMLAttributes,
 } from 'react';
-import { useAutofocus } from '../_hooks/useAutofocus';
+import { useAutofocus } from '../../_hooks/useAutofocus';
 
 const input = cva(
     'flex-grow rounded border-none bg-transparent p-0.5 outline-none',

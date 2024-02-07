@@ -1,6 +1,6 @@
 import Button from '@/app/_components/Button';
 import Card from '@/app/_components/Card';
-import Input from '@/app/_components/Input';
+import Input from '@/app/_components/client-side/Input';
 import { AtSymbolIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 import { Metadata } from 'next';
 import Link from 'next/link';

@@ -4,8 +4,8 @@ import { animated, useSpring } from '@react-spring/web';
 import { cva, VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
-import FlashcardContextMenu from './client-side/FlashcardContextMenu';
 import styles from './Flashcard.module.scss';
+import FlashcardContextMenu from './FlashcardContextMenu';
 
 const card = cva(
     'duration-400 relative flex transform-gpu select-none overflow-hidden rounded-lg border border-b-4 border-stone-200 bg-stone-50 p-2 text-stone-600 shadow-md transition-shadow ease-in-out hover:shadow-smooth',

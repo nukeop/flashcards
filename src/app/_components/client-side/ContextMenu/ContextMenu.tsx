@@ -23,7 +23,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ items }) => {
         <Menu>
             <Menu.Button
                 as={Button}
-                intent="transparent"
+                intent="secondary"
                 className="absolute right-1 top-1 z-10 opacity-0 transition-opacity duration-200 ease-in-out group-hover:opacity-100"
             >
                 <EllipsisVerticalIcon className="h-5 w-5" />
