@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import { Figtree } from 'next/font/google';
+import { Red_Hat_Display } from 'next/font/google';
 import './globals.scss';
 import { Providers } from './providers';
 
-const font = Figtree({
+const font = Red_Hat_Display({
     style: 'normal',
     weight: ['400', '700'],
     subsets: ['latin'],
