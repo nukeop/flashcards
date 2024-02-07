@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import Card from '../_components/Card';
-import { createSSRClient } from '../_lib/supabase';
+import Card from '../../_components/Card';
+import { createSSRClient } from '../../_lib/supabase';
 import DecksSearchBar from './DecksSearchBar';
 
 export const metadata: Metadata = {

@@ -2,9 +2,9 @@
 
 import { MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import Button from '../_components/Button';
-import Input from '../_components/Input';
-import Panel from '../_components/Panel';
+import Button from '../../_components/Button';
+import Input from '../../_components/Input';
+import Panel from '../../_components/Panel';
 
 type DecksSearchBarProps = {
     onSearch?: (query: string) => void;

@@ -1,7 +1,7 @@
 'use client';
 
 import { Flashcard as FlashcardType } from '@/app/_lib/types';
-import { handleDelete, handleNewCard } from '@/app/decks/[id]/actions';
+import { handleDelete, handleNewCard } from '@/app/(logged-in)/decks/[id]/actions';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { startTransition, useOptimistic, useState } from 'react';
