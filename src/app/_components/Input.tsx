@@ -1,3 +1,5 @@
+'use client';
+
 import { cva, VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 import {
@@ -76,7 +78,7 @@ type InputProps = Omit<
 > &
     CommonProps &
     InputElementProps & {
-        as: 'input';
+        as?: 'input';
     };
 
 type CombinedProps = InputProps | TextAreaInputProps;
@@ -96,7 +98,7 @@ function Input({
     label,
     borderless,
     classes,
-    as,
+    as = 'input',
     autoFocus,
     ...props
 }: CombinedProps) {
