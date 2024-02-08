@@ -2,7 +2,10 @@
 
 import { createSSRClient } from '@/app/_lib/supabase';
 
-export const handleTogglePublic = async (checked: boolean, deckId: string) => {
+export const handleTogglePublicDeck = async (
+    checked: boolean,
+    deckId: string,
+) => {
     const supabase = createSSRClient();
 
     const { data } = await supabase
@@ -15,7 +18,10 @@ export const handleTogglePublic = async (checked: boolean, deckId: string) => {
     return data;
 };
 
-export const handleNewCard = async (formData: FormData, deck_id: string) => {
+export const handleNewFlashcard = async (
+    formData: FormData,
+    deck_id: string,
+) => {
     const front = formData.get('front');
     const back = formData.get('back');
 
@@ -43,7 +49,33 @@ export const handleNewCard = async (formData: FormData, deck_id: string) => {
     return data;
 };
 
-export const handleDelete = async (flashcardId: string) => {
+export const handleEditFlashcard = async (
+    formData: FormData,
+    flashcardId: string,
+) => {
+    const front = formData.get('front');
+    const back = formData.get('back');
+
+    if (!front || !back) {
+        return;
+    }
+
+    const supabase = createSSRClient();
+    const { data, error } = await supabase
+        .from('flashcards')
+        .update({ front: String(front), back: String(back) })
+        .eq('id', flashcardId)
+        .select()
+        .single();
+
+    if (error) {
+        console.error(error);
+    }
+
+    return data;
+};
+
+export const handleDeleteFlashcard = async (flashcardId: string) => {
     const supabase = createSSRClient();
 
     const { data, error } = await supabase

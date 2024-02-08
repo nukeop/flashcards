@@ -22,6 +22,7 @@ type FlashcardProps = {
     flipBackOnMouseLeave?: boolean;
     onClick?: () => void;
     onDelete?: () => void;
+    onEdit?: () => void;
 } & VariantProps<typeof card>;
 
 const Flashcard: React.FC<FlashcardProps> = ({
@@ -31,6 +32,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
     flipBackOnMouseLeave,
     onClick,
     onDelete,
+    onEdit,
 }: FlashcardProps) => {
     const cardRef = useRef<HTMLDivElement>(null);
     const [isInteracting, setInteracting] = useState(false);
@@ -113,7 +115,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
 
     return (
         <div className={clsx(styles['flashcard-wrapper'], 'group')}>
-            <FlashcardContextMenu onDelete={onDelete} onEdit={() => {}} />
+            <FlashcardContextMenu onDelete={onDelete} onEdit={onEdit} />
             <div
                 ref={cardRef}
                 className={styles['flashcard-body']}

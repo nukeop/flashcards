@@ -2,7 +2,7 @@
 
 import Toggle, { ToggleProps } from '@/app/_components/client-side/Toggle';
 import { startTransition, useOptimistic, useState } from 'react';
-import { handleTogglePublic } from './actions';
+import { handleTogglePublicDeck } from './actions';
 
 type DeckToggleProps = {
     deckId: string;
@@ -24,7 +24,7 @@ const DeckToggle: React.FC<DeckToggleProps> = ({ initialChecked, deckId }) => {
                 startTransition(() => {
                     setOptimisticChecked(checked);
                 });
-                await handleTogglePublic?.(!checked, deckId);
+                await handleTogglePublicDeck?.(!checked, deckId);
                 setChecked(checked);
             }}
         />

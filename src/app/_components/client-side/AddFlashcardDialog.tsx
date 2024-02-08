@@ -7,21 +7,20 @@ import Input from './Input';
 type AddFlashcardDialogProps = {
     isOpen: boolean;
     onClose: () => void;
-
-    onCreateFlashcard: (formData: FormData) => void;
     onCancel: () => void;
+    onSave: (formData: FormData) => void;
 };
 
 const AddFlashcardDialog: React.FC<AddFlashcardDialogProps> = ({
     isOpen,
     onClose,
-    onCreateFlashcard,
+    onSave,
     onCancel,
 }: AddFlashcardDialogProps) => (
     <Dialog isOpen={isOpen} onClose={onClose}>
         <form
             className="flex flex-col items-center justify-center"
-            action={onCreateFlashcard}
+            action={onSave}
         >
             <div className="mb-2 flex w-full flex-row justify-between bg-stone-100 px-4 py-2 text-sm text-stone-500 shadow-sm">
                 <Button intent="text" onClick={onCancel}>
