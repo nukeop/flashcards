@@ -84,7 +84,7 @@ export const handleDeleteFlashcard = async (flashcardId: string) => {
         .eq('id', flashcardId);
 
     if (error) {
-        console.log(error);
+        console.error(error);
         throw new Error('Failed to delete flashcard');
     } else {
         return data;

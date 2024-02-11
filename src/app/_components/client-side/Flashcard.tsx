@@ -9,6 +9,13 @@ import FlashcardContextMenu from './FlashcardContextMenu';
 
 const card = cva(
     'duration-400 relative flex transform-gpu select-none overflow-hidden rounded-lg border border-b-4 border-stone-200 bg-stone-50 p-2 text-stone-600 shadow-md transition-shadow ease-in-out hover:shadow-smooth',
+    {
+        variants: {
+            isDragging: {
+                true: 'shadow-smooth-high',
+            },
+        },
+    },
 );
 
 const clamp = (value: number, min = 0, max = 100) => {
@@ -20,6 +27,7 @@ type FlashcardProps = {
     back: React.ReactNode;
     isFlipped?: boolean;
     flipBackOnMouseLeave?: boolean;
+    isDragging?: boolean;
     onClick?: () => void;
     onDelete?: () => void;
     onEdit?: () => void;
@@ -30,6 +38,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
     back,
     isFlipped: propIsFlipped,
     flipBackOnMouseLeave,
+    isDragging,
     onClick,
     onDelete,
     onEdit,
@@ -45,7 +54,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
     }));
 
     const interact = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (!cardRef.current) return;
+        if (!cardRef.current || isDragging) return;
         const rect = cardRef.current.getBoundingClientRect();
 
         const absolute = {
@@ -103,6 +112,12 @@ const Flashcard: React.FC<FlashcardProps> = ({
         [isFlipped],
     );
 
+    useEffect(() => {
+        if (isDragging) {
+            interactEnd();
+        }
+    }, [isDragging]);
+
     useEffect(
         () => {
             if (propIsFlipped !== undefined) {
@@ -134,7 +149,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
                 }}
             >
                 <animated.div
-                    className={clsx(card(), styles['flashcard'])}
+                    className={clsx(card({ isDragging }), styles['flashcard'])}
                     onMouseMove={interact}
                     onMouseLeave={interactEnd}
                     onMouseUp={interactEnd}
