@@ -26,6 +26,7 @@ describe('flashcards', () => {
             deck_id: deck.id,
             front: 'Front 1',
             back: 'Back 1',
+            position: 1,
             created_at: expect.stringMatching(dateRegex),
             updated_at: expect.stringMatching(dateRegex),
         });
@@ -46,6 +47,7 @@ describe('flashcards', () => {
                         deck_id: (deckData![0] as { id: string }).id,
                         front: 'test front',
                         back: 'test back',
+                        position: 2,
                     },
                 ])
                 .select();
@@ -57,6 +59,7 @@ describe('flashcards', () => {
                 deck_id: (deckData![0] as { id: string }).id,
                 front: 'test front',
                 back: 'test back',
+                position: 2,
                 created_at: expect.stringMatching(dateRegex),
                 updated_at: expect.stringMatching(dateRegex),
             },
@@ -120,6 +123,7 @@ describe('flashcards', () => {
                     deck_id: (deckData![0] as { id: string }).id,
                     front: 'test front',
                     back: 'test back',
+                    position: 1,
                 },
             ])
             .select();
@@ -156,25 +160,31 @@ describe('flashcards', () => {
 
     it('should allow authenticated users to view cards in their own private decks', async () => {
         await TestFixture.logIn('user1@example.com', 'password123');
-        const { data: card, error } = await TestFixture.getClient()
+        const { data: deckData } = await TestFixture.getClient()
+            .from('decks')
+            .select('id')
+            .eq('name', 'Private deck')
+            .single();
+        const { data: cards, error } = await TestFixture.getClient()
             .from('flashcards')
             .select('*')
-            .eq('front', 'Front 11');
+            .eq('deck_id', deckData!.id);
 
         expect(error).toBeNull();
-        expect(card).toEqual([
-            {
+        expect(cards).toEqual(
+            [1, 2, 3, 4, 5].map((el) => ({
                 id: expect.stringMatching(uuidRegex),
-                deck_id: expect.stringMatching(uuidRegex),
-                front: 'Front 11',
-                back: 'Back 11',
+                deck_id: deckData!.id,
+                front: `Front ${el}`,
+                back: `Back ${el}`,
+                position: el,
                 created_at: expect.stringMatching(dateRegex),
                 updated_at: expect.stringMatching(dateRegex),
-            },
-        ]);
+            })),
+        );
     });
 
-    it('should allow anon users to view cards in public decks - in deck_cards_view', async () => {
+    it('should allow anon users to view cards in public decks using deck_cards_view', async () => {
         const { data: cards, error } = await TestFixture.getClient()
             .from('deck_cards_view')
             .select('*')
@@ -191,6 +201,7 @@ describe('flashcards', () => {
                 card_id: expect.stringMatching(uuidRegex),
                 card_front: 'Front 1',
                 card_back: 'Back 1',
+                card_position: 1,
                 card_created_at: expect.stringMatching(dateRegex),
                 card_updated_at: expect.stringMatching(dateRegex),
             },
@@ -218,7 +229,7 @@ describe('flashcards', () => {
         expect(cards).toEqual([]);
     });
 
-    it('should allow authenticated users to view cards in their own private decks - in deck_cards_view', async () => {
+    it('in deck_cards_view, should allow authenticated users to view cards in their own private decks', async () => {
         await TestFixture.logIn('user1@example.com', 'password123');
         const { data: cards, error } = await TestFixture.getClient()
             .from('deck_cards_view')
@@ -226,28 +237,35 @@ describe('flashcards', () => {
             .eq('deck_name', 'Private deck');
 
         expect(error).toBeNull();
-        expect(cards).toEqual([
-            {
+        expect(cards).toEqual(
+            [1, 2, 3, 4, 5].map((el) => ({
                 deck_id: expect.stringMatching(uuidRegex),
                 deck_name: 'Private deck',
                 deck_description: 'Description for private deck',
                 deck_created_at: expect.stringMatching(dateRegex),
                 deck_updated_at: expect.stringMatching(dateRegex),
                 card_id: expect.stringMatching(uuidRegex),
-                card_front: 'Front 11',
-                card_back: 'Back 11',
+                card_front: `Front ${el}`,
+                card_back: `Back ${el}`,
+                card_position: el,
                 card_created_at: expect.stringMatching(dateRegex),
                 card_updated_at: expect.stringMatching(dateRegex),
-            },
-        ]);
+            })),
+        );
     });
 
     it('should allow authenticated users to update their own cards by id', async () => {
         await TestFixture.logIn('user1@example.com', 'password123');
+        const { data: deckData } = await TestFixture.getClient()
+            .from('decks')
+            .select('id')
+            .eq('name', 'Deck 1')
+            .single();
         const { data: cardData } = await TestFixture.getClient()
             .from('flashcards')
             .select('*')
             .eq('front', 'Front 1')
+            .eq('deck_id', deckData!.id)
             .single();
         await TestFixture.getClient()
             .from('flashcards')
@@ -269,9 +287,27 @@ describe('flashcards', () => {
                 deck_id: expect.stringMatching(uuidRegex),
                 front: 'New front text',
                 back: 'New back text',
+                position: 1,
                 created_at: expect.stringMatching(dateRegex),
                 updated_at: expect.stringMatching(dateRegex),
             },
         ]);
+    });
+
+    it('cards within a deck should have unique position values', async () => {
+        await TestFixture.logIn('user1@example.com', 'password123');
+        const { data: deckData } = await TestFixture.getClient()
+            .from('decks')
+            .select('id,user_id')
+            .eq('name', 'Deck 1');
+
+        const { data: cardData } = await TestFixture.getClient()
+            .from('flashcards')
+            .select('position')
+            .eq('deck_id', (deckData![0] as { id: string }).id);
+
+        const positions = cardData!.map((card) => card.position);
+        const uniquePositions = new Set(positions);
+        expect(positions.length).toEqual(uniquePositions.size);
     });
 });

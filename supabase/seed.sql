@@ -99,14 +99,42 @@ INSERT INTO public.flashcards(
         deck_id,
         front,
         back,
+        position,
         created_at,
         updated_at
-    ) (
-        select uuid_generate_v4 (),
-            id,
-            'Front ' || (ROW_NUMBER() OVER ())::text,
-            'Back ' || (ROW_NUMBER() OVER ())::text,
-            current_timestamp,
-            current_timestamp
-        from public.decks
-    );
+    )
+SELECT uuid_generate_v4 (),
+    d.id,
+    'Front ' || (gs.n)::text,
+    'Back ' || (gs.n)::text,
+    1,
+    current_timestamp,
+    current_timestamp
+FROM public.decks d
+    CROSS JOIN generate_series(
+        1,
+        (
+            SELECT COUNT(*)
+            FROM public.decks
+        )
+    ) AS gs(n)
+WHERE d.name = 'Deck ' || gs.n::text;
+INSERT INTO public.flashcards(
+        id,
+        deck_id,
+        front,
+        back,
+        position,
+        created_at,
+        updated_at
+    )
+SELECT uuid_generate_v4 (),
+    d.id,
+    'Front ' || (gs.n)::text,
+    'Back ' || (gs.n)::text,
+    gs.n,
+    current_timestamp,
+    current_timestamp
+FROM public.decks d
+    CROSS JOIN generate_series(1, 5) AS gs(n)
+WHERE d.name = 'Private deck';
