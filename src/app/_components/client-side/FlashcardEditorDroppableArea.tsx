@@ -7,7 +7,7 @@ type FlashcardEditorDroppableAreaProps = {
 const FlashcardEditorDroppableArea: React.FC<
     FlashcardEditorDroppableAreaProps
 > = ({ children }) => {
-    const { isOver, setNodeRef } = useDroppable({
+    const { setNodeRef } = useDroppable({
         id: 'droppable',
     });
 
