@@ -1,6 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
-
-import { TestFixture, dateRegex, uuidRegex } from './test-utils';
+import { dateRegex, TestFixture, uuidRegex } from './test-utils';
 
 describe('User profiles', () => {
     beforeAll(() => {
@@ -86,17 +85,16 @@ describe('User profiles', () => {
             await TestFixture.getClient()
                 .from('user_profiles')
                 .select('*')
-                .eq('display_name', 'user1@example.com');
+                .eq('display_name', 'user1@example.com')
+                .single();
 
         expect(profileError).toBeNull();
-        expect(profileData).toEqual([
-            {
-                id: expect.stringMatching(uuidRegex),
-                user_id: userData.user!.id,
-                display_name: 'user1@example.com',
-                created_at: expect.stringMatching(dateRegex),
-                updated_at: expect.stringMatching(dateRegex),
-            },
-        ]);
+        expect(profileData).toEqual({
+            id: expect.stringMatching(uuidRegex),
+            user_id: userData.user!.id,
+            display_name: 'user1@example.com',
+            created_at: expect.stringMatching(dateRegex),
+            updated_at: expect.stringMatching(dateRegex),
+        });
     });
 });

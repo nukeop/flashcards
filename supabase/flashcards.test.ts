@@ -184,7 +184,7 @@ describe('flashcards', () => {
         );
     });
 
-    it('should allow anon users to view cards in public decks using deck_cards_view', async () => {
+    it('using deck_cards_view, should allow anon users to view cards in public decks', async () => {
         const { data: cards, error } = await TestFixture.getClient()
             .from('deck_cards_view')
             .select('*')
