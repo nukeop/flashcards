@@ -15,7 +15,7 @@ test('should allow a user to go to the signup page', async ({ page }) => {
 
     await page.getByText('Sign up').click();
 
-    await expect(page).toHaveURL('http://localhost:3000/login/sign-up');
+    await expect(page).toHaveURL('http://localhost:3000/sign-up');
     await expect(page).toHaveTitle('Sign up | Flashcards');
     await expect(page).toHaveScreenshot();
 });
