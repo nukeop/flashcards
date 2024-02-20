@@ -1,6 +1,6 @@
 'use server';
 
-import { createSSRClient } from '@/app/_lib/supabase';
+import { createSSRClient, doOrThrow } from '@/app/_lib/supabase';
 
 export const handleTogglePublicDeck = async (
     checked: boolean,
@@ -30,6 +30,16 @@ export const handleNewFlashcard = async (
     }
 
     const supabase = createSSRClient();
+    const { data: nextPositionIndex, error: getNextCardPositionError } =
+        await supabase.rpc('get_next_card_position', {
+            deck_id_arg: deck_id,
+        });
+
+    if (getNextCardPositionError) {
+        console.error(getNextCardPositionError);
+        throw new Error('Failed to get next card position');
+    }
+
     const { data, error } = await supabase
         .from('flashcards')
         .insert([
@@ -37,6 +47,7 @@ export const handleNewFlashcard = async (
                 deck_id,
                 front: String(front),
                 back: String(back),
+                position: nextPositionIndex,
             },
         ])
         .select()
@@ -89,4 +100,19 @@ export const handleDeleteFlashcard = async (flashcardId: string) => {
     } else {
         return data;
     }
+};
+
+export const handleReorderFlashcards = async (
+    cardAId: string,
+    cardBId: string,
+) => {
+    const supabase = createSSRClient();
+
+    await doOrThrow(
+        supabase.rpc('swap_cards', {
+            card_id_1_arg: cardAId,
+            card_id_2_arg: cardBId,
+        }),
+        'Failed to reorder flashcards',
+    );
 };

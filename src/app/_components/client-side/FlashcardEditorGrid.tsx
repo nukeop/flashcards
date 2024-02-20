@@ -5,6 +5,7 @@ import {
     handleDeleteFlashcard,
     handleEditFlashcard,
     handleNewFlashcard,
+    handleReorderFlashcards,
 } from '@/app/(logged-in)/decks/[id]/actions';
 import { DndContext } from '@dnd-kit/core';
 import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
@@ -41,7 +42,22 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
     );
 
     return (
-        <DndContext>
+        <DndContext
+            onDragEnd={async ({ active, over }) => {
+                const activeCard = optimisticCards.find(
+                    (card) => card.id === active.id,
+                );
+                const overCard = optimisticCards.find(
+                    (card) => card.id === over?.id,
+                );
+
+                if (!activeCard || !overCard) {
+                    return;
+                }
+
+                await handleReorderFlashcards(activeCard.id, overCard.id);
+            }}
+        >
             <SortableContext
                 items={optimisticCards}
                 strategy={rectSortingStrategy}
@@ -116,6 +132,7 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                                             back: formData.get(
                                                 'back',
                                             ) as string,
+                                            position: optimisticCards.length,
                                             created_at:
                                                 new Date().toISOString(),
                                             updated_at:
@@ -136,7 +153,7 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                             }}
                         />
                         <Button
-                            className="border border-dashed border-stone-300 text-stone-400 hover:bg-stone-200/50"
+                            className="min-h-48 border border-dashed border-stone-300 text-stone-400 hover:bg-stone-200/50"
                             onClick={() => setAddCardDialogOpen(true)}
                         >
                             <PlusIcon className="mr-2 h-5 w-5" />

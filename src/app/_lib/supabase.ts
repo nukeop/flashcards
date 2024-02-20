@@ -1,3 +1,4 @@
+import { PostgrestBuilder } from '@supabase/postgrest-js';
 import { CookieOptions, createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { Database } from './database.types';
@@ -21,4 +22,17 @@ export const createSSRClient = () => {
             },
         },
     );
+};
+
+export const doOrThrow = async <D>(
+    promise: PostgrestBuilder<D>,
+    errorMessage: string,
+) => {
+    const { data, error } = await promise;
+    if (error) {
+        console.error(error);
+        throw new Error(errorMessage);
+    }
+
+    return data;
 };

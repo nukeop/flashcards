@@ -6,7 +6,7 @@ export type Json =
     | { [key: string]: Json | undefined }
     | Json[];
 
-export interface Database {
+export type Database = {
     public: {
         Tables: {
             decks: {
@@ -54,6 +54,7 @@ export interface Database {
                     deck_id: string;
                     front: string;
                     id: string;
+                    position: number;
                     updated_at: string;
                 };
                 Insert: {
@@ -62,6 +63,7 @@ export interface Database {
                     deck_id: string;
                     front: string;
                     id?: string;
+                    position?: number;
                     updated_at?: string;
                 };
                 Update: {
@@ -70,6 +72,7 @@ export interface Database {
                     deck_id?: string;
                     front?: string;
                     id?: string;
+                    position?: number;
                     updated_at?: string;
                 };
                 Relationships: [
@@ -129,6 +132,7 @@ export interface Database {
                     card_created_at: string | null;
                     card_front: string | null;
                     card_id: string | null;
+                    card_position: number | null;
                     card_updated_at: string | null;
                     deck_created_at: string | null;
                     deck_description: string | null;
@@ -140,7 +144,26 @@ export interface Database {
             };
         };
         Functions: {
-            [_ in never]: never;
+            get_next_card_position: {
+                Args: {
+                    deck_id_arg: string;
+                };
+                Returns: number;
+            };
+            reorder_card: {
+                Args: {
+                    card_id_arg: string;
+                    new_position_arg: number;
+                };
+                Returns: undefined;
+            };
+            swap_cards: {
+                Args: {
+                    card_id_1_arg: string;
+                    card_id_2_arg: string;
+                };
+                Returns: undefined;
+            };
         };
         Enums: {
             [_ in never]: never;
@@ -149,7 +172,7 @@ export interface Database {
             [_ in never]: never;
         };
     };
-}
+};
 
 export type Tables<
     PublicTableNameOrOptions extends

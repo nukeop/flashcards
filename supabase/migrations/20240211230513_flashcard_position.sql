@@ -41,6 +41,27 @@ SET position = new_position_arg
 WHERE id = card_id_arg;
 END;
 $$;
+CREATE OR REPLACE FUNCTION swap_cards(card_id_1_arg UUID, card_id_2_arg UUID) RETURNS VOID LANGUAGE plpgsql AS $$
+DECLARE position_1 INTEGER;
+position_2 INTEGER;
+BEGIN
+SELECT position INTO position_1
+FROM public.flashcards
+WHERE id = card_id_1_arg;
+SELECT position INTO position_2
+FROM public.flashcards
+WHERE id = card_id_2_arg;
+UPDATE public.flashcards
+SET position = -1
+WHERE id = card_id_1_arg;
+UPDATE public.flashcards
+SET position = position_1
+WHERE id = card_id_2_arg;
+UPDATE public.flashcards
+SET position = position_2
+WHERE id = card_id_1_arg;
+END;
+$$;
 -- Migration for existing flashcards
 WITH ordered_flashcards AS (
     SELECT id,
