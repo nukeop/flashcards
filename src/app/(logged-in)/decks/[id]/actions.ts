@@ -1,5 +1,6 @@
 'use server';
 
+import { fetchFlashcardsByDeckId } from '@/app/_data/flashcards';
 import { createSSRClient, doOrThrow } from '@/app/_lib/supabase';
 
 export const handleTogglePublicDeck = async (
@@ -105,6 +106,7 @@ export const handleDeleteFlashcard = async (flashcardId: string) => {
 export const handleReorderFlashcards = async (
     cardAId: string,
     cardBId: string,
+    deckId: string,
 ) => {
     const supabase = createSSRClient();
 
@@ -115,4 +117,6 @@ export const handleReorderFlashcards = async (
         }),
         'Failed to reorder flashcards',
     );
+
+    return fetchFlashcardsByDeckId(deckId);
 };

@@ -1,6 +1,7 @@
 'use client';
 
 import { Flashcard as FlashcardType } from '@/app/_lib/types';
+import { swapItemsById } from '@/app/_lib/utils';
 import {
     handleDeleteFlashcard,
     handleEditFlashcard,
@@ -44,18 +45,33 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
     return (
         <DndContext
             onDragEnd={async ({ active, over }) => {
+                if (!over) {
+                    return;
+                }
+
+                startTransition(() => {
+                    setOptimisticCards(
+                        swapItemsById(localCards, active.id, over.id),
+                    );
+                });
+
                 const activeCard = optimisticCards.find(
                     (card) => card.id === active.id,
                 );
                 const overCard = optimisticCards.find(
-                    (card) => card.id === over?.id,
+                    (card) => card.id === over.id,
                 );
 
                 if (!activeCard || !overCard) {
                     return;
                 }
 
-                await handleReorderFlashcards(activeCard.id, overCard.id);
+                const updatedDeck = await handleReorderFlashcards(
+                    activeCard.id,
+                    overCard.id,
+                    deckId,
+                );
+                setLocalCards(updatedDeck);
             }}
         >
             <SortableContext

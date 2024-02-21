@@ -1,6 +1,7 @@
 import Button from '@/app/_components/Button';
 import FlashcardEditorGrid from '@/app/_components/client-side/FlashcardEditorGrid';
 import Panel from '@/app/_components/Panel';
+import { fetchFlashcardsByDeckId } from '@/app/_data/flashcards';
 import { createSSRClient } from '@/app/_lib/supabase';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import DeckToggle from './DeckToggle';
@@ -15,12 +16,9 @@ const Deck = async ({ params: { id } }: { params: { id: string } }) => {
 
     const deck = await supabase.from('decks').select('*').eq('id', id).single();
 
-    const deckCards = await supabase
-        .from('flashcards')
-        .select('*')
-        .eq('deck_id', id);
+    const deckCards = await fetchFlashcardsByDeckId(id);
 
-    if (!deckCards || !deckCards.data) {
+    if (!deckCards || !deckCards) {
         return <div>Deck not found</div>;
     }
 
@@ -52,7 +50,7 @@ const Deck = async ({ params: { id } }: { params: { id: string } }) => {
                 </div>
             </Panel>
 
-            <FlashcardEditorGrid cards={deckCards.data} deckId={id} />
+            <FlashcardEditorGrid cards={deckCards} deckId={id} />
         </>
     );
 };
