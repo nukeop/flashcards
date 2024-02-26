@@ -1,8 +1,6 @@
 -- New flashcard position column
 alter table public.flashcards
 add column position integer NOT NULL DEFAULT 0;
-ALTER TABLE public.flashcards
-ADD CONSTRAINT flashcards_deck_id_position_unique UNIQUE (deck_id, position);
 -- Utility functions for handling flashcard positions
 CREATE OR REPLACE FUNCTION get_next_card_position(deck_id_arg UUID) RETURNS INTEGER LANGUAGE plpgsql AS $$
 DECLARE next_position INTEGER;
@@ -13,55 +11,17 @@ WHERE deck_id = deck_id_arg;
 RETURN next_position;
 END;
 $$;
-CREATE OR REPLACE FUNCTION reorder_card(card_id_arg UUID, new_position_arg INTEGER) RETURNS VOID LANGUAGE plpgsql AS $$
-DECLARE original_position INTEGER;
-deck_id_arg UUID;
-BEGIN
-SELECT deck_id,
-    position INTO deck_id_arg,
-    original_position
-FROM public.flashcards
-WHERE id = card_id_arg;
-IF original_position < new_position_arg THEN -- Moving towards a higher position: shift cards between the original and new positions back by 1.
-UPDATE public.flashcards
-SET position = position - 1
-WHERE deck_id = deck_id_arg
-    AND position > original_position
-    AND position <= new_position_arg;
-ELSE -- Moving towards a lower position or inserting: shift cards between the original and new positions forward by 1.
-UPDATE public.flashcards
-SET position = position + 1
-WHERE deck_id = deck_id_arg
-    AND position < original_position
-    AND position >= new_position_arg;
-END IF;
--- Update the position of the moving card.
-UPDATE public.flashcards
-SET position = new_position_arg
-WHERE id = card_id_arg;
+CREATE OR REPLACE FUNCTION update_card_positions(card_ids UUID [], new_positions INT []) RETURNS VOID AS $$ BEGIN -- Perform the update
+    WITH updates AS (
+        SELECT unnest(card_ids) AS card_id,
+            unnest(new_positions) AS new_position
+    )
+UPDATE flashcards fc
+SET position = updates.new_position
+FROM updates
+WHERE fc.id = updates.card_id;
 END;
-$$;
-CREATE OR REPLACE FUNCTION swap_cards(card_id_1_arg UUID, card_id_2_arg UUID) RETURNS VOID LANGUAGE plpgsql AS $$
-DECLARE position_1 INTEGER;
-position_2 INTEGER;
-BEGIN
-SELECT position INTO position_1
-FROM public.flashcards
-WHERE id = card_id_1_arg;
-SELECT position INTO position_2
-FROM public.flashcards
-WHERE id = card_id_2_arg;
-UPDATE public.flashcards
-SET position = -1
-WHERE id = card_id_1_arg;
-UPDATE public.flashcards
-SET position = position_1
-WHERE id = card_id_2_arg;
-UPDATE public.flashcards
-SET position = position_2
-WHERE id = card_id_1_arg;
-END;
-$$;
+$$ LANGUAGE plpgsql;
 -- Migration for existing flashcards
 WITH ordered_flashcards AS (
     SELECT id,

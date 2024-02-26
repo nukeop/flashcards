@@ -1,4 +1,5 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { nCards } from './migrations/test-data';
 import { dateRegex, TestFixture, uuidRegex } from './test-utils';
 
 describe('flashcards', () => {
@@ -309,5 +310,48 @@ describe('flashcards', () => {
         const positions = cardData!.map((card) => card.position);
         const uniquePositions = new Set(positions);
         expect(positions.length).toEqual(uniquePositions.size);
+    });
+});
+
+describe('flashcards - position', () => {
+    beforeAll(() => {
+        TestFixture.initialize();
+    });
+
+    beforeEach(async () => TestFixture.logOut());
+
+    it('should allow authenticated users to update their own card positions', async () => {
+        await TestFixture.logIn('user1@example.com', 'password123');
+        const { data: deckData } = await TestFixture.getClient()
+            .from('decks')
+            .select('id')
+            .eq('name', 'Deck 1')
+            .single();
+
+        const newCards = nCards(5, deckData!.id);
+
+        await Promise.all(
+            newCards.map(async (card) => {
+                await TestFixture.getClient().from('flashcards').upsert(card);
+            }),
+        );
+        const { data: insertedCards } = await TestFixture.getClient()
+            .from('flashcards')
+            .select('*')
+            .eq('deck_id', deckData!.id);
+
+        await TestFixture.getClient().rpc('update_card_positions', {
+            card_ids: [insertedCards?.[0].id, insertedCards?.[1].id],
+            new_positions: [2, 1],
+        });
+
+        const { data: cardsAfterReorder } = await TestFixture.getClient()
+            .from('flashcards')
+            .select('*')
+            .eq('deck_id', deckData!.id);
+
+        expect(cardsAfterReorder?.map((card) => card.position)).toEqual([
+            2, 1, 3, 4, 5,
+        ]);
     });
 });

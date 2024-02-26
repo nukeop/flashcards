@@ -49,10 +49,13 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                     return;
                 }
 
+                const reorderedCards = swapItemsById(
+                    localCards,
+                    active.id,
+                    over.id,
+                );
                 startTransition(() => {
-                    setOptimisticCards(
-                        swapItemsById(localCards, active.id, over.id),
-                    );
+                    setOptimisticCards(reorderedCards);
                 });
 
                 const activeCard = optimisticCards.find(
@@ -67,8 +70,7 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                 }
 
                 const updatedDeck = await handleReorderFlashcards(
-                    activeCard.id,
-                    overCard.id,
+                    reorderedCards,
                     deckId,
                 );
                 setLocalCards(updatedDeck);

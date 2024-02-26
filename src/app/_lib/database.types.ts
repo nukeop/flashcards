@@ -150,17 +150,10 @@ export type Database = {
                 };
                 Returns: number;
             };
-            reorder_card: {
+            update_card_positions: {
                 Args: {
-                    card_id_arg: string;
-                    new_position_arg: number;
-                };
-                Returns: undefined;
-            };
-            swap_cards: {
-                Args: {
-                    card_id_1_arg: string;
-                    card_id_2_arg: string;
+                    card_ids: string[];
+                    new_positions: number[];
                 };
                 Returns: undefined;
             };
