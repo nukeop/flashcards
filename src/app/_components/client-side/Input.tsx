@@ -13,7 +13,7 @@ import {
 import { useAutofocus } from '../../_hooks/useAutofocus';
 
 const input = cva(
-    'flex-grow rounded border-none bg-transparent p-0.5 outline-none',
+    'flex-grow rounded border-none bg-transparent p-0.5 text-stone-600 outline-none',
     {
         variants: {
             error: {
@@ -23,13 +23,14 @@ const input = cva(
                 sm: 'text-sm',
                 md: 'text-md',
                 lg: 'text-lg',
+                xs: 'text-xs',
             },
         },
     },
 );
 
 const inputFrame = cva(
-    'flex h-full w-full flex-row rounded bg-stone-200 px-4 py-2 focus-within:shadow-inner',
+    'flex h-full w-full flex-row rounded-full border border-stone-300 bg-stone-200 px-2 py-1 focus-within:shadow-inner',
     {
         variants: {
             borderless: {
@@ -119,7 +120,7 @@ function Input({
                     )}
                 >
                     {prefix && (
-                        <div className="mr-2 flex flex-row items-center justify-start text-stone-400 group-focus-within:text-stone-600 group-active:text-stone-600">
+                        <div className="mr-2 flex flex-row items-center justify-start text-stone-400 group-focus-within:text-stone-500 group-active:text-stone-500">
                             {prefix}
                         </div>
                     )}

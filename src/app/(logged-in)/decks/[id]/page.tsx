@@ -1,10 +1,14 @@
 import Button from '@/app/_components/Button';
 import FlashcardEditorGrid from '@/app/_components/client-side/FlashcardEditorGrid';
+import Input from '@/app/_components/client-side/Input';
 import { HelpTooltip } from '@/app/_components/HelpTooltip';
 import Panel from '@/app/_components/Panel';
 import { fetchFlashcardsByDeckId } from '@/app/_data/flashcards';
 import { createSSRClient } from '@/app/_lib/supabase';
-import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import {
+    MagnifyingGlassIcon,
+    PencilSquareIcon,
+} from '@heroicons/react/24/outline';
 import DeckToggle from './DeckToggle';
 
 const Deck = async ({ params: { id } }: { params: { id: string } }) => {
@@ -54,6 +58,15 @@ const Deck = async ({ params: { id } }: { params: { id: string } }) => {
                 </div>
             </Panel>
 
+            <div className="flex flex-row">
+                <Input
+                    textSize="xs"
+                    type="text"
+                    placeholder="Search"
+                    classes={{ root: 'mb-4' }}
+                    prefix={<MagnifyingGlassIcon className="h-4 w-4" />}
+                />
+            </div>
             <FlashcardEditorGrid cards={deckCards} deckId={id} />
         </>
     );
