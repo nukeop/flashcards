@@ -1,5 +1,6 @@
 import Button from '@/app/_components/Button';
 import FlashcardEditorGrid from '@/app/_components/client-side/FlashcardEditorGrid';
+import { HelpTooltip } from '@/app/_components/HelpTooltip';
 import Panel from '@/app/_components/Panel';
 import { fetchFlashcardsByDeckId } from '@/app/_data/flashcards';
 import { createSSRClient } from '@/app/_lib/supabase';
@@ -41,9 +42,12 @@ const Deck = async ({ params: { id } }: { params: { id: string } }) => {
                         </p>
                     </div>
                     <div className="flex flex-row">
-                        <label className="mr-2">Private:</label>
+                        <label className="mr-2 flex flex-row items-center">
+                            <HelpTooltip content="Make your deck public to share it with others." />
+                            Publish:
+                        </label>
                         <DeckToggle
-                            initialChecked={!deck.data?.is_public}
+                            initialChecked={deck.data?.is_public}
                             deckId={id}
                         />
                     </div>

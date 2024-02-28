@@ -1,7 +1,7 @@
 import { cva, VariantProps } from 'class-variance-authority';
 
 const tooltip = cva(
-    'absolute z-20 hidden whitespace-nowrap rounded-md border border-stone-700 bg-stone-800 p-2 text-xs shadow-smooth-low group-hover:block',
+    'absolute z-20 hidden w-36 whitespace-normal text-wrap rounded-md border border-stone-600 bg-stone-800 px-2 py-1 text-xs text-stone-200 shadow-smooth-low group-hover:block',
     {
         variants: {
             placement: {
@@ -14,7 +14,7 @@ const tooltip = cva(
     },
 );
 
-type TooltipProps = {
+export type TooltipProps = {
     content: React.ReactElement | string | null;
     children: React.ReactNode;
 } & VariantProps<typeof tooltip>;
