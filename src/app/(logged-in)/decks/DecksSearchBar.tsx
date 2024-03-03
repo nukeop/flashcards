@@ -10,7 +10,7 @@ type DecksSearchBarProps = {
     onSearch?: (query: string) => void;
 };
 
-const DecksSearchBar: React.FC<DecksSearchBarProps> = () => {
+const DecksSearchBar: React.FC<DecksSearchBarProps> = ({ onSearch }) => {
     return (
         <Panel layout="row" className="justify-between">
             <div>
@@ -19,6 +19,7 @@ const DecksSearchBar: React.FC<DecksSearchBarProps> = () => {
                     textSize="lg"
                     placeholder="Type to search..."
                     borderless
+                    onChange={(e) => onSearch?.(e.target.value)}
                 />
             </div>
             <Link href="/decks/new" passHref>

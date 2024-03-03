@@ -58,15 +58,6 @@ const Deck = async ({ params: { id } }: { params: { id: string } }) => {
                 </div>
             </Panel>
 
-            <div className="flex flex-row">
-                <Input
-                    textSize="xs"
-                    type="text"
-                    placeholder="Search"
-                    classes={{ root: 'mb-4' }}
-                    prefix={<MagnifyingGlassIcon className="h-4 w-4" />}
-                />
-            </div>
             <FlashcardEditorGrid cards={deckCards} deckId={id} />
         </>
     );

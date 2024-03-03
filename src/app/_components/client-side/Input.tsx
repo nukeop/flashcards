@@ -13,7 +13,7 @@ import {
 import { useAutofocus } from '../../_hooks/useAutofocus';
 
 const input = cva(
-    'flex-grow rounded border-none bg-transparent p-0.5 text-stone-600 outline-none',
+    'flex-grow rounded border-none bg-transparent p-0.5 text-stone-600 placeholder-stone-500 outline-none',
     {
         variants: {
             error: {
@@ -30,7 +30,7 @@ const input = cva(
 );
 
 const inputFrame = cva(
-    'flex h-full w-full flex-row rounded-full border border-stone-300 bg-stone-200 px-2 py-1 focus-within:shadow-inner',
+    'flex h-full w-full flex-row rounded-full border border-stone-300 bg-stone-200/75 px-2 py-1 focus-within:shadow-inner',
     {
         variants: {
             borderless: {
