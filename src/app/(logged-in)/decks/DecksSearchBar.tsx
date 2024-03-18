@@ -12,16 +12,14 @@ type DecksSearchBarProps = {
 
 const DecksSearchBar: React.FC<DecksSearchBarProps> = ({ onSearch }) => {
     return (
-        <Panel layout="row" className="justify-between">
-            <div>
-                <Input
-                    prefix={<MagnifyingGlassIcon className="h-6 w-6" />}
-                    textSize="lg"
-                    placeholder="Type to search..."
-                    borderless
-                    onChange={(e) => onSearch?.(e.target.value)}
-                />
-            </div>
+        <Panel layout="row" className="justify-between gap-4">
+            <Input
+                prefix={<MagnifyingGlassIcon className="h-6 w-6" />}
+                textSize="lg"
+                placeholder="Type to search..."
+                borderless
+                onChange={(e) => onSearch?.(e.target.value)}
+            />
             <Link href="/decks/new" passHref>
                 <Button intent="green">
                     <PlusIcon className="mr-2 h-6 w-6" />

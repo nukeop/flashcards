@@ -30,12 +30,18 @@ const input = cva(
 );
 
 const inputFrame = cva(
-    'flex h-full w-full flex-row rounded-full border border-stone-300 bg-stone-200/75 px-2 py-1 focus-within:shadow-inner',
+    'flex w-full flex-row border border-stone-300 bg-stone-200/75 px-2 py-1 focus-within:shadow-inner',
     {
         variants: {
             borderless: {
                 true: 'border-none',
             },
+            fluid: {
+                true: 'h-full',
+            },
+        },
+        defaultVariants: {
+            fluid: true,
         },
     },
 );
@@ -101,6 +107,7 @@ function Input({
     classes,
     as = 'input',
     autoFocus,
+    fluid,
     ...props
 }: CombinedProps) {
     const Component = as as ElementType;
@@ -115,7 +122,7 @@ function Input({
                 )}
                 <div
                     className={clsx(
-                        inputFrame({ borderless }),
+                        inputFrame({ borderless, fluid }),
                         classes?.inputFrame,
                     )}
                 >

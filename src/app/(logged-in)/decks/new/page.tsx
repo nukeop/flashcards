@@ -1,6 +1,7 @@
 import Button from '@/app/_components/Button';
 import Input from '@/app/_components/client-side/Input';
 import Toggle from '@/app/_components/client-side/Toggle';
+import { HelpTooltip } from '@/app/_components/HelpTooltip';
 import { createSSRClient } from '@/app/_lib/supabase';
 import { redirect } from 'next/navigation';
 
@@ -48,6 +49,7 @@ const NewDeck = () => {
                         autoFocus
                         autoComplete="off"
                         label="Name"
+                        fluid={false}
                     />
                     <Input
                         name="description"
@@ -55,9 +57,13 @@ const NewDeck = () => {
                         required
                         autoComplete="off"
                         label="Description"
+                        fluid={false}
                     />
                     <label className="flex flex-row items-center justify-start gap-2">
-                        <span>Public</span>
+                        <label className="flex flex-row items-center">
+                            <HelpTooltip content="Make your deck public to share it with others." />
+                            Publish:
+                        </label>
                         <Toggle defaultChecked={false} name="public" />
                     </label>
                     <div className="flex flex-row items-center justify-end">
