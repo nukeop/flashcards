@@ -1,5 +1,5 @@
 import { AuthSession } from '@supabase/supabase-js';
-import { createContext } from 'react';
+import { createContext, useState } from 'react';
 import { Database } from '../_lib/database.types';
 
 export type SupabaseUserProfile =
@@ -35,3 +35,29 @@ const initialContext: UserContextType = {
 };
 
 export const UserContext = createContext<UserContextType>(initialContext);
+
+export const useUserContextState = () => {
+    const [session, setSession] = useState<AuthSession | null>(null);
+    const [userProfile, setUserProfile] = useState<SupabaseUserProfile | null>(
+        null,
+    );
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isReady, setIsReady] = useState<boolean>(false);
+    const [hasError, setHasError] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+
+    return {
+        session,
+        userProfile,
+        isLoading,
+        isReady,
+        hasError,
+        error,
+        setSession,
+        setUserProfile,
+        setIsLoading,
+        setIsReady,
+        setHasError,
+        setError,
+    };
+};
