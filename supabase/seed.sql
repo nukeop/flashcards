@@ -64,7 +64,8 @@ INSERT INTO public.decks (
         description,
         is_public,
         created_at,
-        updated_at
+        _modified,
+        _deleted
     ) (
         select uuid_generate_v4 (),
             id,
@@ -72,7 +73,8 @@ INSERT INTO public.decks (
             'Description for deck ' || (ROW_NUMBER() OVER ())::text,
             true,
             current_timestamp,
-            current_timestamp - INTERVAL '10 minutes'
+            current_timestamp - INTERVAL '10 minutes',
+            false
         from auth.users
     );
 INSERT INTO public.decks (
@@ -82,7 +84,8 @@ INSERT INTO public.decks (
         description,
         is_public,
         created_at,
-        updated_at
+        _modified,
+        _deleted
     ) (
         select uuid_generate_v4 (),
             id,
@@ -90,7 +93,8 @@ INSERT INTO public.decks (
             'Description for private deck',
             false,
             current_timestamp,
-            current_timestamp
+            current_timestamp,
+            false
         from auth.users
         where email = 'user1@example.com'
     );
@@ -101,7 +105,8 @@ INSERT INTO public.flashcards(
         back,
         position,
         created_at,
-        updated_at
+        _modified,
+        _deleted
     )
 SELECT uuid_generate_v4 (),
     d.id,
@@ -109,7 +114,8 @@ SELECT uuid_generate_v4 (),
     'Back ' || (gs.n)::text,
     1,
     current_timestamp,
-    current_timestamp
+    current_timestamp,
+    false
 FROM public.decks d
     CROSS JOIN generate_series(
         1,
@@ -126,7 +132,8 @@ INSERT INTO public.flashcards(
         back,
         position,
         created_at,
-        updated_at
+        _modified,
+        _deleted
     )
 SELECT uuid_generate_v4 (),
     d.id,
@@ -134,7 +141,8 @@ SELECT uuid_generate_v4 (),
     'Back ' || (gs.n)::text,
     gs.n,
     current_timestamp,
-    current_timestamp
+    current_timestamp,
+    false
 FROM public.decks d
     CROSS JOIN generate_series(1, 5) AS gs(n)
 WHERE d.name = 'Private deck';
