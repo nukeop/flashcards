@@ -1,75 +1,33 @@
 'use client';
 
+import { createBrowserClient } from '@supabase/ssr';
 import { useEffect } from 'react';
-import { DbContext, useDbContextState } from './_providers/DbContext';
+import { Provider as RxdbProvider } from 'rxdb-hooks';
+import { useRxDbState } from './_hooks/useRxDbState';
+import { Database } from './_lib/database.types';
 import { UserContext, useUserContextState } from './_providers/UserContext';
-
-const deckSchema = {
-    version: 0,
-    primaryKey: 'id',
-    type: 'object',
-    properties: {
-        id: { type: 'string', maxLength: 100 },
-        user_id: { type: 'string' },
-        name: { type: 'string' },
-        description: { type: 'string' },
-        created_at: { type: 'string' },
-        updated_at: { type: 'string' },
-        is_public: { type: 'boolean' },
-    },
-    required: [
-        'id',
-        'user_id',
-        'name',
-        'created_at',
-        'updated_at',
-        'is_public',
-    ],
-};
-
-const flashcardSchema = {
-    version: 0,
-    primaryKey: 'id',
-    type: 'object',
-    properties: {
-        id: { type: 'string', maxLength: 100 },
-        deck_id: { type: 'string' },
-        front: { type: 'string' },
-        back: { type: 'string' },
-        created_at: { type: 'string' },
-        updated_at: { type: 'string' },
-        position: { type: 'number' },
-    },
-    required: [
-        'id',
-        'deck_id',
-        'front',
-        'back',
-        'created_at',
-        'updated_at',
-        'position',
-    ],
-};
 
 export function Providers({ children }: { children: React.ReactNode }) {
     const userContextState = useUserContextState();
-    const dbContextState = useDbContextState();
+    const { db } = useRxDbState();
 
     useEffect(() => {
-        if (dbContextState.db) {
-            console.log('db exists');
-            dbContextState.db?.addCollections({
-                decks: { schema: deckSchema },
-                flashcards: { schema: flashcardSchema },
+        if (db) {
+            new Promise(async () => {
+                console.log('🟢 [RxDB] Database ready'); // eslint-disable-line no-console
+                const supabase = createBrowserClient<Database>(
+                    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+                    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+                );
             });
         }
-    }, [dbContextState.db]);
+    }, [db]);
 
     return (
-        <DbContext.Provider value={dbContextState}>
+        <RxdbProvider db={db!}>
             <UserContext.Provider value={userContextState}>
                 {children}
             </UserContext.Provider>
-        </DbContext.Provider>
+        </RxdbProvider>
     );
 }
