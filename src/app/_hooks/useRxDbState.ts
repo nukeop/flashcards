@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { addRxPlugin, createRxDatabase, RxDatabase } from 'rxdb';
 import { SupabaseReplication } from 'rxdb-supabase';
 import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode';
+import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder';
 import { getRxStorageDexie } from 'rxdb/plugins/storage-dexie';
 import { Database } from '../_lib/database.types';
 import { useEventListener } from './useEventListener';
@@ -64,6 +65,7 @@ const initialize = async () => {
     if (process.env.NODE_ENV === 'development') {
         addRxPlugin(RxDBDevModePlugin);
     }
+    addRxPlugin(RxDBQueryBuilderPlugin);
 
     const db = await createRxDatabase({
         name: 'flashcards',

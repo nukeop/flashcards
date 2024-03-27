@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createSSRClient } from '../../_lib/supabase';
-import SearchableDecksCollection from './SearchableDecksCollection';
+import DeckRetrievalWrapper from './DeckRetrievalWrapper';
 
 export const metadata: Metadata = {
     title: 'Decks',
@@ -15,19 +15,10 @@ const Decks = async () => {
         return null;
     }
 
-    const decks = await supabase
-        .from('decks')
-        .select('*')
-        .eq('user_id', user.data.user?.id || '');
-
-    if (!decks || !decks.data) {
-        return null;
-    }
-
     return (
         <>
             <h1 className="mb-4">Decks</h1>
-            <SearchableDecksCollection decks={decks.data} />
+            <DeckRetrievalWrapper />
         </>
     );
 };
