@@ -1,6 +1,5 @@
 'use client';
 
-import { useRxDbState } from '@/app/_hooks/useRxDbState';
 import { Database } from '@/app/_lib/database.types';
 import { Deck } from '@/app/_lib/types';
 import { createBrowserClient } from '@supabase/ssr';

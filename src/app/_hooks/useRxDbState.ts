@@ -107,7 +107,22 @@ const enableReplication = async (db: RxDatabase) => {
         console.error(message);
     });
 
-    return decksReplication;
+    const flashcardsReplication = new SupabaseReplication({
+        supabaseClient: supabase,
+        collection: db.flashcards,
+        table: `flashcards`,
+        replicationIdentifier: `flashcards_${process.env.NEXT_PUBLIC_SUPABASE_URL}_${userId}`,
+        pull: {}, // If absent, no data is pulled from Supabase
+        push: {}, // If absent, no changes are pushed to Supabase
+    });
+
+    flashcardsReplication.error$.subscribe((error) => {
+        const message = error.parameters.errors?.[0].message;
+        console.error('🔴 [RxDb] Replication error: ');
+        console.error(message);
+    });
+
+    return { decksReplication, flashcardsReplication };
 };
 
 export const useRxDbState = () => {
