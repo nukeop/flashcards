@@ -3,16 +3,15 @@
 import { Flashcard as FlashcardType } from '@/app/_lib/types';
 import { swapItemsById } from '@/app/_lib/utils';
 import {
-    handleDeleteFlashcard,
     handleEditFlashcard,
     handleNewFlashcard,
-    handleReorderFlashcards,
 } from '@/app/(logged-in)/decks/[id]/actions';
 import { DndContext } from '@dnd-kit/core';
 import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 import { MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import { startTransition, useOptimistic, useState } from 'react';
+import { startTransition, useEffect, useState } from 'react';
+import { RxDocument } from 'rxdb';
 import Button from '../Button';
 import AddFlashcardDialog from './AddFlashcardDialog';
 import EditFlashcardDialog from './EditFlashcardDialog';
@@ -23,7 +22,7 @@ import styles from './FlashcardEditorGrid.module.scss';
 import Input from './Input';
 
 type FlashcardEditorGridProps = {
-    cards: FlashcardType[];
+    cards: RxDocument<FlashcardType>[];
     deckId: string;
 };
 
@@ -34,14 +33,6 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
     const [localCards, setLocalCards] = useState(cards);
     const [editedCard, setEditedCard] = useState<FlashcardType | null>(null);
     const [isAddCardDialogOpen, setAddCardDialogOpen] = useState(false);
-
-    const [optimisticCards, setOptimisticCards] = useOptimistic<
-        FlashcardType[],
-        FlashcardType[]
-    >(
-        localCards,
-        (state: FlashcardType[], newCards: FlashcardType[]) => newCards,
-    );
 
     const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -54,6 +45,10 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
 
         setLocalCards(filteredCards);
     };
+
+    useEffect(() => {
+        setLocalCards(cards);
+    }, [cards]);
 
     return (
         <>
@@ -78,30 +73,18 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                         active.id,
                         over.id,
                     );
-                    startTransition(() => {
-                        setOptimisticCards(reorderedCards);
+
+                    reorderedCards.forEach((card, index) => {
+                        card.patch({
+                            position: index,
+                        });
                     });
 
-                    const activeCard = optimisticCards.find(
-                        (card) => card.id === active.id,
-                    );
-                    const overCard = optimisticCards.find(
-                        (card) => card.id === over.id,
-                    );
-
-                    if (!activeCard || !overCard) {
-                        return;
-                    }
-
-                    const updatedDeck = await handleReorderFlashcards(
-                        reorderedCards,
-                        deckId,
-                    );
-                    setLocalCards(updatedDeck);
+                    setLocalCards(reorderedCards);
                 }}
             >
                 <SortableContext
-                    items={optimisticCards}
+                    items={localCards}
                     strategy={rectSortingStrategy}
                 >
                     <FlashcardEditorDroppableArea>
@@ -202,7 +185,7 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                                 <PlusIcon className="mr-2 h-5 w-5" />
                                 Add
                             </Button>
-                            {optimisticCards.map((card) => (
+                            {localCards.map((card) => (
                                 <FlashcardEditorDraggableWrapper
                                     key={card.id}
                                     id={card.id}
@@ -212,30 +195,29 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                                             front={card.front}
                                             back={card.back}
                                             onDelete={async () => {
-                                                startTransition(() => {
-                                                    setOptimisticCards(
-                                                        optimisticCards.filter(
-                                                            (c) =>
-                                                                c.id !==
-                                                                card.id,
-                                                        ),
-                                                    );
-                                                });
-
-                                                try {
-                                                    await handleDeleteFlashcard(
-                                                        card.id,
-                                                    );
-                                                    setLocalCards(
-                                                        localCards.filter(
-                                                            (c) =>
-                                                                c.id !==
-                                                                card.id,
-                                                        ),
-                                                    );
-                                                } catch (e) {
-                                                    console.error(e);
-                                                }
+                                                // startTransition(() => {
+                                                //     setOptimisticCards(
+                                                //         optimisticCards.filter(
+                                                //             (c) =>
+                                                //                 c.id !==
+                                                //                 card.id,
+                                                //         ),
+                                                //     );
+                                                // });
+                                                // try {
+                                                //     await handleDeleteFlashcard(
+                                                //         card.id,
+                                                //     );
+                                                //     setLocalCards(
+                                                //         localCards.filter(
+                                                //             (c) =>
+                                                //                 c.id !==
+                                                //                 card.id,
+                                                //         ),
+                                                //     );
+                                                // } catch (e) {
+                                                //     console.error(e);
+                                                // }
                                             }}
                                             onEdit={() => setEditedCard(card)}
                                             flipBackOnMouseLeave

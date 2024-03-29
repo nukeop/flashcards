@@ -34,7 +34,6 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
         collection.findOne(id),
     );
 
-    // const deckCards = await fetchFlashcardsByDeckId(id);
     const { result: deckCards } = useRxData<Flashcard>(
         'flashcards',
         (collection) =>
@@ -48,6 +47,7 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
     if (!user) {
         return null;
     }
+
     return (
         <>
             <Panel padding="none">
@@ -79,10 +79,7 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
                 </div>
             </Panel>
 
-            <FlashcardEditorGrid
-                cards={deckCards.map((deckCard) => deckCard.toJSON())}
-                deckId={id}
-            />
+            <FlashcardEditorGrid cards={deckCards} deckId={id} />
         </>
     );
 };
