@@ -159,7 +159,8 @@ export const useRxDbState = () => {
         if (auth?.user?.id && db) {
             enableReplication(db).then((replicationSetup) => {
                 console.log('🟢 [RxDB] Starting replication'); // eslint-disable-line no-console
-                replicationSetup.start();
+                replicationSetup.decksReplication.start();
+                replicationSetup.flashcardsReplication.start();
                 setReplication(replicationSetup);
                 console.log('🟢 [RxDB] Replication started'); // eslint-disable-line no-console
             });
