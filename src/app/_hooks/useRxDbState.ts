@@ -19,17 +19,9 @@ const deckSchema = {
         name: { type: 'string' },
         description: { type: 'string' },
         created_at: { type: 'string' },
-        updated_at: { type: 'string' },
         is_public: { type: 'boolean' },
     },
-    required: [
-        'id',
-        'user_id',
-        'name',
-        'created_at',
-        'updated_at',
-        'is_public',
-    ],
+    required: ['id', 'user_id', 'name', 'created_at', 'is_public'],
 };
 
 const flashcardSchema = {
@@ -42,18 +34,9 @@ const flashcardSchema = {
         front: { type: 'string' },
         back: { type: 'string' },
         created_at: { type: 'string' },
-        updated_at: { type: 'string' },
         position: { type: 'number' },
     },
-    required: [
-        'id',
-        'deck_id',
-        'front',
-        'back',
-        'created_at',
-        'updated_at',
-        'position',
-    ],
+    required: ['id', 'deck_id', 'front', 'back', 'created_at', 'position'],
 };
 
 const supabase = createBrowserClient<Database>(

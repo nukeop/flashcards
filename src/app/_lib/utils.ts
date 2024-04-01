@@ -39,3 +39,9 @@ export function swapItemsById<T extends { id: UniqueIdentifier }>(
 
     return newArray;
 }
+
+export function findFirstMissingIndex(arr: number[]): number {
+    const sortedArr = arr.sort((a, b) => a - b);
+    const firstMissing = sortedArr.find((num, index) => num !== index + 1);
+    return firstMissing ? firstMissing - 1 : arr.length;
+}

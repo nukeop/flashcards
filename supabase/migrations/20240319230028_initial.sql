@@ -131,3 +131,11 @@ select using (true);
 -- Policy to allow authenticated users to update their own user_profiles
 create policy "Allow users to update their own user_profiles" on public.user_profiles for
 update using (auth.uid() = user_id);
+-- Create triggers that keep the _modified field updated
+CREATE EXTENSION IF NOT EXISTS moddatetime SCHEMA "extensions";
+CREATE TRIGGER update_modified_datetime_decks BEFORE
+UPDATE ON public.decks FOR EACH ROW EXECUTE FUNCTION extensions.moddatetime('_modified');
+CREATE TRIGGER update_modified_datetime_flashcards BEFORE
+UPDATE ON public.flashcards FOR EACH ROW EXECUTE FUNCTION extensions.moddatetime('_modified');
+CREATE TRIGGER update_modified_datetime_user_profiles BEFORE
+UPDATE ON public.user_profiles FOR EACH ROW EXECUTE FUNCTION extensions.moddatetime('_modified');

@@ -1,13 +1,15 @@
 'use client';
 
+import { useRxDbState } from '@/app/_hooks/useRxDbState';
 import { Flashcard as FlashcardType } from '@/app/_lib/types';
-import { swapItemsById } from '@/app/_lib/utils';
+import { findFirstMissingIndex, swapItemsById } from '@/app/_lib/utils';
 import { DndContext } from '@dnd-kit/core';
 import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 import { MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { RxDocument } from 'rxdb';
+import { v4 } from 'uuid';
 import Button from '../Button';
 import AddFlashcardDialog from './AddFlashcardDialog';
 import EditFlashcardDialog from './EditFlashcardDialog';
@@ -22,10 +24,14 @@ type FlashcardEditorGridProps = {
     deckId: string;
 };
 
-const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({ cards }) => {
+const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
+    cards,
+    deckId,
+}) => {
     const [localCards, setLocalCards] = useState(cards);
     const [editedCard, setEditedCard] = useState<FlashcardType | null>(null);
     const [isAddCardDialogOpen, setAddCardDialogOpen] = useState(false);
+    const { db } = useRxDbState();
 
     const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -106,37 +112,20 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({ cards }) => {
                                 onCancel={() => setAddCardDialogOpen(false)}
                                 onClose={() => setAddCardDialogOpen(false)}
                                 onSave={async (formData: FormData) => {
-                                    //     startTransition(() => {
-                                    //         setAddCardDialogOpen(false);
-                                    //         setOptimisticCards([
-                                    //             ...optimisticCards,
-                                    //             {
-                                    //                 id: 'temp-id',
-                                    //                 deck_id: deckId,
-                                    //                 front: formData.get(
-                                    //                     'front',
-                                    //                 ) as string,
-                                    //                 back: formData.get(
-                                    //                     'back',
-                                    //                 ) as string,
-                                    //                 position:
-                                    //                     optimisticCards.length,
-                                    //                 created_at:
-                                    //                     new Date().toISOString(),
-                                    //                 updated_at:
-                                    //                     new Date().toISOString(),
-                                    //             },
-                                    //         ]);
-                                    //     });
-                                    //     const newCard = await handleNewFlashcard(
-                                    //         formData,
-                                    //         deckId,
-                                    //     );
-                                    //     if (newCard) {
-                                    //         setLocalCards([...localCards, newCard]);
-                                    //     } else {
-                                    //         setLocalCards(localCards);
-                                    //     }
+                                    setAddCardDialogOpen(false);
+                                    console.log('Inserting card');
+                                    db?.flashcards.insert({
+                                        id: v4(),
+                                        deck_id: deckId,
+                                        front: formData.get('front') as string,
+                                        back: formData.get('back') as string,
+                                        created_at: new Date().toISOString(),
+                                        position: findFirstMissingIndex(
+                                            localCards.map(
+                                                (card) => card.position,
+                                            ),
+                                        ),
+                                    });
                                 }}
                             />
                             <Button
