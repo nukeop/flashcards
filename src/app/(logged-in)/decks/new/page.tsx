@@ -1,31 +1,29 @@
+'use client';
+
 import Button from '@/app/_components/Button';
 import Input from '@/app/_components/client-side/Input';
 import Toggle from '@/app/_components/client-side/Toggle';
 import { HelpTooltip } from '@/app/_components/HelpTooltip';
-import { createSSRClient } from '@/app/_lib/supabase';
+import { useRxDbState } from '@/app/_hooks/useRxDbState';
+import { useUser } from '@/app/_hooks/useUser';
 import { redirect } from 'next/navigation';
+import { v4 } from 'uuid';
 
 const NewDeck = () => {
+    const { db } = useRxDbState();
+    const { session } = useUser();
+
     const handleNewDeck = async (formData: FormData) => {
-        'use server';
         const rawFormData = {
             name: formData.get('name') as string,
             description: formData.get('description') as string,
             is_public: formData.get('public') === 'on',
         };
-
-        const supabase = await createSSRClient();
-        const userId = (await supabase.auth.getUser())?.data.user?.id;
-
-        if (!userId) {
-            return null;
-        }
-
-        await supabase.from('decks').insert({
+        db?.decks.insert({
             ...rawFormData,
-            user_id: userId,
+            id: v4(),
+            user_id: session?.user.id,
         });
-
         redirect('/decks');
     };
 

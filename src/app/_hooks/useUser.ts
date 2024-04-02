@@ -40,23 +40,6 @@ export const useUser = () => {
                 context.setError(error.message);
                 return;
             }
-            //     return supabase
-            //         .from('user_profiles')
-            //         .select('*')
-            //         .eq('user_id', session.user.id)
-            //         .single();
-            // })
-            // .then(async (profile) => {
-            //     if (profile?.error) {
-            //         throw new Error(profile.error.message);
-            //     }
-
-            //     if (profile?.data) {
-            //         context.setUserProfile(profile.data);
-            //         context.setIsLoading(false);
-            //         context.setIsReady(true);
-            //     }
-            // });
         }
 
         getUser();

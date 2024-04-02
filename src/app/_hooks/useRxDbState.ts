@@ -80,8 +80,8 @@ const enableReplication = async (db: RxDatabase) => {
         collection: db.decks,
         table: `decks`,
         replicationIdentifier: `decks_${process.env.NEXT_PUBLIC_SUPABASE_URL}_${userId}`,
-        pull: {}, // If absent, no data is pulled from Supabase
-        push: {}, // If absent, no changes are pushed to Supabase
+        pull: {},
+        push: {},
     });
 
     decksReplication.error$.subscribe((error) => {
@@ -95,8 +95,8 @@ const enableReplication = async (db: RxDatabase) => {
         collection: db.flashcards,
         table: `flashcards`,
         replicationIdentifier: `flashcards_${process.env.NEXT_PUBLIC_SUPABASE_URL}_${userId}`,
-        pull: {}, // If absent, no data is pulled from Supabase
-        push: {}, // If absent, no changes are pushed to Supabase
+        pull: {},
+        push: {},
     });
 
     flashcardsReplication.error$.subscribe((error) => {

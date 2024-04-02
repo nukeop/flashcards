@@ -73,9 +73,11 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                         over.id,
                     );
 
-                    reorderedCards.forEach((card, index) => {
-                        card.patch({ position: index });
-                    });
+                    await Promise.all(
+                        reorderedCards.map(async (card, index) => {
+                            return card.patch({ position: index });
+                        }),
+                    );
 
                     setLocalCards(reorderedCards);
                 }}
@@ -101,7 +103,7 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                                     const newEditedCard = localCards.find(
                                         (card) => card.id === editedCard?.id,
                                     ) as RxDocument<FlashcardType>;
-                                    newEditedCard?.patch({
+                                    await newEditedCard?.patch({
                                         front: formData.get('front') as string,
                                         back: formData.get('back') as string,
                                     });
@@ -113,8 +115,7 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                                 onClose={() => setAddCardDialogOpen(false)}
                                 onSave={async (formData: FormData) => {
                                     setAddCardDialogOpen(false);
-                                    console.log('Inserting card');
-                                    db?.flashcards.insert({
+                                    await db?.flashcards.insert({
                                         id: v4(),
                                         deck_id: deckId,
                                         front: formData.get('front') as string,
