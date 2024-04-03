@@ -16,7 +16,6 @@ export type Database = {
                     id: string;
                     is_public: boolean;
                     name: string;
-                    updated_at: string;
                     user_id: string;
                 };
                 Insert: {
@@ -25,7 +24,6 @@ export type Database = {
                     id?: string;
                     is_public?: boolean;
                     name: string;
-                    updated_at?: string;
                     user_id: string;
                 };
                 Update: {
@@ -34,7 +32,6 @@ export type Database = {
                     id?: string;
                     is_public?: boolean;
                     name?: string;
-                    updated_at?: string;
                     user_id?: string;
                 };
                 Relationships: [
@@ -55,7 +52,6 @@ export type Database = {
                     front: string;
                     id: string;
                     position: number;
-                    updated_at: string;
                 };
                 Insert: {
                     back: string;
@@ -64,7 +60,6 @@ export type Database = {
                     front: string;
                     id?: string;
                     position?: number;
-                    updated_at?: string;
                 };
                 Update: {
                     back?: string;
@@ -73,7 +68,6 @@ export type Database = {
                     front?: string;
                     id?: string;
                     position?: number;
-                    updated_at?: string;
                 };
                 Relationships: [
                     {
@@ -97,21 +91,18 @@ export type Database = {
                     created_at: string;
                     display_name: string;
                     id: string;
-                    updated_at: string;
                     user_id: string;
                 };
                 Insert: {
                     created_at?: string;
                     display_name: string;
                     id: string;
-                    updated_at?: string;
                     user_id: string;
                 };
                 Update: {
                     created_at?: string;
                     display_name?: string;
                     id?: string;
-                    updated_at?: string;
                     user_id?: string;
                 };
                 Relationships: [

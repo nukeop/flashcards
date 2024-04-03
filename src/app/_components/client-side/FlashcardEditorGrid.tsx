@@ -1,6 +1,5 @@
 'use client';
 
-import { useRxDbState } from '@/app/_hooks/useRxDbState';
 import { Flashcard as FlashcardType } from '@/app/_lib/types';
 import { findFirstMissingIndex, swapItemsById } from '@/app/_lib/utils';
 import { DndContext } from '@dnd-kit/core';
@@ -9,6 +8,7 @@ import { MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { RxDocument } from 'rxdb';
+import { useRxCollection } from 'rxdb-hooks';
 import { v4 } from 'uuid';
 import Button from '../Button';
 import AddFlashcardDialog from './AddFlashcardDialog';
@@ -31,7 +31,7 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
     const [localCards, setLocalCards] = useState(cards);
     const [editedCard, setEditedCard] = useState<FlashcardType | null>(null);
     const [isAddCardDialogOpen, setAddCardDialogOpen] = useState(false);
-    const { db } = useRxDbState();
+    const flashcardsCollection = useRxCollection<FlashcardType>('flashcards');
 
     const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -115,7 +115,7 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                                 onClose={() => setAddCardDialogOpen(false)}
                                 onSave={async (formData: FormData) => {
                                     setAddCardDialogOpen(false);
-                                    await db?.flashcards.insert({
+                                    await flashcardsCollection?.insert({
                                         id: v4(),
                                         deck_id: deckId,
                                         front: formData.get('front') as string,
