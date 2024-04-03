@@ -1,8 +1,8 @@
 'use client';
 
 import Toggle, { ToggleProps } from '@/app/_components/client-side/Toggle';
-import { startTransition, useOptimistic, useState } from 'react';
-import { handleTogglePublicDeck } from './actions';
+import { Deck as DeckType } from '@/app/_lib/types';
+import { useRxData } from 'rxdb-hooks';
 
 type DeckToggleProps = {
     deckId: string;
@@ -10,22 +10,19 @@ type DeckToggleProps = {
 };
 
 const DeckToggle: React.FC<DeckToggleProps> = ({ initialChecked, deckId }) => {
-    const [isChecked, setChecked] = useState<boolean>(initialChecked ?? false);
+    const { result: deck } = useRxData<DeckType>('decks', (collection) =>
+        collection.findOne(deckId),
+    );
 
-    const [optimisticChecked, setOptimisticChecked] = useOptimistic<
-        boolean,
-        boolean
-    >(isChecked, (state: boolean, targetState: boolean) => targetState);
+    const handlePublish = async (checked: boolean) => {
+        await deck.at(0)?.patch({ is_public: !checked });
+    };
 
     return (
         <Toggle
-            checked={optimisticChecked}
+            checked={deck.at(0)?.get('is_public') ?? initialChecked}
             onChange={async (checked) => {
-                startTransition(() => {
-                    setOptimisticChecked(checked);
-                });
-                await handleTogglePublicDeck?.(!checked, deckId);
-                setChecked(checked);
+                await handlePublish?.(!checked);
             }}
         />
     );
