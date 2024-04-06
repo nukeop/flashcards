@@ -11,13 +11,14 @@ const button = cva(
                     'bg-sky-500 px-6 text-stone-50 hover:bg-sky-400 active:bg-sky-400',
                 green: 'bg-green-500 px-6 text-stone-50 hover:bg-green-400 active:bg-green-400',
                 sidebar:
-                    'px-2 hover:bg-overlay-contrast active:bg-muted-contrast/25 ',
+                    'px-2 text-stone-500 hover:bg-stone-200 active:bg-stone-200',
                 topbar: 'px-2 hover:bg-sky-400 active:bg-sky-400',
                 breadcrumbs:
                     'px-2 hover:bg-white hover:shadow active:bg-white active:shadow',
                 text: 'bg-transparent px-4 hover:bg-stone-200 active:bg-stone-300',
                 basic: 'border border-stone-300 bg-stone-50 px-2 hover:bg-stone-100',
                 transparent: 'bg-transparent px-2 hover:bg-stone-100',
+                iconButton: 'py-0',
             },
             isLoading: {
                 true: 'cursor-not-allowed',

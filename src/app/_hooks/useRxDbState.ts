@@ -65,6 +65,7 @@ const initialize = async () => {
 };
 
 const enableReplication = async (db: RxDatabase) => {
+    console.log('🟢 [RxDB] Starting replication'); // eslint-disable-line no-console
     const user = await supabase.auth.getUser();
     if (user.error) {
         throw user.error;
@@ -82,6 +83,7 @@ const enableReplication = async (db: RxDatabase) => {
         replicationIdentifier: `decks_${process.env.NEXT_PUBLIC_SUPABASE_URL}_${userId}`,
         pull: {},
         push: {},
+        autoStart: true,
     });
 
     decksReplication.error$.subscribe((error) => {
@@ -97,6 +99,7 @@ const enableReplication = async (db: RxDatabase) => {
         replicationIdentifier: `flashcards_${process.env.NEXT_PUBLIC_SUPABASE_URL}_${userId}`,
         pull: {},
         push: {},
+        autoStart: true,
     });
 
     flashcardsReplication.error$.subscribe((error) => {
@@ -140,13 +143,12 @@ export const useRxDbState = () => {
 
     useEffect(() => {
         if (auth?.user?.id && db) {
-            enableReplication(db).then((replicationSetup) => {
-                console.log('🟢 [RxDB] Starting replication'); // eslint-disable-line no-console
-                replicationSetup.decksReplication.start();
-                replicationSetup.flashcardsReplication.start();
-                setReplication(replicationSetup);
-                console.log('🟢 [RxDB] Replication started'); // eslint-disable-line no-console
-            });
+            if (!replication) {
+                enableReplication(db).then((replicationSetup) => {
+                    setReplication(replicationSetup);
+                    console.log('🟢 [RxDB] Replication started'); // eslint-disable-line no-console
+                });
+            }
         } else {
             replication?.cancel();
             console.warn('🔴 [RxDB] Not logged in - replication stopped');

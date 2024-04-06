@@ -56,7 +56,7 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                     textSize="xs"
                     type="text"
                     placeholder="Search"
-                    classes={{ root: 'mb-4' }}
+                    classes={{ root: 'mb-4', inputFrame: 'rounded' }}
                     prefix={<MagnifyingGlassIcon className="h-4 w-4" />}
                     onChange={onSearch}
                 />

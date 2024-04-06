@@ -53,28 +53,36 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
             <Panel padding="none">
                 <div className="flex flex-row items-center justify-start gap-2 px-4 py-2">
                     <div className="flex flex-grow flex-col">
-                        <h3 className="flex flex-row items-center">
+                        <h3 className="flex flex-row items-center text-stone-600">
                             {deck[0].get('name')}
-                            <Button className="ml-2 text-stone-600">
+                            <Button
+                                intent="iconButton"
+                                className="ml-2 text-stone-600"
+                            >
                                 <PencilSquareIcon className="h-6 w-6" />
                             </Button>
                         </h3>
-                        <p className="flex flex-row items-center text-stone-500">
+                        <p className="flex flex-row items-center text-sm text-stone-400">
                             {deck[0].get('description')}
-                            <Button className="ml-2 text-stone-500">
+                            <Button
+                                intent="iconButton"
+                                className="ml-2 text-stone-400"
+                            >
                                 <PencilSquareIcon className="h-4 w-4" />
                             </Button>
                         </p>
                     </div>
-                    <div className="flex flex-row">
-                        <label className="mr-2 flex flex-row items-center">
-                            <HelpTooltip content="Make your deck public to share it with others." />
-                            Publish:
-                        </label>
-                        <DeckToggle
-                            initialChecked={deck[0].get('is_public')}
-                            deckId={id}
-                        />
+                    <div className="flex flex-col">
+                        <div className="flex flex-row">
+                            <label className="mr-2 flex flex-row items-center">
+                                <HelpTooltip content="Make your deck public to share it with others." />
+                                Publish:
+                            </label>
+                            <DeckToggle
+                                initialChecked={deck[0].get('is_public')}
+                                deckId={id}
+                            />
+                        </div>
                     </div>
                 </div>
             </Panel>
