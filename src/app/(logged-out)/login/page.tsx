@@ -39,7 +39,7 @@ const Login = () => {
             </form>
             <div className="mt-3 text-center text-sm">
                 Not a member?{' '}
-                <Link href="/sign-up" className="text-sky-500">
+                <Link href="/sign-up" className="text-stone-600">
                     Sign up
                 </Link>
             </div>

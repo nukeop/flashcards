@@ -8,9 +8,8 @@ const button = cva(
         variants: {
             intent: {
                 primary:
-                    'bg-sky-500 px-6 text-stone-50 hover:bg-sky-400 active:bg-sky-400',
+                    'bg-stone-500 px-6 text-stone-50 hover:bg-stone-400 active:bg-stone-400',
                 green: 'bg-green-500 px-6 text-stone-50 hover:bg-green-400 active:bg-green-400',
-                dark: 'bg-stone-500 px-6 text-stone-50 hover:bg-stone-400 active:bg-stone-400',
                 sidebar:
                     'px-2 text-stone-500 hover:bg-stone-200 active:bg-stone-200',
                 topbar: 'px-2 hover:bg-stone-700 active:bg-stone-800/75',

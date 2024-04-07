@@ -40,7 +40,10 @@ const SearchableDecksCollection = ({
                             );
                         }}
                     />
-                    <div className="relative grid h-auto gap-4 rounded-lg sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                    <div
+                        data-testid="decks-collection"
+                        className="relative grid h-auto gap-4 rounded-lg sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                    >
                         {filteredDecks.map((deck) => {
                             return (
                                 <Link href={`/decks/${deck.id}`} key={deck.id}>

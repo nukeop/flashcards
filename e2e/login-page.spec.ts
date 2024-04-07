@@ -29,5 +29,7 @@ test('should redirect to the dashboard after logging in', async ({ page }) => {
 
     await expect(page).toHaveURL('http://localhost:3000/decks');
     await expect(page).toHaveTitle('Decks | Flashcards');
+    await page.waitForSelector('[data-testid="decks-collection"]');
+    await page.waitForSelector('[data-testid="breadcrumbs-root"]');
     await expect(page).toHaveScreenshot();
 });

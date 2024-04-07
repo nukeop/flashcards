@@ -21,7 +21,7 @@ const DecksSearchBar: React.FC<DecksSearchBarProps> = ({ onSearch }) => {
                 onChange={(e) => onSearch?.(e.target.value)}
             />
             <Link href="/decks/new" passHref>
-                <Button intent="dark">
+                <Button intent="primary">
                     <PlusIcon className="mr-2 h-6 w-6" />
                     Add
                 </Button>

@@ -67,7 +67,7 @@ const NewDeck = () => {
                         <Toggle defaultChecked={false} name="public" />
                     </label>
                     <div className="flex flex-row items-center justify-end">
-                        <Button intent="dark" type="submit">
+                        <Button intent="primary" type="submit">
                             Create deck
                         </Button>
                     </div>
