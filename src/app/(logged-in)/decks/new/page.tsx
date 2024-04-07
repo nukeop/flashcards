@@ -34,9 +34,9 @@ const NewDeck = () => {
             <form
                 action={handleNewDeck}
                 method="post"
-                className="col-start-2 mx-auto flex flex-col gap-2 rounded-lg border border-muted/75 bg-surface px-8 py-4"
+                className="col-start-2 mx-auto flex flex-col gap-2 rounded-lg border border-stone-300 bg-stone-50 px-8 py-4"
             >
-                <h1>Create a new deck</h1>
+                <h1 className="text-stone-600">Create a new deck</h1>
                 <p className="text-muted">
                     A deck is a collection of cards about a specific topic.
                 </p>
@@ -67,7 +67,7 @@ const NewDeck = () => {
                         <Toggle defaultChecked={false} name="public" />
                     </label>
                     <div className="flex flex-row items-center justify-end">
-                        <Button intent="green" type="submit">
+                        <Button intent="dark" type="submit">
                             Create deck
                         </Button>
                     </div>

@@ -5,14 +5,12 @@ import {
     ChevronDoubleLeftIcon,
     ChevronDoubleRightIcon,
 } from '@heroicons/react/24/outline';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import Button from '../Button';
 import SidebarDecks from './SidebarDecks';
 import SidebarHeader from './SidebarHeader';
 
-type SidebarProps = {
-    show: boolean;
-};
+type SidebarProps = {};
 
 const Sidebar: React.FC<SidebarProps> = ({}) => {
     const [show, setShow] = useState<boolean>(true);

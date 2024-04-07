@@ -30,7 +30,7 @@ const input = cva(
 );
 
 const inputFrame = cva(
-    'flex w-full flex-row border border-stone-300 bg-stone-200/75 px-2 py-1 focus-within:shadow-inner',
+    'flex w-full flex-row rounded border border-stone-300 bg-stone-200/50 px-2 py-1 focus-within:shadow-inner',
     {
         variants: {
             borderless: {

@@ -1,12 +1,14 @@
 import Breadcrumbs from '../_components/client-side/Breadcrumbs';
 import Sidebar from '../_components/Sidebar/Sidebar';
 import TopNavBar from '../_components/TopNavBar';
+import Vignette from '../_components/Vignette';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <>
             <TopNavBar />
-            <div className="flex h-full flex-row">
+            <div className="relative flex h-full flex-row">
+                <Vignette />
                 <Sidebar />
                 <div className="flex flex-grow flex-col">
                     <Breadcrumbs />

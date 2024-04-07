@@ -44,11 +44,11 @@ const SearchableDecksCollection = ({
                         {filteredDecks.map((deck) => {
                             return (
                                 <Link href={`/decks/${deck.id}`} key={deck.id}>
-                                    <Card fluid accent="violetpink">
-                                        <h3 className="truncate">
+                                    <Card fluid accent="dark">
+                                        <h3 className="truncate text-stone-600">
                                             {deck.name}
                                         </h3>
-                                        <p className="truncate">
+                                        <p className="truncate text-stone-400">
                                             {deck.description}
                                         </p>
                                     </Card>

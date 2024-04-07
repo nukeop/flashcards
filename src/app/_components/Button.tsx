@@ -10,9 +10,10 @@ const button = cva(
                 primary:
                     'bg-sky-500 px-6 text-stone-50 hover:bg-sky-400 active:bg-sky-400',
                 green: 'bg-green-500 px-6 text-stone-50 hover:bg-green-400 active:bg-green-400',
+                dark: 'bg-stone-500 px-6 text-stone-50 hover:bg-stone-400 active:bg-stone-400',
                 sidebar:
                     'px-2 text-stone-500 hover:bg-stone-200 active:bg-stone-200',
-                topbar: 'px-2 hover:bg-sky-400 active:bg-sky-400',
+                topbar: 'px-2 hover:bg-stone-700 active:bg-stone-800/75',
                 breadcrumbs:
                     'px-2 hover:bg-white hover:shadow active:bg-white active:shadow',
                 text: 'bg-transparent px-4 hover:bg-stone-200 active:bg-stone-300',

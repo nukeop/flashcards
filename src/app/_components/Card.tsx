@@ -24,6 +24,7 @@ const card = cva(
 const accentBar = cva('relative w-3 flex-shrink-0 flex-grow-0', {
     variants: {
         accent: {
+            dark: 'bg-stone-500',
             greenblue: 'bg-gradient-to-t from-green-400 to-blue-500',
             violetpink: 'bg-gradient-to-t from-purple-400 to-pink-500',
         },

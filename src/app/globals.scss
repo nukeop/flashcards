@@ -64,24 +64,24 @@
 }
 
 body {
-  @apply bg-stone-100 text-stone-900;
+  @apply bg-stone-100 text-stone-800;
   @apply relative h-full w-full flex flex-col;
 }
 
 h1 {
-  @apply text-3xl font-bold;
+  @apply text-3xl font-bold text-stone-600;
 }
 
 h2 {
-  @apply text-2xl font-bold;
+  @apply text-2xl font-bold text-stone-600;
 }
 
 h3 {
-  @apply text-xl font-bold;
+  @apply text-xl font-bold text-stone-600;
 }
 
 h4 {
-  @apply text-lg font-bold;
+  @apply text-lg font-bold text-stone-600;
 }
 
 p {
