@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Red_Hat_Display } from 'next/font/google';
 import './globals.scss';
-import Vignette from './_components/Vignette';
 import { Providers } from './providers';
 
 const font = Red_Hat_Display({

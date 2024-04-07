@@ -10,9 +10,7 @@ import Button from '../Button';
 import SidebarDecks from './SidebarDecks';
 import SidebarHeader from './SidebarHeader';
 
-type SidebarProps = {};
-
-const Sidebar: React.FC<SidebarProps> = ({}) => {
+const Sidebar: React.FC = () => {
     const [show, setShow] = useState<boolean>(true);
     return (
         <>

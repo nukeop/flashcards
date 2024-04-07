@@ -7,6 +7,7 @@ import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode';
 import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder';
 import { getRxStorageDexie } from 'rxdb/plugins/storage-dexie';
 import { Database } from '../_lib/database.types';
+import { Deck, Flashcard } from '../_lib/types';
 import { useEventListener } from './useEventListener';
 
 const deckSchema = {
@@ -76,15 +77,17 @@ const enableReplication = async (db: RxDatabase) => {
     }
 
     const userId = user.data.user.id.replaceAll('-', '_');
-    const decksReplication = new SupabaseReplication({
-        supabaseClient: supabase,
-        collection: db.decks,
-        table: `decks`,
-        replicationIdentifier: `decks_${process.env.NEXT_PUBLIC_SUPABASE_URL}_${userId}`,
-        pull: {},
-        push: {},
-        autoStart: true,
-    });
+    const decksReplication: SupabaseReplication<Deck> = new SupabaseReplication(
+        {
+            supabaseClient: supabase,
+            collection: db.decks,
+            table: `decks`,
+            replicationIdentifier: `decks_${process.env.NEXT_PUBLIC_SUPABASE_URL}_${userId}`,
+            pull: {},
+            push: {},
+            autoStart: true,
+        },
+    );
 
     decksReplication.error$.subscribe((error) => {
         const message = error.parameters.errors?.[0].message;
@@ -92,15 +95,16 @@ const enableReplication = async (db: RxDatabase) => {
         console.error(message);
     });
 
-    const flashcardsReplication = new SupabaseReplication({
-        supabaseClient: supabase,
-        collection: db.flashcards,
-        table: `flashcards`,
-        replicationIdentifier: `flashcards_${process.env.NEXT_PUBLIC_SUPABASE_URL}_${userId}`,
-        pull: {},
-        push: {},
-        autoStart: true,
-    });
+    const flashcardsReplication: SupabaseReplication<Flashcard> =
+        new SupabaseReplication({
+            supabaseClient: supabase,
+            collection: db.flashcards,
+            table: `flashcards`,
+            replicationIdentifier: `flashcards_${process.env.NEXT_PUBLIC_SUPABASE_URL}_${userId}`,
+            pull: {},
+            push: {},
+            autoStart: true,
+        });
 
     flashcardsReplication.error$.subscribe((error) => {
         const message = error.parameters.errors?.[0].message;
@@ -114,9 +118,10 @@ const enableReplication = async (db: RxDatabase) => {
 export const useRxDbState = () => {
     const [db, setDb] = useState<RxDatabase | null>(null);
     const [auth, setAuth] = useState<AuthSession | null>(null);
-    const [replication, setReplication] = useState<SupabaseReplication | null>(
-        null,
-    );
+    const [decksReplication, setDecksReplication] =
+        useState<SupabaseReplication<Deck> | null>(null);
+    const [flashcardsReplication, setFlashcardsReplication] =
+        useState<SupabaseReplication<Flashcard> | null>(null);
 
     useEffect(() => {
         initialize().then((db) => {
@@ -143,21 +148,30 @@ export const useRxDbState = () => {
 
     useEffect(() => {
         if (auth?.user?.id && db) {
-            if (!replication) {
+            if (!decksReplication || !flashcardsReplication) {
                 enableReplication(db).then((replicationSetup) => {
-                    setReplication(replicationSetup);
+                    setDecksReplication(replicationSetup.decksReplication);
+                    setFlashcardsReplication(
+                        replicationSetup.flashcardsReplication,
+                    );
                     console.log('🟢 [RxDB] Replication started'); // eslint-disable-line no-console
                 });
             }
         } else {
-            replication?.cancel();
+            decksReplication?.cancel();
+            flashcardsReplication?.cancel();
             console.warn('🔴 [RxDB] Not logged in - replication stopped');
         }
     }, [auth, db]); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEventListener('online', () => {
-        if (!replication) return;
-        replication.reSync();
+        if (decksReplication) {
+            decksReplication.reSync();
+        }
+
+        if (flashcardsReplication) {
+            flashcardsReplication.reSync();
+        }
         console.log('🔄 [RxDB] Replication resync'); // eslint-disable-line no-console
     });
 
