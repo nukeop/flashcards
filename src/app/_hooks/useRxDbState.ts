@@ -2,12 +2,12 @@ import { createBrowserClient } from '@supabase/ssr';
 import { AuthSession } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import { addRxPlugin, createRxDatabase, RxDatabase } from 'rxdb';
-import { SupabaseReplication } from 'rxdb-supabase';
 import { RxDBDevModePlugin } from 'rxdb/plugins/dev-mode';
 import { RxDBQueryBuilderPlugin } from 'rxdb/plugins/query-builder';
 import { getRxStorageDexie } from 'rxdb/plugins/storage-dexie';
 import { Database } from '../_lib/database.types';
 import { Deck, Flashcard } from '../_lib/types';
+import { SupabaseReplication } from '../_rxdb/supabase-replication';
 import { useEventListener } from './useEventListener';
 
 const deckSchema = {
