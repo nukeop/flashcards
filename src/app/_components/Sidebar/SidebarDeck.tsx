@@ -10,7 +10,11 @@ type SidebarDeckProps = {
 const SidebarDeck: React.FC<SidebarDeckProps> = ({ id, name }) => {
     const pathname = usePathname();
     return (
-        <SidebarLink isActive={pathname.includes(id)} href={`/decks/${id}`}>
+        <SidebarLink
+            data-testid="sidebar-deck"
+            isActive={pathname.includes(id)}
+            href={`/decks/${id}`}
+        >
             <BookOpenIcon className="mr-2 h-4 w-4" />
             {name}
         </SidebarLink>

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 type SidebarLinkProps = {
+    'data-testid'?: string;
     className?: string;
     isActive?: boolean;
     href: string;
@@ -20,6 +21,7 @@ const sidebarLink = cva('flex items-center px-2 py-1 text-sm text-stone-600', {
 });
 
 const SidebarLink: FC<SidebarLinkProps> = ({
+    'data-testid': testId = 'sidebar-link',
     isActive = false,
     className,
     href,
@@ -27,6 +29,7 @@ const SidebarLink: FC<SidebarLinkProps> = ({
 }) => {
     return (
         <Link
+            data-testid={testId}
             className={clsx(sidebarLink({ isActive }), className)}
             href={href}
         >

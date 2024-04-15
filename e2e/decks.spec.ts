@@ -20,3 +20,43 @@ test('should add a new deck', async ({ page }) => {
     await expect(page.locator('h3').getByText('My new deck')).toBeVisible();
     await expect(page.getByText('My new deck description')).toBeVisible();
 });
+
+test('should display decks in the sidebar', async ({ page }) => {
+    await expect(page).toHaveURL('http://localhost:3000/decks');
+    await expect(
+        page.locator('a[data-testid="sidebar-deck"]:has-text("Private deck")'),
+    ).toBeVisible();
+    await expect(
+        page.locator('a[data-testid="sidebar-deck"]:has-text("Deck 8")'),
+    ).toBeVisible();
+});
+
+test('should go to the deck page', async ({ page }) => {
+    await page
+        .locator('a[data-testid="sidebar-deck"]:has-text("Private deck")')
+        .click();
+    await expect(page).toHaveURL(
+        /http:\/\/localhost:3000\/decks\/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/,
+    );
+    await expect(page).toHaveScreenshot();
+
+    await expect(page.locator('h3').getByText('Private deck')).toBeVisible();
+    await expect(
+        page.locator('p').getByText('Description for private deck'),
+    ).toBeVisible();
+});
+
+test('should be able to publish a deck', async ({ page }) => {
+    await page
+        .locator('a[data-testid="sidebar-deck"]:has-text("Private deck")')
+        .click();
+    await expect(page).toHaveURL(
+        /http:\/\/localhost:3000\/decks\/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/,
+    );
+    await page.locator('[data-testid="toggle"]').click();
+    await expect(page).toHaveScreenshot();
+
+    await expect(
+        page.locator('[data-testid="toggle"]').getAttribute('aria-checked'),
+    ).toBe('true');
+});

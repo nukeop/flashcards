@@ -32,6 +32,7 @@ const Toggle: React.FC<ToggleProps> = ({
 }) => {
     return (
         <Switch
+            data-testid="toggle"
             checked={checked}
             onChange={onChange}
             defaultChecked={defaultChecked}

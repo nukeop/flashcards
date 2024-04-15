@@ -73,13 +73,12 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                         over.id,
                     );
 
+                    setLocalCards(reorderedCards);
                     await Promise.all(
                         reorderedCards.map(async (card, index) => {
                             return card.patch({ position: index });
                         }),
                     );
-
-                    setLocalCards(reorderedCards);
                 }}
             >
                 <SortableContext

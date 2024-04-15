@@ -4,7 +4,6 @@ create table public.user_profiles (
     user_id uuid not null references auth.users (id),
     display_name text not null,
     created_at timestamp with time zone not null default timezone ('utc'::text, now ()),
-    updated_at timestamp with time zone not null default timezone ('utc'::text, now ())
 );
 -- Create a function to create a profile when a user is created
 create or replace function create_user_profile() returns trigger as $$ begin
