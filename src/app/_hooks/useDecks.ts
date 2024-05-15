@@ -24,7 +24,8 @@ export const useDecks = () => {
 
     const { result: decks, isFetching } = useRxData<Deck>(
         'decks',
-        (collection) => collection.find().where('user_id').equals(user?.id),
+        (collection) =>
+            collection.find().where('user_id').equals(user?.id).sort('name'),
     );
 
     return { decks, isLoading: isFetching };

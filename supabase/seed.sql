@@ -48,14 +48,15 @@ INSERT INTO auth.identities (
         updated_at
     ) (
         select uuid_generate_v4 (),
-            id,
-            id,
-            format('{"sub":"%s","email":"%s"}', id::text, email)::jsonb,
+            u.id,
+            u.id,
+            format('{"sub":"%s","email":"%s"}', u.id::text, u.email)::jsonb,
             'email',
             current_timestamp,
             current_timestamp,
             current_timestamp
-        from auth.users
+        from auth.users u
+        order by u.email
     );
 INSERT INTO public.decks (
         id,
@@ -68,14 +69,15 @@ INSERT INTO public.decks (
         _deleted
     ) (
         select uuid_generate_v4 (),
-            id,
+            u.id,
             'Deck ' || (ROW_NUMBER() OVER ())::text,
             'Description for deck ' || (ROW_NUMBER() OVER ())::text,
             true,
             current_timestamp,
             current_timestamp - INTERVAL '10 minutes',
             false
-        from auth.users
+        from auth.users u
+        order by u.email
     );
 INSERT INTO public.decks (
         id,

@@ -25,7 +25,11 @@ const Sidebar: React.FC = () => {
                 leaveFrom="translate-x-0"
                 leaveTo="-translate-x-full"
             >
-                <Button intent="sidebar" onClick={() => setShow(!show)}>
+                <Button
+                    data-testid="hide-sidebar-button"
+                    intent="sidebar"
+                    onClick={() => setShow(!show)}
+                >
                     <ChevronDoubleLeftIcon className="h-6 w-6" />
                 </Button>
                 <SidebarHeader>Study</SidebarHeader>

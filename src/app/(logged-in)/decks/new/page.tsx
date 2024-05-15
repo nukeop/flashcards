@@ -20,7 +20,7 @@ const NewDeck = () => {
             description: formData.get('description') as string,
             is_public: formData.get('public') === 'on',
         };
-        decksCollection?.insert({
+        await decksCollection?.insert({
             ...rawFormData,
             id: v4(),
             user_id: session!.user.id!,

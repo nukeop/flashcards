@@ -1,15 +1,18 @@
 'use client';
 
 import Button from '@/app/_components/Button';
+import ContextMenu from '@/app/_components/client-side/ContextMenu/ContextMenu';
+import ContextMenuIconWrapper from '@/app/_components/client-side/ContextMenu/ContextMenuIconWrapper';
 import FlashcardEditorGrid from '@/app/_components/client-side/FlashcardEditorGrid';
 import { HelpTooltip } from '@/app/_components/HelpTooltip';
 import Panel from '@/app/_components/Panel';
 import { Database } from '@/app/_lib/database.types';
 import { Deck as DeckType, Flashcard } from '@/app/_lib/types';
-import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { createBrowserClient } from '@supabase/ssr';
 import { User } from '@supabase/supabase-js';
-import { useEffect, useState } from 'react';
+import { redirect } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
 import { useRxData } from 'rxdb-hooks';
 import DeckToggle from './DeckToggle';
 
@@ -39,6 +42,26 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
         (collection) =>
             collection.find().where('deck_id').eq(id).sort('position'),
     );
+    const deckContextMenuItems = useMemo(
+        () => [
+            {
+                label: 'Delete',
+                Icon: ContextMenuIconWrapper(TrashIcon),
+                onClick: async () => {
+                    console.log(deck, deck[0]);
+                    console.log(deck[0].toJSON());
+                    await deck[0].remove();
+                    try {
+                        redirect('/decks');
+                    } catch (error) {
+                        console.error('Error deleting deck:', error);
+                    }
+                    // return console.log('Delete deck');
+                },
+            },
+        ],
+        [],
+    );
 
     if (!deckCards || !deckCards) {
         return <div>Deck not found</div>;
@@ -51,7 +74,7 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
     return (
         <>
             <Panel padding="none">
-                <div className="flex flex-row items-center justify-start gap-2 px-4 py-2">
+                <div className="flex flex-row items-center justify-start gap-1 px-4 py-1">
                     <div className="flex flex-grow flex-col">
                         <h3 className="flex flex-row items-center text-stone-600">
                             {deck[0].get('name')}
@@ -84,6 +107,14 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
                             />
                         </div>
                     </div>
+                    <ContextMenu
+                        positioning="standalone"
+                        classes={{
+                            menuIcon: 'h-6 w-6 text-stone-500',
+                            items: 'top-16',
+                        }}
+                        items={deckContextMenuItems}
+                    />
                 </div>
             </Panel>
 

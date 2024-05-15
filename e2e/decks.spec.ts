@@ -27,7 +27,7 @@ test('should display decks in the sidebar', async ({ page }) => {
         page.locator('a[data-testid="sidebar-deck"]:has-text("Private deck")'),
     ).toBeVisible();
     await expect(
-        page.locator('a[data-testid="sidebar-deck"]:has-text("Deck 8")'),
+        page.locator('a[data-testid="sidebar-deck"]:has-text("Deck 1")'),
     ).toBeVisible();
 });
 
@@ -57,6 +57,6 @@ test('should be able to publish a deck', async ({ page }) => {
     await expect(page).toHaveScreenshot();
 
     await expect(
-        page.locator('[data-testid="toggle"]').getAttribute('aria-checked'),
-    ).toBe('true');
+        await page.locator('[data-testid="toggle"]').isChecked(),
+    ).toBeTruthy();
 });
