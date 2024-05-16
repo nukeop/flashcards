@@ -19,6 +19,13 @@ test('should add a new deck', async ({ page }) => {
 
     await expect(page.locator('h3').getByText('My new deck')).toBeVisible();
     await expect(page.getByText('My new deck description')).toBeVisible();
+
+    await page.getByText('My new deck').click();
+    await page.getByTestId('deck-menu').click();
+    await page.getByText('Delete').click();
+
+    await expect(page).toHaveURL('http://localhost:3000/decks');
+    await expect(page).toHaveScreenshot();
 });
 
 test('should display decks in the sidebar', async ({ page }) => {
