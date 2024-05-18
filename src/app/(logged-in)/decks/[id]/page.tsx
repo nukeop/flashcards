@@ -48,15 +48,12 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
                 label: 'Delete',
                 Icon: ContextMenuIconWrapper(TrashIcon),
                 onClick: async () => {
-                    console.log(deck, deck[0]);
-                    console.log(deck[0].toJSON());
                     await deck[0].remove();
                     try {
                         redirect('/decks');
                     } catch (error) {
                         console.error('Error deleting deck:', error);
                     }
-                    // return console.log('Delete deck');
                 },
             },
         ],

@@ -145,7 +145,7 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                                             front={card.front}
                                             back={card.back}
                                             onDelete={async () => {
-                                                card.remove();
+                                                await card.remove();
                                             }}
                                             onEdit={() => setEditedCard(card)}
                                             flipBackOnMouseLeave
