@@ -23,13 +23,17 @@ test('should allow a user to go to the signup page', async ({ page }) => {
 test('should redirect to the dashboard after logging in', async ({ page }) => {
     await page.goto('http://localhost:3000/login');
 
-    await page.fill('input[name="email"]', 'user1@example.com');
+    await page.fill('input[name="email"]', 'user5@example.com');
     await page.fill('input[name="password"]', 'password123');
     await page.click('button:has-text("Log in")');
 
     await expect(page).toHaveURL('http://localhost:3000/decks');
     await expect(page).toHaveTitle('Decks | Flashcards');
-    await page.waitForSelector('[data-testid="decks-collection"]');
-    await page.waitForSelector('[data-testid="breadcrumbs-root"]');
+    await page
+        .locator('[data-testid="decks-collection"]')
+        .waitFor({ state: 'attached' });
+    await page
+        .locator('[data-testid="breadcrumbs-root"]')
+        .waitFor({ state: 'attached' });
     await expect(page).toHaveScreenshot();
 });

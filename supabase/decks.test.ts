@@ -1,7 +1,6 @@
 import { beforeEach } from 'node:test';
 import { beforeAll, describe, expect, it } from 'vitest';
-
-import { TestFixture, dateRegex, uuidRegex } from './test-utils';
+import { dateRegex, TestFixture, uuidRegex } from './test-utils';
 
 describe('decks', () => {
     beforeAll(() => {
