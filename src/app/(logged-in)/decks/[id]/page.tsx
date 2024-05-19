@@ -6,6 +6,7 @@ import ContextMenuIconWrapper from '@/app/_components/client-side/ContextMenu/Co
 import FlashcardEditorGrid from '@/app/_components/client-side/FlashcardEditorGrid';
 import { HelpTooltip } from '@/app/_components/HelpTooltip';
 import Panel from '@/app/_components/Panel';
+import RenameDeckDialog from '@/app/_components/client-side/RenameDeckDialog';
 import { Database } from '@/app/_lib/database.types';
 import { Deck as DeckType, Flashcard } from '@/app/_lib/types';
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
@@ -23,6 +24,7 @@ const supabase = createBrowserClient<Database>(
 
 const Deck = ({ params: { id } }: { params: { id: string } }) => {
     const [user, setUser] = useState<User | null>(null);
+    const [showRenameDialog, setShowRenameDialog] = useState(false);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -60,6 +62,11 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
         [],
     );
 
+    const handleRenameDeck = async (newName: string) => {
+        await deck[0].atomicPatch({ name: newName });
+        setShowRenameDialog(false);
+    };
+
     if (!deckCards || !deckCards) {
         return <div>Deck not found</div>;
     }
@@ -78,6 +85,7 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
                             <Button
                                 intent="iconButton"
                                 className="ml-2 text-stone-600"
+                                onClick={() => setShowRenameDialog(true)}
                             >
                                 <PencilSquareIcon className="h-6 w-6" />
                             </Button>
@@ -114,6 +122,12 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
                     />
                 </div>
             </Panel>
+
+            <RenameDeckDialog
+                isOpen={showRenameDialog}
+                onClose={() => setShowRenameDialog(false)}
+                onSave={handleRenameDeck}
+            />
 
             <FlashcardEditorGrid cards={deckCards} deckId={id} />
         </>

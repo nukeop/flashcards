@@ -93,3 +93,16 @@ test('should be able to publish a deck', async ({ page }) => {
         await page.locator('[data-testid="toggle"]').isChecked(),
     ).toBeTruthy();
 });
+
+test('should allow renaming a deck', async ({ page }) => {
+    await logInAsUserN(5)({ page });
+    await page.goto('http://localhost:3000/decks');
+    await page.click('text=My new deck');
+    await expect(page).toHaveURL(
+        /http:\/\/localhost:3000\/decks\/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/,
+    );
+    await page.click('text=Rename');
+    await page.fill('input[name="newDeckName"]', 'My renamed deck');
+    await page.click('text=Save');
+    await expect(page.locator('h3')).toHaveText('My renamed deck');
+});
