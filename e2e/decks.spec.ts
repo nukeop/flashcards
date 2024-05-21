@@ -97,6 +97,11 @@ test('should be able to publish a deck', async ({ page }) => {
 test('should allow renaming a deck', async ({ page }) => {
     await logInAsUserN(5)({ page });
     await page.goto('http://localhost:3000/decks');
+    await page.click('button:has-text("Add")');
+    await expect(page).toHaveURL('http://localhost:3000/decks/new');
+    await page.fill('input[name="name"]', 'My new deck');
+    await page.fill('input[name="description"]', 'My new deck description');
+    await page.getByText('Create deck').click();
     await page.click('text=My new deck');
     await expect(page).toHaveURL(
         /http:\/\/localhost:3000\/decks\/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/,

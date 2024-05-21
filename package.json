@@ -9,7 +9,7 @@
     "lint": "next telemetry disable && next lint",
     "test": "vitest",
     "test:supabase": "vitest --config vitest.supabase.config.ts",
-    "test:playwright": "npx playwright test -j 1"
+    "test:playwright": "npx playwright test"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",

@@ -3,10 +3,10 @@
 import Button from '@/app/_components/Button';
 import ContextMenu from '@/app/_components/client-side/ContextMenu/ContextMenu';
 import ContextMenuIconWrapper from '@/app/_components/client-side/ContextMenu/ContextMenuIconWrapper';
+import { EditableLabel } from '@/app/_components/client-side/EditableLabel';
 import FlashcardEditorGrid from '@/app/_components/client-side/FlashcardEditorGrid';
 import { HelpTooltip } from '@/app/_components/HelpTooltip';
 import Panel from '@/app/_components/Panel';
-import RenameDeckDialog from '@/app/_components/client-side/RenameDeckDialog';
 import { Database } from '@/app/_lib/database.types';
 import { Deck as DeckType, Flashcard } from '@/app/_lib/types';
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
@@ -24,7 +24,6 @@ const supabase = createBrowserClient<Database>(
 
 const Deck = ({ params: { id } }: { params: { id: string } }) => {
     const [user, setUser] = useState<User | null>(null);
-    const [showRenameDialog, setShowRenameDialog] = useState(false);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -63,8 +62,7 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
     );
 
     const handleRenameDeck = async (newName: string) => {
-        await deck[0].atomicPatch({ name: newName });
-        setShowRenameDialog(false);
+        await deck[0].patch({ name: newName });
     };
 
     if (!deckCards || !deckCards) {
@@ -80,16 +78,14 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
             <Panel padding="none">
                 <div className="flex flex-row items-center justify-start gap-1 px-4 py-1">
                     <div className="flex flex-grow flex-col">
-                        <h3 className="flex flex-row items-center text-stone-600">
-                            {deck[0].get('name')}
-                            <Button
-                                intent="iconButton"
-                                className="ml-2 text-stone-600"
-                                onClick={() => setShowRenameDialog(true)}
-                            >
-                                <PencilSquareIcon className="h-6 w-6" />
-                            </Button>
-                        </h3>
+                        <EditableLabel
+                            classes={{
+                                root: 'flex flex-row items-center text-stone-600',
+                            }}
+                            onConfirm={handleRenameDeck}
+                            as="h3"
+                            value={deck[0].get('name')}
+                        />
                         <p className="flex flex-row items-center text-sm text-stone-400">
                             {deck[0].get('description')}
                             <Button
@@ -122,12 +118,6 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
                     />
                 </div>
             </Panel>
-
-            <RenameDeckDialog
-                isOpen={showRenameDialog}
-                onClose={() => setShowRenameDialog(false)}
-                onSave={handleRenameDeck}
-            />
 
             <FlashcardEditorGrid cards={deckCards} deckId={id} />
         </>
