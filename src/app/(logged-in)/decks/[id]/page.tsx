@@ -65,6 +65,10 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
         await deck[0].patch({ name: newName });
     };
 
+    const handleEditDescription = async (newDescription: string) => {
+        await deck[0].patch({ description: newDescription });
+    };
+
     if (!deckCards || !deckCards) {
         return <div>Deck not found</div>;
     }
@@ -86,15 +90,16 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
                             as="h3"
                             value={deck[0].get('name')}
                         />
-                        <p className="flex flex-row items-center text-sm text-stone-400">
-                            {deck[0].get('description')}
-                            <Button
-                                intent="iconButton"
-                                className="ml-2 text-stone-400"
-                            >
-                                <PencilSquareIcon className="h-4 w-4" />
-                            </Button>
-                        </p>
+                        <EditableLabel
+                            classes={{
+                                root: 'flex flex-row items-center text-sm text-stone-400',
+                                icon: 'h-4 w-4',
+                                button: 'ml-2 text-stone-400',
+                            }}
+                            onConfirm={handleEditDescription}
+                            as="p"
+                            value={deck[0].get('description')}
+                        />
                     </div>
                     <div className="flex flex-col">
                         <div className="flex flex-row">

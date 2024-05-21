@@ -7,6 +7,8 @@ type EditableInputProps<T extends React.ElementType> = {
     classes?: Partial<{
         root: string;
         input: string;
+        icon: string;
+        button: string;
     }>;
     onConfirm: (value: string) => void;
     value: string;
@@ -40,10 +42,10 @@ export function EditableLabel<T extends ElementType>({
             {value}
             <Button
                 intent="iconButton"
-                className="ml-2 text-stone-600"
+                className={classes?.button ?? 'ml-2 text-stone-600'}
                 onClick={() => setEditing(true)}
             >
-                <PencilSquareIcon className="h-6 w-6" />
+                <PencilSquareIcon className={classes?.icon ?? 'h-6 w-6'} />
             </Button>
         </Component>
     );
