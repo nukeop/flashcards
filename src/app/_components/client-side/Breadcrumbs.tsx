@@ -1,7 +1,8 @@
 'use client';
 
+import { useDecks } from '@/app/_hooks/useDecks';
 import { Database } from '@/app/_lib/database.types';
-import { Deck, Flashcard } from '@/app/_lib/types';
+import { Flashcard } from '@/app/_lib/types';
 import { HomeIcon } from '@heroicons/react/20/solid';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { createBrowserClient } from '@supabase/ssr';
@@ -27,33 +28,13 @@ const Crumb = ({ href, text }: { href: string; text: string }) => (
 
 const Breadcrumbs = () => {
     const [isLoading, setLoading] = useState(true);
-    const [decks, setDecks] = useState<Deck[] | null>(null);
+    const { decks, isLoading: areDecksLoading } = useDecks();
     const [currentDeckCards, setCurrentDeckCards] = useState<
         Flashcard[] | null
     >(null);
 
     const pathname = usePathname();
     const crumbs = pathname.split('/').filter((crumb) => crumb);
-
-    useEffect(() => {
-        async function getDecks() {
-            setLoading(true);
-            const supabase = createBrowserClient<Database>(
-                process.env.NEXT_PUBLIC_SUPABASE_URL!,
-                process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            );
-            const user = await supabase.auth.getUser();
-            const fetchedDecks = await supabase
-                .from('decks')
-                .select('*')
-                .eq('user_id', user.data.user?.id || '');
-
-            setDecks(fetchedDecks.data as Deck[]);
-            setLoading(false);
-        }
-
-        getDecks();
-    }, []);
 
     useEffect(() => {
         async function getCards() {
@@ -83,9 +64,9 @@ const Breadcrumbs = () => {
 
     return (
         <div className="ml-2 flex h-12 flex-row items-center gap-2 text-sm font-normal text-stone-600">
-            {isLoading && <Loader size="sm" />}
+            {(isLoading || areDecksLoading) && <Loader size="sm" />}
 
-            {!isLoading && (
+            {!isLoading && !areDecksLoading && (
                 <>
                     <Link data-testid="breadcrumbs-root" href="/">
                         <Button
