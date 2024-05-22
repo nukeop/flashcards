@@ -29,9 +29,7 @@ test('should add a new deck', async ({ page }) => {
 
     await expect(page.locator('h3').getByText('My new deck')).toBeVisible();
     await expect(page.getByText('My new deck description')).toBeVisible();
-    await page
-        .locator('[data-testid="breadcrumbs-root"]')
-        .waitFor({ state: 'attached' });
+    await page.getByTestId('breadcrumbs-root').waitFor({ state: 'attached' });
 
     await expect(page).toHaveURL('http://localhost:3000/decks');
     await expect(page).toHaveScreenshot();
@@ -102,12 +100,26 @@ test('should allow renaming a deck', async ({ page }) => {
     await page.fill('input[name="name"]', 'My new deck');
     await page.fill('input[name="description"]', 'My new deck description');
     await page.getByText('Create deck').click();
-    await page.click('text=My new deck');
+
+    await expect(page).toHaveURL('http://localhost:3000/decks');
+    await page.getByText('My new deck').first().click();
     await expect(page).toHaveURL(
         /http:\/\/localhost:3000\/decks\/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/,
     );
-    await page.click('text=Rename');
-    await page.fill('input[name="newDeckName"]', 'My renamed deck');
-    await page.click('text=Save');
-    await expect(page.locator('h3')).toHaveText('My renamed deck');
+
+    const renameButton = await page.getByTestId('edit-button').first();
+    const editDescriptionButton = await page.getByTestId('edit-button').nth(1);
+    await renameButton.click();
+    await page.getByTestId('editable-label-input').fill('My renamed deck');
+    await page.getByTestId('editable-label-input').press('Enter');
+    await expect(
+        page.locator('h3').and(page.getByTestId('editable-label')),
+    ).toHaveText('My renamed deck');
+
+    await editDescriptionButton.click();
+    await page.getByTestId('editable-label-input').fill('My new description');
+    await page.getByTestId('editable-label-input').press('Enter');
+    await expect(
+        page.locator('p').and(page.getByTestId('editable-label')),
+    ).toHaveText('My new description');
 });

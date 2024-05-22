@@ -26,6 +26,7 @@ export function EditableLabel<T extends ElementType>({
 
     return isEditing ? (
         <Input
+            data-testid="editable-label-input"
             classes={{ root: classes?.input }}
             autoFocus
             onBlur={() => setEditing(false)}
@@ -38,9 +39,10 @@ export function EditableLabel<T extends ElementType>({
             defaultValue={value}
         />
     ) : (
-        <Component className={classes?.root}>
+        <Component data-testid="editable-label" className={classes?.root}>
             {value}
             <Button
+                data-testid="edit-button"
                 intent="iconButton"
                 className={classes?.button ?? 'ml-2 text-stone-600'}
                 onClick={() => setEditing(true)}
