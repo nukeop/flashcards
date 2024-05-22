@@ -1,6 +1,5 @@
 'use client';
 
-import Button from '@/app/_components/Button';
 import ContextMenu from '@/app/_components/client-side/ContextMenu/ContextMenu';
 import ContextMenuIconWrapper from '@/app/_components/client-side/ContextMenu/ContextMenuIconWrapper';
 import { EditableLabel } from '@/app/_components/client-side/EditableLabel';
@@ -9,7 +8,7 @@ import { HelpTooltip } from '@/app/_components/HelpTooltip';
 import Panel from '@/app/_components/Panel';
 import { Database } from '@/app/_lib/database.types';
 import { Deck as DeckType, Flashcard } from '@/app/_lib/types';
-import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { TrashIcon } from '@heroicons/react/24/outline';
 import { createBrowserClient } from '@supabase/ssr';
 import { User } from '@supabase/supabase-js';
 import { redirect } from 'next/navigation';
