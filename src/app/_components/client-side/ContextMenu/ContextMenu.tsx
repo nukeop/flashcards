@@ -29,12 +29,14 @@ type ContextMenuProps = {
         intent?: ContextMenuItemProps['intent'];
         onClick?: ContextMenuItemProps['onClick'];
     }[];
+    'data-testid'?: string;
 } & VariantProps<typeof contextMenu>;
 
 const ContextMenu: React.FC<ContextMenuProps> = ({
     classes,
     items,
     positioning = 'absolute',
+    'data-testid': dataTestId,
 }) => {
     return (
         <Menu>
@@ -42,6 +44,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
                 as={Button}
                 intent="secondary"
                 className={contextMenu({ positioning })}
+                data-testid={dataTestId}
             >
                 <EllipsisVerticalIcon
                     className={clsx('h-5 w-5', classes?.menuIcon)}

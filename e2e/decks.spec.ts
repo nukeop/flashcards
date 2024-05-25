@@ -123,3 +123,27 @@ test('should allow renaming a deck', async ({ page }) => {
         page.locator('p').and(page.getByTestId('editable-label')),
     ).toHaveText('My new description');
 });
+
+test('should allow deleting a deck', async ({ page }) => {
+    await logInAsUserN(6)({ page });
+
+    await page.goto('http://localhost:3000/decks');
+    await page.click('button:has-text("Add")');
+    await expect(page).toHaveURL('http://localhost:3000/decks/new');
+    await page.fill('input[name="name"]', 'Deck to be deleted');
+    await page.fill('input[name="description"]', 'Soon to be gone');
+    await page.getByText('Create deck').click();
+
+    await expect(page).toHaveURL('http://localhost:3000/decks');
+    await page.getByText('Deck to be deleted').first().click();
+    await expect(page).toHaveURL(
+        /http:\/\/localhost:3000\/decks\/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/,
+    );
+
+    await page.getByTestId('deck-context-menu').click();
+    await page.getByRole('menuitem').and(page.getByText('Delete')).click();
+    await expect(page).toHaveURL('http://localhost:3000/decks');
+    await expect(
+        page.locator('h3').getByText('Deck to be deleted'),
+    ).not.toBeVisible();
+});

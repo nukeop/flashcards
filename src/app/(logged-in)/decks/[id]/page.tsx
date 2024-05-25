@@ -11,7 +11,7 @@ import { Deck as DeckType, Flashcard } from '@/app/_lib/types';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { createBrowserClient } from '@supabase/ssr';
 import { User } from '@supabase/supabase-js';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { useRxData } from 'rxdb-hooks';
 import DeckToggle from './DeckToggle';
@@ -23,6 +23,7 @@ const supabase = createBrowserClient<Database>(
 
 const Deck = ({ params: { id } }: { params: { id: string } }) => {
     const [user, setUser] = useState<User | null>(null);
+    const { push } = useRouter();
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -48,16 +49,16 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
                 label: 'Delete',
                 Icon: ContextMenuIconWrapper(TrashIcon),
                 onClick: async () => {
-                    await deck[0].remove();
                     try {
-                        redirect('/decks');
+                        await deck[0].remove();
+                        push('/decks');
                     } catch (error) {
                         console.error('Error deleting deck:', error);
                     }
                 },
             },
         ],
-        [],
+        [deck],
     );
 
     const handleRenameDeck = async (newName: string) => {
@@ -87,7 +88,7 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
                             }}
                             onConfirm={handleRenameDeck}
                             as="h3"
-                            value={deck[0].get('name')}
+                            value={deck[0]?.get('name')}
                         />
                         <EditableLabel
                             classes={{
@@ -97,7 +98,7 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
                             }}
                             onConfirm={handleEditDescription}
                             as="p"
-                            value={deck[0].get('description')}
+                            value={deck[0]?.get('description')}
                         />
                     </div>
                     <div className="flex flex-col">
@@ -107,12 +108,13 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
                                 Publish:
                             </label>
                             <DeckToggle
-                                initialChecked={deck[0].get('is_public')}
+                                initialChecked={deck[0]?.get('is_public')}
                                 deckId={id}
                             />
                         </div>
                     </div>
                     <ContextMenu
+                        data-testid="deck-context-menu"
                         positioning="standalone"
                         classes={{
                             menuIcon: 'h-6 w-6 text-stone-500',
