@@ -4,6 +4,7 @@ import { animated, useSpring } from '@react-spring/web';
 import { cva, VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
+import { MarkdownContent } from '../MarkdownContent';
 import styles from './Flashcard.module.scss';
 import FlashcardContextMenu from './FlashcardContextMenu';
 
@@ -23,8 +24,8 @@ const clamp = (value: number, min = 0, max = 100) => {
 };
 
 type FlashcardProps = {
-    front: React.ReactNode;
-    back: React.ReactNode;
+    front: string;
+    back: string;
     isFlipped?: boolean;
     flipBackOnMouseLeave?: boolean;
     isDragging?: boolean;
@@ -167,7 +168,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
                             rotateY: rotateX,
                         }}
                     >
-                        <p>{front}</p>
+                        <MarkdownContent content={front} />
                     </animated.div>
                     <animated.div
                         className={clsx(
@@ -179,7 +180,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
                             scaleX: -1,
                         }}
                     >
-                        <p>{back}</p>
+                        <MarkdownContent content={back} />
                     </animated.div>
                 </animated.div>
             </div>
