@@ -1,6 +1,7 @@
 'use client';
 
 import Button from '../Button';
+import FormDialogContent from '../FormDialogContent';
 import Dialog from './Dialog';
 import Input from './Input';
 
@@ -18,18 +19,7 @@ const AddFlashcardDialog: React.FC<AddFlashcardDialogProps> = ({
     onCancel,
 }: AddFlashcardDialogProps) => (
     <Dialog isOpen={isOpen} onClose={onClose}>
-        <form
-            className="flex flex-col items-center justify-center"
-            action={onSave}
-        >
-            <div className="mb-2 flex w-full flex-row justify-between bg-stone-100 px-4 py-2 text-sm text-stone-500 shadow-sm">
-                <Button intent="text" onClick={onCancel}>
-                    Cancel
-                </Button>
-                <Button type="submit" intent="text">
-                    Save
-                </Button>
-            </div>
+        <FormDialogContent onCancel={onCancel} onSave={onSave}>
             <div className="grid flex-grow grid-cols-3 gap-2 bg-stone-50 px-2 py-4">
                 <label
                     className="px-2 py-1 text-sm text-stone-400"
@@ -59,7 +49,7 @@ const AddFlashcardDialog: React.FC<AddFlashcardDialogProps> = ({
                     }}
                 />
             </div>
-        </form>
+        </FormDialogContent>
     </Dialog>
 );
 

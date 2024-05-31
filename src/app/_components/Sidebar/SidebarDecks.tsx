@@ -1,5 +1,5 @@
 import { useDecks } from '@/app/_hooks/useDecks';
-import { ArrowUpOnSquareIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { ArrowDownTrayIcon, PlusIcon } from '@heroicons/react/24/outline';
 import Loader from '../Loader';
 import SidebarDeck from './SidebarDeck';
 import SidebarLink from './SidebarLink';
@@ -21,9 +21,9 @@ const SidebarDecks = () => {
             </SidebarLink>
             <SidebarLink
                 className="flex flex-row items-center justify-end text-stone-400"
-                href="/decks/import"
+                href="/import"
             >
-                <ArrowUpOnSquareIcon className="h-4 w-4 text-stone-400" />
+                <ArrowDownTrayIcon className="h-4 w-4 text-stone-400" />
                 Import
             </SidebarLink>
         </div>

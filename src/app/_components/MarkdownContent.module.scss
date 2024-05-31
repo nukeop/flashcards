@@ -1,2 +1,9 @@
 .markdown-content {
+    hr {
+        @apply border-t border-stone-400 my-6;
+    }
+
+    a {
+        @apply text-blue-500;
+    }
 }

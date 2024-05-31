@@ -14,39 +14,32 @@ const config: Config = {
                     'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
             },
             colors: {
-                base: 'rgb(var(--color-base) / <alpha-value>)',
-                surface: 'rgb(var(--color-surface) / <alpha-value>)',
-                overlay: 'rgb(var(--color-overlay) / <alpha-value>)',
-                muted: 'rgb(var(--color-muted) / <alpha-value>)',
-                subtle: 'rgb(var(--color-subtle) / <alpha-value>)',
-                text: 'rgb(var(--color-text) / <alpha-value>)',
-                accent: 'rgb(var(--color-accent) / <alpha-value>)',
-                'theme-red': 'rgb(var(--color-theme-red) / <alpha-value>)',
-                'theme-blue': 'rgb(var(--color-theme-blue) / <alpha-value>)',
-                'theme-gold': 'rgb(var(--color-theme-gold) / <alpha-value>)',
-                'theme-green': 'rgb(var(--color-theme-green) / <alpha-value>)',
-                'theme-purple':
-                    'rgb(var(--color-theme-purple) / <alpha-value>)',
-                'base-contrast':
-                    'rgb(var(--color-base-contrast) / <alpha-value>)',
-                'surface-contrast':
-                    'rgb(var(--color-surface-contrast) / <alpha-value>)',
-                'overlay-contrast':
-                    'rgb(var(--color-overlay-contrast) / <alpha-value>)',
-                'muted-contrast':
-                    'rgb(var(--color-muted-contrast) / <alpha-value>)',
-                'subtle-contrast':
-                    'rgb(var(--color-subtle-contrast) / <alpha-value>)',
-                'text-contrast':
-                    'rgb(var(--color-text-contrast) / <alpha-value>)',
-                'accent-contrast':
-                    'rgb(var(--color-accent-contrast) / <alpha-value>)',
-                'highlight-low':
-                    'rgb(var(--color-highlight-low) / <alpha-value>)',
-                'highlight-medium':
-                    'rgb(var(--color-highlight-medium) / <alpha-value>)',
-                'highlight-high':
-                    'rgb(var(--color-highlight-high) / <alpha-value>)',
+                'nier-red': {
+                    50: '#FDF4F2',
+                    100: '#FAE9E5',
+                    200: '#F5D2CC',
+                    300: '#EFB5A9',
+                    400: '#E7907E',
+                    500: '#DC5E45',
+                    600: '#D74528',
+                    700: '#BD3D24',
+                    800: '#96311C',
+                    900: '#742616',
+                    950: '#49180E',
+                },
+                'nier-cyan': {
+                    50: '#D6FFFC',
+                    100: '#A3FFF7',
+                    200: '#00FAE5',
+                    300: '#00E0CE',
+                    400: '#00CCBB',
+                    500: '#00AC9F',
+                    600: '#009E91',
+                    700: '#008A7E',
+                    800: '#007067',
+                    900: '#004D46',
+                    950: '#003833',
+                },
             },
             dropShadow: {
                 glow: [

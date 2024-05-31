@@ -27,7 +27,7 @@ const Sidebar: React.FC = () => {
             >
                 <Button
                     data-testid="hide-sidebar-button"
-                    intent="sidebar"
+                    intent="iconButton"
                     onClick={() => setShow(!show)}
                 >
                     <ChevronDoubleLeftIcon className="h-6 w-6" />

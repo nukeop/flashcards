@@ -11,7 +11,7 @@ import { Deck as DeckType, Flashcard } from '@/app/_lib/types';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { createBrowserClient } from '@supabase/ssr';
 import { User } from '@supabase/supabase-js';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { useRxData } from 'rxdb-hooks';
 import DeckToggle from './DeckToggle';
@@ -43,6 +43,7 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
         (collection) =>
             collection.find().where('deck_id').eq(id).sort('position'),
     );
+
     const deckContextMenuItems = useMemo(
         () => [
             {
@@ -75,6 +76,10 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
 
     if (!user) {
         return null;
+    }
+
+    if (deck.length === 0) {
+        return redirect('/decks');
     }
 
     return (

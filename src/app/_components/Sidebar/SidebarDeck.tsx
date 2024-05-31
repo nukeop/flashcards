@@ -15,8 +15,8 @@ const SidebarDeck: React.FC<SidebarDeckProps> = ({ id, name }) => {
             isActive={pathname.includes(id)}
             href={`/decks/${id}`}
         >
-            <BookOpenIcon className="mr-2 h-4 w-4" />
-            {name}
+            <BookOpenIcon className="mr-2 h-4 min-h-4 w-4 min-w-4" />
+            <span className="truncate">{name}</span>
         </SidebarLink>
     );
 };
