@@ -6,7 +6,7 @@ const card = cva(
     {
         variants: {
             transparent: {
-                true: 'border border-muted/75 bg-surface/50 backdrop-blur-md',
+                true: 'border-muted/75 bg-surface/50 border backdrop-blur-md',
             },
             hoverEffect: {
                 true: 'hover:bg-stone-50',

@@ -1,6 +1,5 @@
 'use client';
 
-import Button from '../Button';
 import FormDialogContent from '../FormDialogContent';
 import Dialog from './Dialog';
 import Input from './Input';
