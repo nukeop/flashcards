@@ -25,6 +25,8 @@ const NewDeck = () => {
             id: v4(),
             user_id: session!.user.id!,
             created_at: new Date().toISOString(),
+            _modified: new Date().toISOString(),
+            _deleted: false,
         });
         redirect('/decks');
     };

@@ -125,6 +125,8 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                                                 (card) => card.position,
                                             ),
                                         ),
+                                        _modified: new Date().toISOString(),
+                                        _deleted: false,
                                     });
                                 }}
                             />

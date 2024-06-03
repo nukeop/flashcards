@@ -60,7 +60,9 @@ export const importedDeckToDeck = ({
         description: deck.description ?? '',
         user_id: session.user.id,
         created_at: new Date().toISOString(),
+        _modified: new Date().toISOString(),
         is_public: false,
+        _deleted: false,
     };
 };
 
