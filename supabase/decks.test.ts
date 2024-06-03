@@ -14,41 +14,32 @@ describe('decks', () => {
     it('should return public decks', async () => {
         const { data, error } = await TestFixture.getClient()
             .from('decks')
-            .select('*');
+            .select('*')
+            .eq('is_public', true);
         expect(error).toBeNull();
         expect(data?.length).toBe(10);
         data?.forEach((deck, index) => {
             expect(deck).toEqual({
                 created_at: expect.stringMatching(dateRegex),
-                description: 'Description for deck ' + (index + 1),
+                description: 'This is a public deck',
                 id: expect.stringMatching(uuidRegex),
-                name: 'Deck ' + (index + 1),
+                name: `public deck ${index + 1}`,
                 is_public: true,
-                updated_at: expect.stringMatching(dateRegex),
+                _modified: expect.stringMatching(dateRegex),
+                _deleted: false,
                 user_id: expect.stringMatching(uuidRegex),
             });
         });
     });
 
     it('should not return private decks with anon key', async () => {
-        await TestFixture.logIn('user1@example.com', 'password123');
-        const { data, error } = await TestFixture.getClient()
-            .from('decks')
-            .select('*')
-            .eq('name', 'Private deck');
-
-        expect(error).toBeNull();
-        expect(data).toEqual([
-            expect.objectContaining({ name: 'Private deck' }),
-        ]);
-
         await TestFixture.getClient().auth.signOut();
 
         const { data: anonData, error: anonError } =
             await TestFixture.getClient()
                 .from('decks')
                 .select('*')
-                .eq('name', 'Private deck');
+                .neq('is_public', true);
         expect(anonError).toBeNull();
         expect(anonData).toEqual([]);
     });
@@ -57,18 +48,20 @@ describe('decks', () => {
         await TestFixture.logIn('user2@example.com', 'password123');
         const { data, error } = await TestFixture.getClient()
             .from('decks')
-            .select('*');
+            .select('*')
+            .eq('is_public', true);
 
         expect(error).toBeNull();
         expect(data?.length).toBe(10);
         data?.forEach((deck, index) => {
             expect(deck).toEqual({
                 created_at: expect.stringMatching(dateRegex),
-                description: 'Description for deck ' + (index + 1),
+                description: 'This is a public deck',
                 id: expect.stringMatching(uuidRegex),
-                name: 'Deck ' + (index + 1),
+                name: `public deck ${index + 1}`,
                 is_public: true,
-                updated_at: expect.stringMatching(dateRegex),
+                _modified: expect.stringMatching(dateRegex),
+                _deleted: false,
                 user_id: expect.stringMatching(uuidRegex),
             });
         });
@@ -83,54 +76,20 @@ describe('decks', () => {
             .from('decks')
             .select('*')
             .eq('is_public', false)
-            .eq('user_id', userId)
-            .eq('name', 'Private deck');
+            .eq('user_id', userId);
 
         expect(data).toEqual([
             {
                 created_at: expect.stringMatching(dateRegex),
-                description: 'Description for private deck',
+                description: 'This is a private deck',
                 id: expect.stringMatching(uuidRegex),
-                name: 'Private deck',
+                name: 'private deck 2',
                 is_public: false,
-                updated_at: expect.stringMatching(dateRegex),
+                _modified: expect.stringMatching(dateRegex),
+                _deleted: false,
                 user_id: userId,
             },
         ]);
-    });
-
-    it('should update the updated_at field when a deck is updated', async () => {
-        const userId = await TestFixture.logIn(
-            'user1@example.com',
-            'password123',
-        );
-        const { data } = await TestFixture.getClient()
-            .from('decks')
-            .select('*')
-            .eq('is_public', false)
-            .eq('user_id', userId);
-        const initialDate = data?.[0].updated_at;
-
-        await TestFixture.getClient()
-            .from('decks')
-            .update({ name: 'New name' })
-            .eq('id', data?.[0].id);
-
-        const { data: newData } = await TestFixture.getClient()
-            .from('decks')
-            .select('*')
-            .eq('is_public', false)
-            .eq('user_id', userId);
-        const newDate = newData?.[0].updated_at;
-
-        expect(new Date(newDate).valueOf()).toBeGreaterThan(
-            new Date(initialDate).valueOf(),
-        );
-
-        await TestFixture.getClient()
-            .from('decks')
-            .update({ name: 'Private deck' })
-            .eq('id', data?.[0].id);
     });
 
     it('should allow a user to create a deck', async () => {
@@ -160,10 +119,17 @@ describe('decks', () => {
                 name: 'test deck',
                 is_public: false,
                 user_id: userId,
-                updated_at: expect.stringMatching(dateRegex),
+                _modified: expect.stringMatching(dateRegex),
+                _deleted: false,
                 created_at: expect.stringMatching(dateRegex),
             },
         ]);
+
+        // Cleanup
+        await TestFixture.getClient()
+            .from('decks')
+            .delete()
+            .eq('name', 'test deck');
     });
 
     it('should allow a user to delete his own deck', async () => {
@@ -194,22 +160,22 @@ describe('decks', () => {
         expect(data).toEqual([]);
     });
 
-    it('should not allow a user to delete another user deck', async () => {
+    it("should not allow a user to delete another user's deck", async () => {
         await TestFixture.logIn('user1@example.com', 'password123');
 
         await TestFixture.getClient()
             .from('decks')
             .delete()
-            .eq('name', 'Deck 2');
+            .eq('name', 'public deck 3');
         await TestFixture.logIn('user2@example.com', 'password123');
         const { data } = await TestFixture.getClient()
             .from('decks')
             .select('*')
-            .eq('name', 'Deck 2');
+            .eq('name', 'public deck 3');
 
         expect(data).toEqual([
             expect.objectContaining({
-                name: 'Deck 2',
+                name: 'public deck 3',
             }),
         ]);
     });

@@ -21,7 +21,8 @@ describe('User profiles', () => {
             user_id: expect.stringMatching(uuidRegex),
             display_name: 'user1@example.com',
             created_at: expect.stringMatching(dateRegex),
-            updated_at: expect.stringMatching(dateRegex),
+            _modified: expect.stringMatching(dateRegex),
+            _deleted: false,
         });
     });
 
@@ -94,7 +95,8 @@ describe('User profiles', () => {
             user_id: userData.user!.id,
             display_name: 'user1@example.com',
             created_at: expect.stringMatching(dateRegex),
-            updated_at: expect.stringMatching(dateRegex),
+            _modified: expect.stringMatching(dateRegex),
+            _deleted: false,
         });
     });
 });

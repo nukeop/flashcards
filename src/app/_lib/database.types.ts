@@ -11,6 +11,8 @@ export type Database = {
         Tables: {
             decks: {
                 Row: {
+                    _deleted: boolean;
+                    _modified: string;
                     created_at: string;
                     description: string;
                     id: string;
@@ -19,6 +21,8 @@ export type Database = {
                     user_id: string;
                 };
                 Insert: {
+                    _deleted?: boolean;
+                    _modified?: string;
                     created_at?: string;
                     description: string;
                     id?: string;
@@ -27,6 +31,8 @@ export type Database = {
                     user_id: string;
                 };
                 Update: {
+                    _deleted?: boolean;
+                    _modified?: string;
                     created_at?: string;
                     description?: string;
                     id?: string;
@@ -46,6 +52,8 @@ export type Database = {
             };
             flashcards: {
                 Row: {
+                    _deleted: boolean;
+                    _modified: string;
                     back: string;
                     created_at: string;
                     deck_id: string;
@@ -54,6 +62,8 @@ export type Database = {
                     position: number;
                 };
                 Insert: {
+                    _deleted?: boolean;
+                    _modified?: string;
                     back: string;
                     created_at?: string;
                     deck_id: string;
@@ -62,6 +72,8 @@ export type Database = {
                     position?: number;
                 };
                 Update: {
+                    _deleted?: boolean;
+                    _modified?: string;
                     back?: string;
                     created_at?: string;
                     deck_id?: string;
@@ -74,13 +86,6 @@ export type Database = {
                         foreignKeyName: 'flashcards_deck_id_fkey';
                         columns: ['deck_id'];
                         isOneToOne: false;
-                        referencedRelation: 'deck_cards_view';
-                        referencedColumns: ['deck_id'];
-                    },
-                    {
-                        foreignKeyName: 'flashcards_deck_id_fkey';
-                        columns: ['deck_id'];
-                        isOneToOne: false;
                         referencedRelation: 'decks';
                         referencedColumns: ['id'];
                     },
@@ -88,18 +93,24 @@ export type Database = {
             };
             user_profiles: {
                 Row: {
+                    _deleted: boolean;
+                    _modified: string;
                     created_at: string;
                     display_name: string;
                     id: string;
                     user_id: string;
                 };
                 Insert: {
+                    _deleted?: boolean;
+                    _modified?: string;
                     created_at?: string;
                     display_name: string;
                     id: string;
                     user_id: string;
                 };
                 Update: {
+                    _deleted?: boolean;
+                    _modified?: string;
                     created_at?: string;
                     display_name?: string;
                     id?: string;
@@ -117,43 +128,10 @@ export type Database = {
             };
         };
         Views: {
-            deck_cards_view: {
-                Row: {
-                    card_back: string | null;
-                    card_created_at: string | null;
-                    card_front: string | null;
-                    card_id: string | null;
-                    card_position: number | null;
-                    card_updated_at: string | null;
-                    deck_created_at: string | null;
-                    deck_description: string | null;
-                    deck_id: string | null;
-                    deck_name: string | null;
-                    deck_updated_at: string | null;
-                };
-                Relationships: [];
-            };
+            [_ in never]: never;
         };
         Functions: {
-            ddlx_get_dependants: {
-                Args: {
-                    '': unknown;
-                };
-                Returns: Record<string, unknown>[];
-            };
-            get_next_card_position: {
-                Args: {
-                    deck_id_arg: string;
-                };
-                Returns: number;
-            };
-            update_card_positions: {
-                Args: {
-                    card_ids: string[];
-                    new_positions: number[];
-                };
-                Returns: undefined;
-            };
+            [_ in never]: never;
         };
         Enums: {
             [_ in never]: never;
