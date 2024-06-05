@@ -11,7 +11,11 @@ const FlashcardEditorDroppableArea: React.FC<
         id: 'droppable',
     });
 
-    return <div ref={setNodeRef}>{children}</div>;
+    return (
+        <div className="flex flex-auto flex-col" ref={setNodeRef}>
+            {children}
+        </div>
+    );
 };
 
 export default FlashcardEditorDroppableArea;

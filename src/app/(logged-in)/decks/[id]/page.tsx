@@ -1,48 +1,34 @@
 'use client';
 
+import { TrashIcon } from '@heroicons/react/24/outline';
+import { redirect, useRouter } from 'next/navigation';
+import { useEffect, useMemo } from 'react';
+import { useRxData } from 'rxdb-hooks';
 import ContextMenu from '@/app/_components/client-side/ContextMenu/ContextMenu';
 import ContextMenuIconWrapper from '@/app/_components/client-side/ContextMenu/ContextMenuIconWrapper';
 import { EditableLabel } from '@/app/_components/client-side/EditableLabel';
 import FlashcardEditorGrid from '@/app/_components/client-side/FlashcardEditorGrid';
 import { HelpTooltip } from '@/app/_components/HelpTooltip';
 import Panel from '@/app/_components/Panel';
-import { Database } from '@/app/_lib/database.types';
+import { useUser } from '@/app/_hooks/useUser';
 import { Deck as DeckType, Flashcard } from '@/app/_lib/types';
-import { TrashIcon } from '@heroicons/react/24/outline';
-import { createBrowserClient } from '@supabase/ssr';
-import { User } from '@supabase/supabase-js';
-import { redirect, useRouter } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
-import { useRxData } from 'rxdb-hooks';
 import DeckToggle from './DeckToggle';
 
-const supabase = createBrowserClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-);
-
 const Deck = ({ params: { id } }: { params: { id: string } }) => {
-    const [user, setUser] = useState<User | null>(null);
+    const { session } = useUser();
     const { push } = useRouter();
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            const user = await supabase.auth.getUser();
-            setUser(user.data.user);
-        };
-
-        fetchUser();
-    }, []);
-
-    const { result: deck } = useRxData<DeckType>('decks', (collection) =>
-        collection.findOne(id),
+    const { result: deck, isFetching: isDeckFetching } = useRxData<DeckType>(
+        'decks',
+        (collection) => collection.findOne(id),
     );
 
-    const { result: deckCards } = useRxData<Flashcard>(
-        'flashcards',
-        (collection) =>
+    const { result: deckCards, isFetching: areCardsFetching } =
+        useRxData<Flashcard>('flashcards', (collection) =>
             collection.find().where('deck_id').eq(id).sort('position'),
-    );
+        );
+
+    const isLoading = isDeckFetching || areCardsFetching;
 
     const deckContextMenuItems = useMemo(
         () => [
@@ -70,16 +56,14 @@ const Deck = ({ params: { id } }: { params: { id: string } }) => {
         await deck[0].patch({ description: newDescription });
     };
 
-    if (!deckCards || !deckCards) {
-        return <div>Deck not found</div>;
-    }
+    useEffect(() => {
+        if (!isLoading && !deck[0]) {
+            redirect('/decks');
+        }
+    }, [isLoading, deck]);
 
-    if (!user) {
+    if (!session?.user) {
         return null;
-    }
-
-    if (deck.length === 0) {
-        return redirect('/decks');
     }
 
     return (

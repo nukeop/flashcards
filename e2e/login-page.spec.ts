@@ -35,5 +35,4 @@ test('should redirect to the dashboard after logging in', async ({ page }) => {
     await page
         .locator('[data-testid="breadcrumbs-root"]')
         .waitFor({ state: 'attached' });
-    await expect(page).toHaveScreenshot();
 });

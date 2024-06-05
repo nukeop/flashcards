@@ -1,7 +1,5 @@
 'use client';
 
-import { Flashcard as FlashcardType } from '@/app/_lib/types';
-import { findFirstMissingIndex, swapItemsById } from '@/app/_lib/utils';
 import { DndContext } from '@dnd-kit/core';
 import { rectSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 import { MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/outline';
@@ -10,6 +8,8 @@ import { useEffect, useState } from 'react';
 import { RxDocument } from 'rxdb';
 import { useRxCollection } from 'rxdb-hooks';
 import { v4 } from 'uuid';
+import { Flashcard as FlashcardType } from '@/app/_lib/types';
+import { findFirstMissingIndex, swapItemsById } from '@/app/_lib/utils';
 import Button from '../Button';
 import AddFlashcardDialog from './AddFlashcardDialog';
 import EditFlashcardDialog from './EditFlashcardDialog';
@@ -88,7 +88,7 @@ const FlashcardEditorGrid: React.FC<FlashcardEditorGridProps> = ({
                     <FlashcardEditorDroppableArea>
                         <div
                             className={clsx(
-                                'grid w-full gap-4',
+                                'grid w-full flex-auto gap-4',
                                 styles['flashcard-grid-container'],
                             )}
                         >

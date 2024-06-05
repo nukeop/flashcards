@@ -13,7 +13,7 @@ export default function Layout({
     return (
         <>
             <TopNavBar />
-            <div className="relative flex flex-row overflow-auto">
+            <div className="relative flex flex-auto flex-row overflow-auto">
                 <Vignette />
                 <Sidebar />
                 <div className="flex flex-grow flex-col">
