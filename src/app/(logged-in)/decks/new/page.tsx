@@ -1,14 +1,14 @@
 'use client';
 
+import { redirect } from 'next/navigation';
+import { useRxCollection } from 'rxdb-hooks';
+import { v4 } from 'uuid';
 import Button from '@/app/_components/Button';
 import Input from '@/app/_components/client-side/Input';
 import Toggle from '@/app/_components/client-side/Toggle';
 import { HelpTooltip } from '@/app/_components/HelpTooltip';
 import { useUser } from '@/app/_hooks/useUser';
 import { Deck as DeckType } from '@/app/_lib/types';
-import { redirect } from 'next/navigation';
-import { useRxCollection } from 'rxdb-hooks';
-import { v4 } from 'uuid';
 
 const NewDeck = () => {
     const { session } = useUser();

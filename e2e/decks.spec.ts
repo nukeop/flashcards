@@ -58,7 +58,8 @@ test('should go to the deck page', async ({ page }) => {
     await page.fill('input[name="description"]', 'My new deck description');
     await page.getByText('Create deck').click();
     await page
-        .locator('a[data-testid="sidebar-deck"]:has-text("My new deck")')
+        .locator('a[data-testid="deck-link"]:has-text("My new deck")')
+        .first()
         .click();
     await expect(page).toHaveURL(
         /http:\/\/localhost:3000\/decks\/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/,

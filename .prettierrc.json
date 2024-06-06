@@ -4,6 +4,7 @@
     "semi": true,
     "singleQuote": true,
     "importOrder": [
+        "^@/",
         "^[../]",
         "^[./]"
     ],

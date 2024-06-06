@@ -44,6 +44,8 @@ export const importedCardToFlashcard = ({
         created_at: new Date().toISOString(),
         deck_id: deck.id,
         position,
+        _modified: new Date().toISOString(),
+        _deleted: false,
     };
 };
 

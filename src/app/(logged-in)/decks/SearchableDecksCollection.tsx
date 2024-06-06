@@ -1,10 +1,10 @@
 'use client';
 
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import Card from '@/app/_components/Card';
 import Loader from '@/app/_components/Loader';
 import { Deck } from '@/app/_lib/types';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import DecksSearchBar from './DecksSearchBar';
 
 type SearchableDecksCollectionProps = {
@@ -46,7 +46,11 @@ const SearchableDecksCollection = ({
                     >
                         {filteredDecks.map((deck) => {
                             return (
-                                <Link href={`/decks/${deck.id}`} key={deck.id}>
+                                <Link
+                                    data-testid="deck-link"
+                                    href={`/decks/${deck.id}`}
+                                    key={deck.id}
+                                >
                                     <Card fluid accent="dark">
                                         <h3 className="truncate text-stone-600">
                                             {deck.name}
