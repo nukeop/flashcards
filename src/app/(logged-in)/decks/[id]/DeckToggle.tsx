@@ -1,8 +1,8 @@
 'use client';
 
+import { useRxData } from 'rxdb-hooks';
 import Toggle, { ToggleProps } from '@/app/_components/client-side/Toggle';
 import { Deck as DeckType } from '@/app/_lib/types';
-import { useRxData } from 'rxdb-hooks';
 
 type DeckToggleProps = {
     deckId: string;

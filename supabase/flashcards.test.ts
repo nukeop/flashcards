@@ -1,5 +1,4 @@
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import { nCards } from './migrations/test-data';
 import { dateRegex, TestFixture, uuidRegex } from './test-utils';
 
 describe('flashcards', () => {

@@ -1,5 +1,5 @@
-import { useDecks } from '@/app/_hooks/useDecks';
 import { ArrowDownTrayIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { useDecks } from '@/app/_hooks/useDecks';
 import Loader from '../Loader';
 import SidebarDeck from './SidebarDeck';
 import SidebarLink from './SidebarLink';
