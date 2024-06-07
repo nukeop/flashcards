@@ -1,5 +1,10 @@
 'use client';
 
+import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
+import { useRouter } from 'next/navigation';
+import { ChangeEvent, Fragment, useRef, useState } from 'react';
+import { useRxCollection } from 'rxdb-hooks';
+import * as Yup from 'yup';
 import ActionDialogContent from '@/app/_components/ActionDialogContent';
 import Button from '@/app/_components/Button';
 import Dialog from '@/app/_components/client-side/Dialog';
@@ -11,11 +16,6 @@ import {
     ImportedDeckSchema,
 } from '@/app/_lib/import';
 import { Deck as DeckType, Flashcard as FlashcardType } from '@/app/_lib/types';
-import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
-import { useRouter } from 'next/navigation';
-import { ChangeEvent, Fragment, useRef, useState } from 'react';
-import { useRxCollection } from 'rxdb-hooks';
-import * as Yup from 'yup';
 
 export default function Page() {
     const router = useRouter();
