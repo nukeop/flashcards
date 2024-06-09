@@ -1,3 +1,4 @@
+import path from 'path';
 import { expect, Page, test } from '@playwright/test';
 
 const logInAs =
@@ -147,4 +148,24 @@ test('should allow deleting a deck', async ({ page }) => {
     await expect(
         page.locator('h3').getByText('Deck to be deleted'),
     ).not.toBeVisible();
+});
+
+test('should import a valid deck and add it to the collection', async ({
+    page,
+}) => {
+    await logInAsUserN(7)({ page });
+    await page.goto('http://localhost:3000/decks');
+    await page.click('a:has-text("Import")');
+    const fileChooserPromise = page.waitForEvent('filechooser');
+    await page.click('button:has-text("Import from JSON")');
+    const fileChooser = await fileChooserPromise;
+    await fileChooser.setFiles(path.resolve('./e2e/data/deck-modes.json'));
+    await expect(page).toHaveScreenshot();
+    await page.click('button:has-text("Add to collection")');
+    await page
+        .locator('a[data-testid="sidebar-deck"]:has-text("Modes")')
+        .click();
+    await expect(
+        page.locator('h3').getByText('Modes of the Major Scale'),
+    ).toBeVisible();
 });

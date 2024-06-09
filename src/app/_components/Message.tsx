@@ -10,16 +10,6 @@ type MessageProps = {
     children: React.ReactNode;
 };
 
-const message = cva('bg-stone-300', {
-    variants: {
-        type: {
-            success: 'text-green-900',
-            error: 'text-red-900',
-            info: 'text-blue-900',
-        },
-    },
-});
-
 const messageHeader = cva(
     'flex flex-row items-center justify-center gap-2 py-1 text-base font-bold text-stone-50',
     {
@@ -33,13 +23,13 @@ const messageHeader = cva(
     },
 );
 
-const Message: React.FC<MessageProps & VariantProps<typeof message>> = ({
+const Message: React.FC<MessageProps & VariantProps<typeof messageHeader>> = ({
     type,
     title,
     children,
 }) => {
     return (
-        <div className={message({ type })}>
+        <div className="bg-stone-300 text-stone-600">
             <div className={messageHeader({ type })}>
                 {type === 'success' && (
                     <CheckBadgeIcon className="h-6 w-6 text-stone-50" />

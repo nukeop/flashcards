@@ -1,0 +1,35 @@
+{
+    "name": "Modes of the Major Scale",
+    "description": "Modes derived from the major scale and their characteristic intervals",
+    "schemaVersion": 1,
+    "cards": [
+        {
+            "front": "Ionian Mode (Major Scale)",
+            "back": "1, 2, 3, 4, 5, 6, 7, 8"
+        },
+        {
+            "front": "Dorian Mode",
+            "back": "1, 2, ♭3, 4, 5, 6, ♭7, 8"
+        },
+        {
+            "front": "Phrygian Mode",
+            "back": "1, ♭2, ♭3, 4, 5, ♭6, ♭7, 8"
+        },
+        {
+            "front": "Lydian Mode",
+            "back": "1, 2, 3, ♯4, 5, 6, 7, 8"
+        },
+        {
+            "front": "Mixolydian Mode",
+            "back": "1, 2, 3, 4, 5, 6, ♭7, 8"
+        },
+        {
+            "front": "Aeolian Mode (Natural Minor Scale)",
+            "back": "1, 2, ♭3, 4, 5, ♭6, ♭7, 8"
+        },
+        {
+            "front": "Locrian Mode",
+            "back": "1, ♭2, ♭3, 4, ♭5, ♭6, ♭7, 8"
+        }
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "name": "Invalid deck",
+    "description": {},
+    "cards": [
+        "test",
+        {
+            "front": 5
+        },
+        {
+            "test": "hi"
+        }
+    ],
+    "schemaVersion": "abc"
+}
